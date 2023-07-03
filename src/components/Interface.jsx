@@ -4,7 +4,7 @@ import {  useAtom } from "jotai";
 import { currentExpAtom, workExp } from "./WorkExp";
 
 import { currentSkillAtom, skills } from "./Skills";
-import './interface.css'
+
 export const Section = (props) => {
   const { children } = props;
 
