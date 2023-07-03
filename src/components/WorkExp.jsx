@@ -78,7 +78,7 @@ export const workExp = [
   }
 ];
 
-export const currentExpAtom = atom(Math.floor(workExp.length / 2));
+export const currentExpAtom = atom(0);
 
 export const AllExp = () => {
   const { viewport } = useThree();
