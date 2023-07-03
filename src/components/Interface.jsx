@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import React, { useState } from 'react';
 import {  useAtom } from "jotai";
 import { currentExpAtom, workExp } from "./WorkExp";
+
+import { currentSkillAtom, skills } from "./Skills";
 import './interface.css'
 export const Section = (props) => {
   const { children } = props;
@@ -91,147 +93,99 @@ const AboutSection = () => {
   );
 };
 
-const skills = [
-    {
-      title: "Languages",
-      skills: [
-        { name: "Javascript", level: 50 },
-        { name: "Typescript", level: 50 },
-        { name: "Python", level: 50 },
-        { name: "SQL", level: 50 },
-        { name: "TSQL", level: 50 }
-      ]
-    },
-    {
-      title: "Database",
-      skills: [
-        { name: "Microsoft Sql Server", level: 50 },
-        { name: "Oracle 9g", level: 50 },
-        { name: "MySql", level: 50 },
-        { name: "Redis (NO-SQL)", level: 50 },
-        { name: "Postgres", level: 50 },
-        { name: "Snowflake", level: 50 }
-      ]
-    },
-    {
-      title: "Frontend",
-      skills: [
-        { name: "Angular", level: 50 },
-        { name: "React", level: 50 },
-        { name: "RxJS", level: 50 },
-        { name: "AEM", level: 50 }
-      ]
-    },
-    {
-      title: "Backend",
-      skills: [
-        { name: "Flask", level: 50 },
-        { name: "ExpressJS", level: 50 },
-        { name: "SqlAlchemy", level: 50 },
-        { name: "Kafka", level: 50 }
-      ]
-    },
-    {
-      title: "Infrastructure",
-      skills: [
-        { name: "AWS", level: 50 },
-        { name: "EC2", level: 50 },
-        { name: "RDS", level: 50 },
-        { name: "Elastic Beanstalk", level: 50 },
-        { name: "S3", level: 50 },
-        { name: "SES", level: 50 },
-        { name: "Route 53", level: 50 },
-        { name: "SQS", level: 50 },
-        { name: "Kafka", level: 50 }
-      ]
-    },
-    {
-      title: "Applications",
-      skills: [
-        { name: "Salesforce (SFDC)", level: 50 },
-        { name: "SSIS", level: 50 },
-        { name: "Adobe Experience Manager (AEM)", level: 50 },
-        { name: "Walkme", level: 50 },
-        { name: "Zapier", level: 50 },
-        { name: "JIRA", level: 50 },
-        { name: "Confluence", level: 50 },
-        { name: "Netsuite", level: 50 },
-        { name: "Tableau", level: 50 },
-        { name: "Mulesoft", level: 50 },
-        { name: "Active Directory (AD)", level: 50 },
-        { name: "OKTA", level: 50 }
-      ]
-    },
-    {
-      title: "Testing",
-      skills: [
-        { name: "Selenium", level: 50 },
-        { name: "Perfecto", level: 50 },
-        { name: "JAWS (ADA testing)", level: 50 }
-      ]
-    }
-  ];
 
 const SkillsSection = () => {
-    return (
-        <Section>
-          <motion.div whileInView={"visible"}>
-            <h2 className="text-5xl font-bold">Skills</h2>
-            <br></br>
-            <div className="overflow-x-auto">
-              <div className="flex space-x-8">
-                {skills.map((skillGroup, index) => (
-                  <div key={index} className="w-64">
-                    <h4 className="text-xl font-bold">{skillGroup.title}</h4>
-                    <div className="mt-8 space-y-4">
-                      {skillGroup.skills.map((skill, skillIndex) => (
-                        <div className="w-64" key={skillIndex}>
-                          <motion.h3
-                            className="text-xl font-bold text-gray-800"
-                            initial={{
-                              opacity: 0,
-                            }}
-                            variants={{
-                              visible: {
-                                opacity: 1,
-                                transition: {
-                                  duration: 1,
-                                  delay: 1 + skillIndex * 0.2,
-                                },
-                              },
-                            }}
-                          >
-                            {skill.name}
-                          </motion.h3>
-                          <div className="h-2 w-full bg-gray-200 rounded-full mt-2">
-                            <motion.div
-                              className="h-full bg-indigo-500 rounded-full"
-                              style={{ width: `${skill.level}%` }}
-                              initial={{
-                                scaleX: 0,
-                                originX: 0,
-                              }}
-                              variants={{
-                                visible: {
-                                  scaleX: 1,
-                                  transition: {
-                                    duration: 1,
-                                    delay: 1 + skillIndex * 0.2,
-                                  },
-                                },
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </Section>
-      );
+
+  const [currentSkillGroup, setCurrentSkillGroup] = useAtom(currentSkillAtom);
+  
+  const nextSkillGroup = () => {
+    setCurrentSkillGroup((currentSkillGroup + 1) % skills.length);
+    console.log(currentSkillGroup)
+  };
+
+  const previousSkillGroup = () => {
+    setCurrentSkillGroup((currentSkillGroup - 1 + skills.length) % skills.length);
+  };
+
+  return (
+    <Section>
+      <div className="flex w-full h-full gap-8 items-baseline justify-center inset-x-0 bottom-0">
+        <button
+          className="hover:text-indigo-600 transition-colors"
+          onClick={previousSkillGroup}
+        >
+          ← Previous
+        </button>
+        <h2 className="text-5xl font-bold">Skills</h2>
+        <button
+          className="hover:text-indigo-600 transition-colors"
+          onClick={nextSkillGroup}
+        >
+          Next →
+        </button>
+      </div>
+    </Section>
+  );
+
+    // return (
+    //     <Section>
+    //       <motion.div whileInView={"visible"}>
+    //         <h2 className="text-5xl font-bold">Skills</h2>
+    //         <br></br>
+    //         <div >
+    //           <div className="flex space-x-8">
+    //             {skills.map((skillGroup, index) => (
+    //               <div key={index} className="w-64">
+    //                 <h4 className="text-xl font-bold">{skillGroup.title}</h4>
+    //                 <div className="mt-8 space-y-4">
+                      // {skillGroup.skills.map((skill, skillIndex) => (
+                      //   <div className="w-64" key={skillIndex}>
+                      //     <motion.h3
+                      //       className="text-xl font-bold text-gray-800"
+                      //       initial={{
+                      //         opacity: 0,
+                      //       }}
+                      //       variants={{
+                      //         visible: {
+                      //           opacity: 1,
+                      //           transition: {
+                      //             duration: 1,
+                      //             delay: 1 + skillIndex * 0.2,
+                      //           },
+                      //         },
+                      //       }}
+                      //     >
+                      //       {skill.name}
+                      //     </motion.h3>
+                      //     <div className="h-2 w-full bg-gray-200 rounded-full mt-2">
+                      //       <motion.div
+                      //         className="h-full bg-indigo-500 rounded-full"
+                      //         style={{ width: `${skill.level}%` }}
+                      //         initial={{
+                      //           scaleX: 0,
+                      //           originX: 0,
+                      //         }}
+                      //         variants={{
+                      //           visible: {
+                      //             scaleX: 1,
+                      //             transition: {
+                      //               duration: 1,
+                      //               delay: 1 + skillIndex * 0.2,
+                      //             },
+                      //           },
+                      //         }}
+    //                         />
+    //                       </div>
+    //                     </div>
+    //                   ))}
+    //                 </div>
+    //               </div>
+    //             ))}
+    //           </div>
+    //         </div>
+    //       </motion.div>
+    //     </Section>
+    //   );
                               
 };
 

@@ -8,6 +8,8 @@ import { useScroll, OrbitControls, Html, Sky, Environment, ContactShadows } from
 import { Avatar } from "./Avatar";
 import { AllExp } from "./WorkExp";
 
+import { AllSkills } from "./Skills";
+
 export const Experience = (props) => {
   const animations = ["Typing","Falling","Standing"];
   
@@ -49,14 +51,14 @@ export const Experience = (props) => {
       setTimeout(() => {
         setCharacterAnimation("Standing");
       }, 6000);
-    }else if(section === 2){
+    }else if(section === 1 || section === 2){
       setCharacterAnimation("Standing");
       const pointingInterval = setInterval(() => {
         setCharacterAnimation("Pointing");
         setTimeout(() => {
           setCharacterAnimation("Standing");
-        }, 2600); // Wait for 1 second to switch back to "Standing" animation
-      }, 8000); // Repeat every 10 seconds
+        }, 3000); // Wait for 1 second to switch back to "Standing" animation
+      }, 6000); // Repeat every 10 seconds
   
       // Cleanup the interval when the component unmounts or when the section changes
       return () => clearInterval(pointingInterval);
@@ -117,12 +119,13 @@ export const Experience = (props) => {
             rotateZ: 0,
           },
           1: {
-            y: -viewport.height - 4,
-            x: -.2,
-            z: 1,
+            scale:[2.5,2.5,2.5],
+            y: -viewport.height - 2,
+            x: -3.2,
+            z: 3.2,
             rotateX: -.2,
-            rotateY: 1.2,
-            rotateZ: 0,
+            rotateY: .6,
+            rotateZ: -.1,
           },
           2: {
             x: -4,
@@ -146,6 +149,7 @@ export const Experience = (props) => {
       </motion.group>
 
       <AllExp />
+      <AllSkills />
       {/* {section == 1 && (
         <group position={[0,-20,-10]} scale={[.9,.9,.9]} rotation-y={-Math.PI/4}>
           <Desk/>
