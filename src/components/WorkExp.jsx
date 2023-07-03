@@ -1,4 +1,4 @@
-import { Image, Text, Html } from "@react-three/drei";
+import { Image, Text, Box, Html } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
 
@@ -10,7 +10,7 @@ export const workExp = [
   {
     company: "Globality",
     role: "Lead Application Engineer",
-    description:"",
+    description:"Lead 2 teams Integrations and Business Applictions",
     image:"images/Glo.jpeg",
     period: "May 2021 – May 2023",
     responsibilities: [
@@ -27,7 +27,7 @@ export const workExp = [
   {
     company: "Kaiser Permanente",
     role: "Software Application Engineer",
-    description:"",
+    description:"Part of a scrum team building features in kp.org",
     image:"images/Kaiser.png",
     period: "Oct 2018 – Sep 2021",
     responsibilities: [
@@ -44,7 +44,7 @@ export const workExp = [
   {
     company: "Kaiser Permanente (Contract)",
     role: "Software Engineer",
-    description:"",
+    description:"Part of a scrum team to build and test features in kp.org",
     image:"images/Kaiser.png",
     period: "Oct 2015 – Sep 2018",
     responsibilities: [
@@ -61,7 +61,7 @@ export const workExp = [
   {
     company: "Anthem (Contract)",
     role: "Data Engineer",
-    description:"",
+    description:"Create, maintaine Data",
     image:"images/Anthem.jpeg",
     period: "July 2013 – Sep 2015",
     responsibilities: [
@@ -178,100 +178,50 @@ const EachExp = (props) => {
     );
   };
 
-  
-const Modal = ({ onClose, selectedExperience }) => {
-
-  const { viewport } = useThree();
-    const modalVariants = {
-      hidden: {
-        opacity: 0,
-        scale: 0.8,
-      },
-      visible: {
-        opacity: 1,
-        scale: 1,
-        transition: {
-          duration: 0.6,
-        },
-      },
-    };
-  
-    const overlayVariants = {
-      hidden: {
-        opacity: 0,
-      },
-      visible: {
-        opacity: 1,
-        transition: {
-          duration: 0.6,
-        },
-      },
-    };
-  
+  const Modal = ({ onClose, selectedExperience }) => {
     return (
-        <group>
-          <group position={[0, 1.4, 0.1]}>
-            <mesh position={[0, 0, 0]}>
-              <boxBufferGeometry args={[6, 6, 0.2]} />
-              <meshBasicMaterial color="white" />
-            </mesh>
-            <group position={[0, 0, 0]}>
-              <group  position={[-3, -viewport.height * 2 , 0]} scale={[1, 1, 1]}>
-                <Html
-                  style={{
-                    position: 'relative',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
+      <group>
+        <group position={[0, 1.4, 0.1]}>
+          <Box args={[6, 6, 0.2]} position={[0, 0, 0]}>
+            <meshBasicMaterial color="green" />
+          </Box>
+          <group>
+            <group scale={[1, 1, 1]}>
+              <Text
+                fontSize={0.15}
+                color="white"
+                style={{ marginLeft: 'auto', cursor: 'pointer' }}
+                onClick={onClose}
+                position={[2, 2.4, 0.4]}
+              >
+                Close
+              </Text>
+              <Text position={[0, 2.2, 0.4]} fontSize={0.2} fontWeight="bold" lineHeight={1} marginBottom={0.3}>
+                {selectedExperience.role}
+              </Text>
+              <Text position={[0, 2, 0.4]} fontSize={0.15} color="white" marginBottom={0.3}>
+                {selectedExperience.period}
+              </Text>
+              <Text position={[-1.5, 1.8, 0.4]} fontSize={0.1} whiteSpace="wrap" marginBottom={0.3}>
+                Summary: {selectedExperience.description}
+              </Text>
+              {selectedExperience.responsibilities.map((responsibility, resIndex) => (
+                <Text
+                  key={resIndex}
+                  position={[-2.6, 1.6 - resIndex * 0.3, 0.4]}
+                  fontSize={0.1}
+                  maxWidth={5.5} 
+                  textAlign="left" 
+                  anchorX="left"
+                  textAnchor="start"
                 >
-                    <h3 className="text-lg text-gray-500" style={{marginLeft:'auto'}} onClick={onClose}>Close</h3>
-                  <h2 className="text-2xl font-bold">{selectedExperience.title}</h2>
-                  <h3 className="text-lg font-semibold">{selectedExperience.role}</h3>
-                  <p className="text-gray-500">{selectedExperience.period}</p>
-                  <p className="text-sm mt-2">{selectedExperience.description}</p>
-                  <ul className="mt-4 list-disc list-inside">
-                    {selectedExperience.responsibilities.map((responsibility, resIndex) => (
-                      <li key={resIndex} style={{ wordWrap: 'break-word' }}>{responsibility}</li>
-                    ))}
-                  </ul>
-                </Html>
-              </group>
+                  {responsibility}
+                </Text>
+              ))}
             </group>
           </group>
         </group>
-      );
-    // return (
-    //   <group>
-    //     <group position={[0, 1.4, 0.1]}>
-    //       <mesh>
-    //         <boxBufferGeometry args={[6, 6, 0.2]} />
-    //         <meshBasicMaterial color="white" />
-    //       </mesh>
-    //       <group position={[-3, -viewport.height * 2 , 0]}>
-    //         <Html 
-    //         style={{
-    //           width: '100%',
-    //           position: 'relative',
-    //           display: 'flex',
-    //           flexDirection: 'column',
-    //           alignItems: 'center',
-    //           justifyContent: 'center',
-    //         }}>
-    //           <h2 className="text-2xl font-bold">{selectedExperience.title}</h2>
-    //           <h3 className="text-lg font-semibold">{selectedExperience.role}</h3>
-    //           <p className="text-gray-500">{selectedExperience.period}</p>
-    //           <p className="text-sm mt-2">{selectedExperience.description}</p>
-    //           <ul className="mt-4 list-disc list-inside">
-    //             {selectedExperience.responsibilities.map((responsibility, resIndex) => (
-    //               <li key={resIndex}>{responsibility}</li>
-    //             ))}
-    //           </ul>
-    //         </Html>
-    //       </group>
-    //     </group>
-    //   </group>
-    // );
+      </group>
+    );
   };
   
