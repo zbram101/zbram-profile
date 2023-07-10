@@ -192,7 +192,7 @@ const EachExp = (props) => {
                 color="white"
                 style={{ marginLeft: 'auto', cursor: 'pointer' }}
                 onClick={onClose}
-                position={[2, 2.4, 0.4]}
+                position={[2.6, 2.4, 0.4]}
               >
                 Close
               </Text>

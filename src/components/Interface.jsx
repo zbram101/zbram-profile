@@ -12,7 +12,7 @@ export const Section = (props) => {
     <motion.section
       className={`
   h-screen w-screen p-8 max-w-screen-2xl mx-auto
-  flex flex-col items-start justify-center overflow-x-auto
+  flex flex-col justify-center overflow-x-auto
   `}
       initial={{
         opacity: 0,
@@ -47,33 +47,33 @@ export const Interface = () => {
 const AboutSection = () => {
   return (
     <Section>
-      <h1 className="text-6xl font-extrabold leading-snug">
-        Hi, I'm
-        <br />
-        <span className="px-1 italic">Bharadwaj</span>
-      </h1>
-      <motion.p
-        className="text-lg text-gray-600 mt-4"
-        initial={{
-          opacity: 0,
-          y: 25,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 1,
-          delay: 1.5,
-        }}
-      >
-        I enjoy building software solutions
-        <br />
-        and helping others achieve their goals
-      </motion.p>
+    <h1 className="text-6xl font-extrabold leading-snug">
+      Hi, I'm
+      <br />
+      <span className="px-1 italic">Bharadwaj</span>
+    </h1>
+    <motion.p
+      className="text-lg text-gray-600 mt-4"
+      initial={{
+        opacity: 0,
+        y: 25,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 1,
+        delay: 1.5,
+      }}
+    >
+      I enjoy building software solutions
+      <br />
+      and helping others achieve their goals
+    </motion.p>
+    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
       <motion.button
-        className={`bg-indigo-600 text-white py-4 px-8 
-      rounded-lg font-bold text-lg mt-16`}
+        className={`bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16`}
         initial={{
           opacity: 0,
           y: 25,
@@ -89,7 +89,9 @@ const AboutSection = () => {
       >
         Contact me
       </motion.button>
-    </Section>
+    </div>
+  </Section>
+  
   );
 };
 
@@ -192,50 +194,92 @@ const SkillsSection = () => {
 const ContactSection = () => {
   return (
     <Section>
-      <h2 className="text-5xl font-bold">Contact me</h2>
-      <div className="mt-8 p-8 rounded-md bg-white w-96 max-w-full">
-        <form>
-          <label for="name" className="font-medium text-gray-900 block mb-1">
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-          />
-          <label
-            for="email"
-            className="font-medium text-gray-900 block mb-1 mt-8"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-          />
-          <label
-            for="email"
-            className="font-medium text-gray-900 block mb-1 mt-8"
-          >
-            Message
-          </label>
-          <textarea
-            name="message"
-            id="message"
-            className="h-32 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-          />
-          <button className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 ">
-            Submit
-          </button>
-        </form>
+    <div className="flex flex-col items-center justify-center">
+    </div>
+    <div className="flex flex-col md:flex-row items-center justify-between">
+
+      <div className="md:w-1/2">
+        <div className="mt-8 p-8 rounded-md bg-white w-96 max-w-full">
+
+        <h2 className="text-4xl font-bold text-center">Send me a message</h2>
+          <form>
+            <label htmlFor="name" className="font-medium text-gray-900 block mb-1">
+              Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+            />
+            <label
+              htmlFor="email"
+              className="font-medium text-gray-900 block mb-1 mt-8"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+            />
+            <label
+              htmlFor="message"
+              className="font-medium text-gray-900 block mb-1 mt-8"
+            >
+              Message
+            </label>
+            <textarea
+              name="message"
+              id="message"
+              className="h-32 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+            />
+            <button className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 hover:bg-indigo-700 transition-colors duration-300 ease-in-out">
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
-    </Section>
+      <hr className="md:block border-black my-8 w-0 h-full mx-8" />
+      <div className="mt-8 p-8 rounded-md bg-white w-96 max-w-full">
+
+      <h2 className="text-4xl font-bold text-center">Connect with me</h2>
+        <div className="mt-8 flex justify-center space-x-6">
+          <a
+            href="https://github.com/zbram101"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-indigo-600 hover:text-indigo-800"
+          >
+            <img
+              src="images/github.png"
+              alt="GitHub"
+              className="w-30 h-20 transform hover:scale-110 transition-transform duration-300 ease-in-out"
+            />
+          </a>
+          <a
+            href="https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-indigo-600 hover:text-indigo-800"
+          >
+            <img
+              src="images/linkdin.png"
+              alt="LinkedIn"
+              className="w-30 h-20 transform hover:scale-110 transition-transform duration-300 ease-in-out"
+            />
+          </a>
+          {/* Add other social media links similarly */}
+        </div>
+      </div>
+    </div>
+  </Section>
+  
+
+
   );
 };
-
 
 
 const ExperienceSection = () => {
@@ -299,128 +343,6 @@ const ExperienceSection = () => {
           </button>
         </div>
       </Section>
-    );
-  };
-  
-
-
-//   const ExperienceSection = () => {
-    
-//     const [selectedExperience, setSelectedExperience] = useState(null);
-
-//     const handleExperienceClick = (experience) => {
-//       setSelectedExperience(experience);
-//     };
-  
-//     const handleCloseModal = () => {
-//       setSelectedExperience(null);
-//     };
-  
-//     return (
-//       <Section>
-//         <motion.div animate="visible" transition={.8} whileInView={"visible"}>
-//           <h2 className="text-5xl font-bold">Experience</h2>
-//           <br />
-//           <div className="overflow-x-auto">
-//             <div className="flex space-x-8">
-//               {experience.map((exp, index) => (
-//                 <div key={index} className="w-96">
-//                   <div
-//                     className="cursor-pointer"
-//                     onClick={() => handleExperienceClick(exp)}
-//                   >
-//                     <img
-//                       src={exp.image}
-//                       alt={exp.title}
-//                       className="object-cover w-full h-64"
-//                     />
-//                   </div>
-//                   <h4 className="text-xl font-bold">{exp.title}</h4>
-//                   <h5 className="text-lg font-semibold">{exp.role}</h5>
-//                   <p className="text-gray-500 text-sm">{exp.period}</p>
-//                   <p className="text-sm mt-2">{exp.description}</p>
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-//         </motion.div>
-//         {selectedExperience && (
-//           <Modal onClose={handleCloseModal}>
-//             <h2 className="text-2xl font-bold">{selectedExperience.title}</h2>
-//             <h3 className="text-lg font-semibold">{selectedExperience.role}</h3>
-//             <p className="text-gray-500">{selectedExperience.period}</p>
-//             <p className="text-sm mt-2">{selectedExperience.description}</p>
-//             <ul className="mt-4 list-disc list-inside">
-//               {selectedExperience.responsibilities.map((responsibility, resIndex) => (
-//                 <li key={resIndex}>{responsibility}</li>
-//               ))}
-//             </ul>
-//           </Modal>
-//         )}
-//       </Section>
-//     );
-//   };
-
-
-  const Modal = ({ children, onClose }) => {
-    const modalVariants = {
-      hidden: {
-        opacity: 0,
-        scale: 0.8,
-      },
-      visible: {
-        opacity: 1,
-        scale: 1,
-        transition: {
-          duration: 0.6,
-        },
-      },
-    };
-  
-    const overlayVariants = {
-      hidden: {
-        opacity: 0,
-      },
-      visible: {
-        opacity: 1,
-        transition: {
-          duration: 0.6,
-        },
-      },
-    };
-  
-    return (
-      <motion.div
-        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-        initial="hidden"
-        animate="visible"
-        variants={overlayVariants}
-        onClick={onClose}
-      >
-        <motion.div
-          className="bg-white rounded-lg p-8"
-          variants={modalVariants}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex justify-between">
-            <h2 className="text-2xl font-bold">Experience Details</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              Close
-            </button>
-          </div>
-          <motion.div
-            className="mt-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-          >
-            {children}
-          </motion.div>
-        </motion.div>
-      </motion.div>
     );
   };
   
