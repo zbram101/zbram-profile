@@ -109,18 +109,18 @@ const EachSkill = (props) => {
       {skillGroup.skills.map((skill, skillIndex) => (
         <motion.group
           key={"skill_" + skillIndex}
-          position={[0, 5.2 - skillIndex * 0.4, 3.8]}
+          position={[0, 5.1 - skillIndex * 0.4, 3.8]}
           initial="visible"
           variants={skillVariants}
         >
-          <Text fontSize={0.12}>
+          <Text position={[0, 0.06, 0]} fontSize={0.12}>
             {skill.name}
           </Text>
-          <mesh position={[0, -0.1, 0]}>
+          <mesh position={[0, -0.1, -.1]}>
             <boxGeometry args={[2, 0.07, 0.07]} />
             <meshBasicMaterial color="gray" />
           </mesh>
-          <mesh position={[-1 + skill.level / 100, -0.1, 0]}>
+          <mesh position={[-1 + skill.level / 100, -0.1, -.1]}>
             <boxGeometry args={[2 * (skill.level / 100), 0.08, 0.08]} />
             <meshBasicMaterial color="indigo" />
           </mesh>
@@ -191,7 +191,7 @@ export const AllSkills = () => {
         const diff = Math.abs(index - currentSkillGroup);
 
           const angle = (Math.PI * 2) / skills.length;
-          const rotationY = angle * index;
+          const rotationY = (angle * index)+.04;
           return (
             <motion.group
               key={"skillGroup_" + index}
