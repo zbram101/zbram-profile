@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import {  useAtom } from "jotai";
 import { currentExpAtom, workExp } from "./WorkExp";
 
+import { Chat } from "./Chat";
 import { currentSkillAtom, skills } from "./Skills";
 
 export const Section = (props) => {
@@ -40,6 +41,10 @@ export const Interface = () => {
       <ExperienceSection />
       <ProjectsSection />
       <ContactSection />
+    <Section>
+      <Chat />
+
+    </Section>
     </div>
   );
 };
@@ -67,9 +72,9 @@ const AboutSection = () => {
         delay: 1.5,
       }}
     >
-      I enjoy building software solutions
+      I enjoy building software solutions.
       <br />
-      and helping others achieve their goals
+      I like teaching/learning from others 
     </motion.p>
     <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
       <motion.button
@@ -129,65 +134,6 @@ const SkillsSection = () => {
     </Section>
   );
 
-    // return (
-    //     <Section>
-    //       <motion.div whileInView={"visible"}>
-    //         <h2 className="text-5xl font-bold">Skills</h2>
-    //         <br></br>
-    //         <div >
-    //           <div className="flex space-x-8">
-    //             {skills.map((skillGroup, index) => (
-    //               <div key={index} className="w-64">
-    //                 <h4 className="text-xl font-bold">{skillGroup.title}</h4>
-    //                 <div className="mt-8 space-y-4">
-                      // {skillGroup.skills.map((skill, skillIndex) => (
-                      //   <div className="w-64" key={skillIndex}>
-                      //     <motion.h3
-                      //       className="text-xl font-bold text-gray-800"
-                      //       initial={{
-                      //         opacity: 0,
-                      //       }}
-                      //       variants={{
-                      //         visible: {
-                      //           opacity: 1,
-                      //           transition: {
-                      //             duration: 1,
-                      //             delay: 1 + skillIndex * 0.2,
-                      //           },
-                      //         },
-                      //       }}
-                      //     >
-                      //       {skill.name}
-                      //     </motion.h3>
-                      //     <div className="h-2 w-full bg-gray-200 rounded-full mt-2">
-                      //       <motion.div
-                      //         className="h-full bg-indigo-500 rounded-full"
-                      //         style={{ width: `${skill.level}%` }}
-                      //         initial={{
-                      //           scaleX: 0,
-                      //           originX: 0,
-                      //         }}
-                      //         variants={{
-                      //           visible: {
-                      //             scaleX: 1,
-                      //             transition: {
-                      //               duration: 1,
-                      //               delay: 1 + skillIndex * 0.2,
-                      //             },
-                      //           },
-                      //         }}
-    //                         />
-    //                       </div>
-    //                     </div>
-    //                   ))}
-    //                 </div>
-    //               </div>
-    //             ))}
-    //           </div>
-    //         </div>
-    //       </motion.div>
-    //     </Section>
-    //   );
                               
 };
 
