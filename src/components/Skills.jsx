@@ -94,10 +94,9 @@ const EachSkill = (props) => {
 
   // Calculate the angle for each face based on the index
   const angle = (Math.PI * 2) / skills.length;
-  const rotationY = angle * (index - currentSkillGroup);
+  const rotationY = angle * (index - currentSkillGroup)+.4;
 
   const skillVariants = {
-    hidden: { scale: 0.2, transition: { duration: 0.4 } },
     visible: { scale: 1, transition: { duration: 0.4 } },
   };
 
@@ -111,19 +110,18 @@ const EachSkill = (props) => {
         <motion.group
           key={"skill_" + skillIndex}
           position={[0, 5.2 - skillIndex * 0.4, 3.8]}
-          initial="hidden"
-          animate={index === currentSkillGroup ? "visible" : "hidden"}
+          initial="visible"
           variants={skillVariants}
         >
-          <Text position={[0, 0, 0]} fontSize={0.12}>
+          <Text fontSize={0.12}>
             {skill.name}
           </Text>
-          <mesh position={[0, -0.1, 0.2]}>
+          <mesh position={[0, -0.1, 0]}>
             <boxGeometry args={[2, 0.07, 0.07]} />
             <meshBasicMaterial color="gray" />
           </mesh>
-          <mesh position={[-1 + skill.level / 100, -0.1, 0.2]}>
-            <boxGeometry args={[2 * (skill.level / 100), 0.07, 0.07]} />
+          <mesh position={[-1 + skill.level / 100, -0.1, 0]}>
+            <boxGeometry args={[2 * (skill.level / 100), 0.08, 0.08]} />
             <meshBasicMaterial color="indigo" />
           </mesh>
         </motion.group>
@@ -138,25 +136,16 @@ export const AllSkills = () => {
   const [isSpinning, setIsSpinning] = useState(true);
   const groupRef = useRef();
 
-  useEffect(() => {
-    if (!isSpinning) {
-      const timeout = setTimeout(() => {
-        setIsSpinning(true);
-      }, 30000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [isSpinning]);
 
   const handleCylinderClick = () => {
-    setIsSpinning(false);
+    setIsSpinning(!isSpinning);
   };
 
   const gradientShader = {
     vertexShader: `
       varying vec2 vUv;
       varying vec3 vNormal;
-
+  
       void main() {
         vUv = uv;
         vNormal = normalize(normalMatrix * normal);
@@ -165,18 +154,18 @@ export const AllSkills = () => {
     `,
     fragmentShader: `
       varying vec2 vUv;
-
+  
       void main() {
-        vec3 colorA = vec3(1.0, 0.0, 1.0); // Start color (purple)
-        vec3 colorB = vec3(0.0, 0.0, 1.0); // End color (blue)
-
-        vec3 gradientColor = mix(colorA, colorB, vUv.x); // Interpolate between the two colors based on the horizontal position
-
+        vec3 colorA = vec3(0.4, 0.2, 0.8); // Start color (purple)
+        vec3 colorB = vec3(0.0, 0.6, 1.0); // End color (blue)
+  
+        vec3 gradientColor = mix(colorA, colorB, vUv.y); // Interpolate between the two colors based on the vertical position
+  
         gl_FragColor = vec4(gradientColor, 1.0);
       }
     `,
   };
-
+  
   useFrame(() => {
     if (groupRef.current && isSpinning) {
       groupRef.current.rotation.y += 0.002; // Adjust the rotation speed as desired
@@ -184,14 +173,14 @@ export const AllSkills = () => {
   });
 
   return (
-    <group position-y={-viewport.height * 1 - 2} ref={groupRef}>
+    <group scale={0.95} position-y={-viewport.height * 1 - 1.6} ref={groupRef}>
       <mesh
         // rotation={[-0.2, 0, 0]}
         // position={[0, 1.4, -2]}
-        position={[0, 1.4, -2]}
+        position={[0, 1.8, 0]}
         onClick={handleCylinderClick}
       >
-        <cylinderGeometry attach="geometry" args={[3.9, 4, 5.5, 36]} />
+        <cylinderGeometry attach="geometry" args={[3.3, 3.3, 5.5, skills.length]} />
         <shaderMaterial
           attach="material"
           args={[gradientShader]}
@@ -200,15 +189,9 @@ export const AllSkills = () => {
       </mesh>
       {skills.map((skillGroup, index) => {
         const diff = Math.abs(index - currentSkillGroup);
-        if (
-          (currentSkillGroup === 0 &&
-            (index === 0 || index === skills.length - 1)) ||
-          diff <= 1
-        ) {
+
           const angle = (Math.PI * 2) / skills.length;
           const rotationY = angle * index;
-          const positionX = Math.sin(rotationY) * 5.5;
-          const positionZ = Math.cos(rotationY) * 5.5;
           return (
             <motion.group
               key={"skillGroup_" + index}
@@ -222,8 +205,6 @@ export const AllSkills = () => {
               />
             </motion.group>
           );
-        }
-        return null;
       })}
     </group>
   );
