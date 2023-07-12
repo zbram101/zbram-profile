@@ -86,107 +86,145 @@ export const skills = [
 
 export const currentSkillAtom = atom(0);
 
+
+const EachSkill = (props) => {
+  const { skillGroup, index, currentSkillGroup } = props;
+
+  useEffect(() => {}, [currentSkillGroup]);
+
+  // Calculate the angle for each face based on the index
+  const angle = (Math.PI * 2) / skills.length;
+  const rotationY = angle * (index - currentSkillGroup);
+
+  const skillVariants = {
+    hidden: { scale: 0.2, transition: { duration: 0.4 } },
+    visible: { scale: 1, transition: { duration: 0.4 } },
+  };
+
+  return (
+    <motion.group {...props} scale={0.8} rotation={[0, rotationY, 0]}>
+      <Text maxWidth={3.5} fontSize={0.16} position={[0, 5.4, 3.8]}>
+        {skillGroup.title.toUpperCase()}
+      </Text>
+
+      {skillGroup.skills.map((skill, skillIndex) => (
+        <motion.group
+          key={"skill_" + skillIndex}
+          position={[0, 5.2 - skillIndex * 0.4, 3.8]}
+          initial="hidden"
+          animate={index === currentSkillGroup ? "visible" : "hidden"}
+          variants={skillVariants}
+        >
+          <Text position={[0, 0, 0]} fontSize={0.12}>
+            {skill.name}
+          </Text>
+          <mesh position={[0, -0.1, 0.2]}>
+            <boxGeometry args={[2, 0.07, 0.07]} />
+            <meshBasicMaterial color="gray" />
+          </mesh>
+          <mesh position={[-1 + skill.level / 100, -0.1, 0.2]}>
+            <boxGeometry args={[2 * (skill.level / 100), 0.07, 0.07]} />
+            <meshBasicMaterial color="indigo" />
+          </mesh>
+        </motion.group>
+      ))}
+    </motion.group>
+  );
+};
+
 export const AllSkills = () => {
-    const { viewport } = useThree();
-    const [currentSkillGroup] = useAtom(currentSkillAtom);
-    const cylinderRef = useRef();
-  
-    useEffect(() => {
-      if (cylinderRef.current) {
-        const angle = (Math.PI * 2) / skills.length;
-        const rotationY = angle * currentSkillGroup;
-        cylinderRef.current.rotation.y = rotationY;
+  const { viewport } = useThree();
+  const [currentSkillGroup, setCurrentSkillGroup] = useAtom(currentSkillAtom);
+  const [isSpinning, setIsSpinning] = useState(true);
+  const groupRef = useRef();
+
+  useEffect(() => {
+    if (!isSpinning) {
+      const timeout = setTimeout(() => {
+        setIsSpinning(true);
+      }, 30000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isSpinning]);
+
+  const handleCylinderClick = () => {
+    setIsSpinning(false);
+  };
+
+  const gradientShader = {
+    vertexShader: `
+      varying vec2 vUv;
+      varying vec3 vNormal;
+
+      void main() {
+        vUv = uv;
+        vNormal = normalize(normalMatrix * normal);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }
-    }, [currentSkillGroup]);
-  
-    const gradientShader = {
-        vertexShader: `
-          varying vec2 vUv;
-    
-          void main() {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-        `,
-        fragmentShader: `
-          varying vec2 vUv;
-    
-          void main() {
-            vec3 colorA = vec3(1.0, 0.0, 0.0); // Start color (red)
-            vec3 colorB = vec3(0.0, 0.0, 1.0); // End color (blue)
-    
-            vec3 gradientColor = mix(colorA, colorB, vUv.x); // Interpolate between the two colors based on the horizontal position
-    
-            gl_FragColor = vec4(gradientColor, 1.0);
-          }
-        `,
-      };
-  
-    return (
-      <group position-y={-viewport.height * 1 - 2}>
-        <mesh ref={cylinderRef} rotation={[-0.2, 0, 0]} position={[0, 1.4, -2]}>
-          <cylinderGeometry attach="geometry" args={[3.9, 4, 5.5, 36]} />
-          <shaderMaterial
-            attach="material"
-            args={[gradientShader]}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-        {skills.map((skillGroup, index) => (
-          <motion.group key={"skillGroup_" + index}>
-            <EachSkill
-              currentSkillGroup={currentSkillGroup}
-              index={index}
-              skillGroup={skillGroup}
-            />
-          </motion.group>
-        ))}
-      </group>
-    );
+    `,
+    fragmentShader: `
+      varying vec2 vUv;
+
+      void main() {
+        vec3 colorA = vec3(1.0, 0.0, 1.0); // Start color (purple)
+        vec3 colorB = vec3(0.0, 0.0, 1.0); // End color (blue)
+
+        vec3 gradientColor = mix(colorA, colorB, vUv.x); // Interpolate between the two colors based on the horizontal position
+
+        gl_FragColor = vec4(gradientColor, 1.0);
+      }
+    `,
   };
-  const EachSkill = (props) => {
-    const { skillGroup, index, currentSkillGroup } = props;
-  
-    useEffect(() => {}, [currentSkillGroup]);
-  
-    // Calculate the angle for each face based on the index
-    const angle = (Math.PI * 2) / skills.length;
-    const rotationY = angle * (index - currentSkillGroup);
-  
-    const skillVariants = {
-      hidden: { scale: 0.2, transition: { duration: 0.4 } },
-      visible: { scale: 1, transition: { duration: 0.4 } },
-    };
-  
-    return (
-      <motion.group {...props} scale={0.8} rotation={[0, rotationY, 0]}>
-        <Text maxWidth={3.5} fontSize={0.16} position={[0, 5.4, 3.8]}>
-          {skillGroup.title.toUpperCase()}
-        </Text>
-  
-        {skillGroup.skills.map((skill, skillIndex) => (
-          <motion.group
-            key={"skill_" + skillIndex}
-            position={[0, 5.2 - skillIndex * 0.4, 3.8]}
-            initial="hidden"
-            animate={index === currentSkillGroup ? "visible" : "hidden"}
-            variants={skillVariants}
-          >
-            <Text position={[0, 0, 0]} fontSize={0.12}>
-              {skill.name}
-            </Text>
-            <mesh position={[0, -0.1, 0.2]}>
-              <boxGeometry args={[2, 0.07, 0.07]} />
-              <meshBasicMaterial color="gray" />
-            </mesh>
-            <mesh position={[-1 + skill.level / 100, -0.1, 0.2]}>
-              <boxGeometry args={[2 * (skill.level / 100), 0.07, 0.07]} />
-              <meshBasicMaterial color="indigo" />
-            </mesh>
-          </motion.group>
-        ))}
-      </motion.group>
-    );
-  };
-  
-  
+
+  useFrame(() => {
+    if (groupRef.current && isSpinning) {
+      groupRef.current.rotation.y += 0.002; // Adjust the rotation speed as desired
+    }
+  });
+
+  return (
+    <group position-y={-viewport.height * 1 - 2} ref={groupRef}>
+      <mesh
+        // rotation={[-0.2, 0, 0]}
+        // position={[0, 1.4, -2]}
+        position={[0, 1.4, -2]}
+        onClick={handleCylinderClick}
+      >
+        <cylinderGeometry attach="geometry" args={[3.9, 4, 5.5, 36]} />
+        <shaderMaterial
+          attach="material"
+          args={[gradientShader]}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      {skills.map((skillGroup, index) => {
+        const diff = Math.abs(index - currentSkillGroup);
+        if (
+          (currentSkillGroup === 0 &&
+            (index === 0 || index === skills.length - 1)) ||
+          diff <= 1
+        ) {
+          const angle = (Math.PI * 2) / skills.length;
+          const rotationY = angle * index;
+          const positionX = Math.sin(rotationY) * 5.5;
+          const positionZ = Math.cos(rotationY) * 5.5;
+          return (
+            <motion.group
+              key={"skillGroup_" + index}
+              rotation={[0, rotationY, 0]}
+              // position={[positionX, 0, positionZ]}
+            >
+              <EachSkill
+                currentSkillGroup={currentSkillGroup}
+                index={index}
+                skillGroup={skillGroup}
+              />
+            </motion.group>
+          );
+        }
+        return null;
+      })}
+    </group>
+  );
+};

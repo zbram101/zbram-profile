@@ -10,6 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from './Accordion';
+import { Section } from './Interface';
 
 export const Chat = () => {
   const [query, setQuery] = useState('');
@@ -116,9 +117,9 @@ export const Chat = () => {
   };
 
   return (
-    <>
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
+    <Section>
+    <div className="flex flex-col md:flex-row items-center justify-between">
+      <h1 className="text-2xl font-bold tracking-tighter text-center">
         Chat With My Assistant!
       </h1>
       <main className="main">
@@ -223,16 +224,12 @@ export const Chat = () => {
         )}
       </main>
     </div>
-    <footer className="m-auto p-4">
-      <a href="https://twitter.com/mayowaoshin">
-        Shout out to Mayo for helping me learn LangchainAI
-      </a>
-      <br/>
-      <a href="https://www.youtube.com/@WawaSensei">
-        Shout out to Wawa Sensei for helping me learn 3D modeling and helping me with base code base.
+    <footer className="flex flex-col text-center">
+      <a>
+        Shout out to <a href="https://twitter.com/mayowaoshin">Mayo</a> and <a href="https://www.youtube.com/@WawaSensei">Wawa Sensei </a> for inspiration and guidence.
       </a>
     </footer>
-</>
+    </Section>
 
   );
 }

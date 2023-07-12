@@ -6,20 +6,11 @@
     padding: 1rem;
   }
   
-  .header {
-    width: auto;
-  }
-  
-  .header p {
-    text-align: center;
-  }
-  
   .cloudform {
     position: relative;
   }
   
-  .textarea {
-    position: relative;
+  .textarea { 
     resize: none;
     font-size: 1.1rem;
     padding: 1rem 2rem 1rem 2rem;
