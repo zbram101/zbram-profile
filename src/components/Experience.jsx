@@ -51,7 +51,7 @@ export const Experience = (props) => {
       setTimeout(() => {
         setCharacterAnimation("Standing");
       }, 6000);
-    }else if(section === 1 || section === 2){
+    }else if(section === 1 || section === 2 || section === 5){
       setCharacterAnimation("Standing");
       const pointingInterval = setInterval(() => {
         setCharacterAnimation("Pointing");
@@ -118,7 +118,7 @@ export const Experience = (props) => {
           },
           2: {
             x: -4,
-            y: -viewport.height * 2 - 4,
+            y: -viewport.height * 2 - 3,
             z: 0,
             rotateX: 0,
             rotateY: .2,
@@ -133,20 +133,20 @@ export const Experience = (props) => {
             rotateZ: 0,
           },
           4: {
-            y: -viewport.height * 4 - 1,
+            y: -viewport.height * 4 - 2,
             x: 0,
             z: 0,
             rotateX: 0,
-            rotateY: -Math.PI / 4,
+            rotateY: -Math.PI / 12,
             rotateZ: 0,
           },
           5: {
-            y: -viewport.height * 5 - 1,
-            x: 0,
+            y: -viewport.height * 5 - 3.2,
+            x: -4,
             z: 0,
             rotateX: 0,
-            rotateY: -Math.PI / 4,
-            rotateZ: 0,
+            rotateY: .4,
+            rotateZ: -.1,
           },
         }}
       >

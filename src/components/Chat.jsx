@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import ChatLayout from './ChatLayout';
 import './chat.css';
 import ReactMarkdown from 'react-markdown';
 import LoadingDots from './LoadingDots';
@@ -29,11 +28,6 @@ export const Chat = () => {
   const { messages, history } = messageState;
 
   const messageListRef = useRef(null);
-  const textAreaRef = useRef(null);
-
-  useEffect(() => {
-    textAreaRef.current?.focus();
-  }, []);
 
   // handle form submission
   async function handleSubmit(e) {
@@ -118,10 +112,23 @@ export const Chat = () => {
 
   return (
     <Section>
+
+<h1 className="text-4xl font-bold text-center">
+          Chat With My AI Assistant!
+        </h1>
     <div className="flex flex-col md:flex-row items-center justify-between">
-      <h1 className="text-2xl font-bold tracking-tighter text-center">
-        Chat With My Assistant!
-      </h1>
+      <div className="subtitle">
+        <a>
+        <span style={{ fontWeight: 'bold' }}>You can ask questions like:</span><br/>
+          "What is his citizenship status?"<br/>
+          "Is he available for opportunities?"<br/>
+          "Does he have experience with React.js?"<br/><br/>
+
+          <span style={{ fontWeight: 'bold' }}>You can request things like:</span><br/>
+          "I would like to setup a zoom call with Bharadwaj"<br/>
+          "I would like Bharadwaj's resume"
+        </a>
+      </div>
       <main className="main">
         <div className="cloud">
           <div ref={messageListRef} className="messagelist">
@@ -181,7 +188,6 @@ export const Chat = () => {
               <textarea
                 disabled={loading}
                 onKeyDown={handleEnter}
-                ref={textAreaRef}
                 autoFocus={false}
                 rows={1}
                 maxLength={512}
@@ -225,9 +231,10 @@ export const Chat = () => {
       </main>
     </div>
     <footer className="flex flex-col text-center">
-      <a>
-        Shout out to <a href="https://twitter.com/mayowaoshin">Mayo</a> and <a href="https://www.youtube.com/@WawaSensei">Wawa Sensei </a> for inspiration and guidence.
-      </a>
+    <p>
+      Shout out to <a href="https://twitter.com/mayowaoshin" className="text-indigo-600 hover:text-indigo-800">Mayo</a> and <a href="https://www.youtube.com/@WawaSensei" className="text-indigo-600 hover:text-indigo-800">Wawa Sensei</a> for inspiration and guidance.
+    </p>
+
     </footer>
     </Section>
 

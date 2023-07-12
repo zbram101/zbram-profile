@@ -25,7 +25,12 @@
   .textarea:disabled {
     opacity: 0.5;
   }
-  
+  .subtitle {
+    align-self: flex-start;
+    margin-top: 2rem;
+    color: #232a36;
+    font-size: 0.875rem;
+  }
   .textarea:focus {
     outline: none;
     border-color: #6b7280;

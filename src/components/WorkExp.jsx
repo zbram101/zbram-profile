@@ -1,7 +1,7 @@
 import { Image, Text, Box, Html } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
-
+import * as THREE from 'three';
 import { motion } from "framer-motion-3d";
 import { atom, useAtom } from "jotai";
 import { useEffect, useState, useRef } from "react";
@@ -85,7 +85,7 @@ export const AllExp = () => {
   const [currentExp] = useAtom(currentExpAtom);
 
   return (
-    <group position-y={-viewport.height * 2 - 1.4}>
+    <group position-y={-viewport.height * 2 - .4}>
       {workExp.map((exp, index) => (
         <motion.group
           key={"exp_" + index}
@@ -136,7 +136,8 @@ const EachExp = (props) => {
           ref={background}
         >
           <planeGeometry args={[4.5, 5.5, 4]} />
-          <meshBasicMaterial color="black" transparent opacity={0.4} />
+          <meshBasicMaterial color="#3366ff" transparent opacity={0.8} side={THREE.DoubleSide}>
+        </meshBasicMaterial>
         </mesh>
         <Image
           scale={[4.4, 3, 2]}
