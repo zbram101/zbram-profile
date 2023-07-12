@@ -27,8 +27,8 @@ export const Experience = (props) => {
 
   const [section, setSection] = useState(0);
 
+  console.log(section,"section")
   useEffect(() => {
-    console.log(section,"section")
     animate(cameraPositionX, menuOpened ? -5 : 0, {
       ...framerMotionConfig,
     });
@@ -73,8 +73,8 @@ export const Experience = (props) => {
   useFrame((state) => {
     let curSection = Math.floor(data.scroll.current * data.pages);
 
-    if (curSection > 3) {
-      curSection = 3;
+    if (curSection > 5) {
+      curSection = 5;
     }
 
     if (curSection !== section) {
@@ -83,17 +83,6 @@ export const Experience = (props) => {
 
     state.camera.position.x = cameraPositionX.get();
     state.camera.lookAt(cameraLookAtX.get(), 0, 0);
-
-    // const position = new THREE.Vector3();
-    // characterContainerAboutRef.current.getWorldPosition(position);
-    // console.log([position.x, position.y, position.z]);
-
-    // const quaternion = new THREE.Quaternion();
-    // characterContainerAboutRef.current.getWorldQuaternion(quaternion);
-    // const euler = new THREE.Euler();
-    // euler.setFromQuaternion(quaternion, "XYZ");
-
-    // console.log([euler.x, euler.y, euler.z]);
   });
 
 
@@ -136,7 +125,23 @@ export const Experience = (props) => {
             rotateZ: 0,
           },
           3: {
-            y: -viewport.height * 3 + 1,
+            y: -viewport.height * 3 - 1,
+            x: 0,
+            z: 0,
+            rotateX: 0,
+            rotateY: -Math.PI / 4,
+            rotateZ: 0,
+          },
+          4: {
+            y: -viewport.height * 4 - 1,
+            x: 0,
+            z: 0,
+            rotateX: 0,
+            rotateY: -Math.PI / 4,
+            rotateZ: 0,
+          },
+          5: {
+            y: -viewport.height * 5 - 1,
             x: 0,
             z: 0,
             rotateX: 0,
