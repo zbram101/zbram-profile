@@ -268,7 +268,7 @@ const ExperienceSection = () => {
   
     return (
       <Section>
-        <div className="flex w-full h-full gap-8 items-center justify-center">
+        <div className="flex w-full h-full gap-8 items-baseline justify-center inset-x-0 bottom-0">
           <button
             className="hover:text-indigo-600 transition-colors"
             onClick={previousProject}
