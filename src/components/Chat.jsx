@@ -167,6 +167,7 @@ export const Chat = () => {
                                 <ReactMarkdown linkTarget="_blank">
                                   {doc.pageContent}
                                 </ReactMarkdown>
+                                <br/>
                                 <p className="mt-2">
                                   <b>Source:</b> {doc.metadata.source}
                                 </p>

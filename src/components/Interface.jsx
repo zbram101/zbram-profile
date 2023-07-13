@@ -69,9 +69,9 @@ const AboutSection = () => {
         delay: 1.5,
       }}
     >
-      I enjoy building software solutions.
+      I'm a pragmatic individual with an innate ability for leadership and growth. 
       <br />
-      I like teaching/learning from others 
+      I enjoy building software solutions to real world problems.
     </motion.p>
     <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
       <motion.button
