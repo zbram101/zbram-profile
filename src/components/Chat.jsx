@@ -57,14 +57,17 @@ export const Chat = () => {
     setQuery('');
 
     try {
-      const response = await fetch('http://localhost:3000/api/chat', {
+
+
+      const history2 = history == []?history:['Hello'];
+      const response = await fetch('http://personalbe-env.eba-mduyywzm.us-west-1.elasticbeanstalk.com/assistant', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           question,
-          history,
+          "history":history2,
         }),
       });
       const data = await response.json();
