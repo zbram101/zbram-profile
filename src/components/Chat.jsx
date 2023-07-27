@@ -60,7 +60,7 @@ export const Chat = () => {
 
 
       const history2 = history == []?history:['Hello'];
-      const response = await fetch('http://personalbe-env.eba-mduyywzm.us-west-1.elasticbeanstalk.com/assistant', {
+      const response = await fetch('https://api.bharadwajramachandran.com/assistant', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
