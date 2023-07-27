@@ -43,7 +43,7 @@ export const Experience = (props) => {
   });
 
 
-  const [characterAnimation, setCharacterAnimation] = useState("Typing");
+  const [characterAnimation, setCharacterAnimation] = useState("Standing");
   useEffect(() => {
     setCharacterAnimation("Falling_Idle");
     if(section === 0){
@@ -52,7 +52,9 @@ export const Experience = (props) => {
         setCharacterAnimation("Standing");
       }, 6000);
     }else if(section === 1 || section === 2 || section === 5){
-      setCharacterAnimation("Standing");
+      setTimeout(() => {
+        setCharacterAnimation("Standing");
+      }, 600);
       const pointingInterval = setInterval(() => {
         setCharacterAnimation("Pointing");
         setTimeout(() => {
@@ -125,11 +127,11 @@ export const Experience = (props) => {
             rotateZ: 0,
           },
           3: {
-            y: -viewport.height * 3 - 1,
+            y: -viewport.height * 3 - 2,
             x: 0,
             z: 0,
             rotateX: 0,
-            rotateY: -Math.PI / 4,
+            rotateY: 0,
             rotateZ: 0,
           },
           4: {
@@ -154,7 +156,31 @@ export const Experience = (props) => {
       </motion.group>
 
       <AllExp />
-      <AllSkills />
+      {section == 1 && (
+        <group>
+          <motion.group 
+          // position={section == 0 ? [1.6,-2,0] : [1.6,-10,0]} 
+          animate={"" + section}
+          transition={{
+            duration: 4.0,
+          }}
+          variants={{
+            0: {
+              opacity:0
+            },
+            1: {
+              opacity:100
+            },
+            2: {
+              opacity:0
+            },
+          }}
+          
+          >
+            <AllSkills />
+          </motion.group>
+        </group>
+      )}
       {/* {section == 1 && (
         <group position={[0,-20,-10]} scale={[.9,.9,.9]} rotation-y={-Math.PI/4}>
           <Desk/>
