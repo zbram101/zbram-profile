@@ -7,8 +7,8 @@ import { framerMotionConfig } from "./config";
 import { useScroll, OrbitControls, Html, Sky, Environment, ContactShadows } from "@react-three/drei";
 import { Avatar } from "./Avatar";
 import { AllExp } from "./WorkExp";
-
 import { AllSkills } from "./Skills";
+import { Projects } from './Projects';
 
 export const Experience = (props) => {
   const animations = ["Typing","Falling","Standing"];
@@ -127,8 +127,8 @@ export const Experience = (props) => {
             rotateZ: 0,
           },
           3: {
-            y: -viewport.height * 3 - 2,
-            x: 0,
+            y: -viewport.height * 3 - 2.6,
+            x: -4,
             z: 0,
             rotateX: 0,
             rotateY: 0,
@@ -156,31 +156,9 @@ export const Experience = (props) => {
       </motion.group>
 
       <AllExp />
-      {section == 1 && (
-        <group>
-          <motion.group 
-          // position={section == 0 ? [1.6,-2,0] : [1.6,-10,0]} 
-          animate={"" + section}
-          transition={{
-            duration: 4.0,
-          }}
-          variants={{
-            0: {
-              opacity:0
-            },
-            1: {
-              opacity:100
-            },
-            2: {
-              opacity:0
-            },
-          }}
-          
-          >
-            <AllSkills />
-          </motion.group>
-        </group>
-      )}
+
+      <AllSkills />
+      <Projects/>
       {/* {section == 1 && (
         <group position={[0,-20,-10]} scale={[.9,.9,.9]} rotation-y={-Math.PI/4}>
           <Desk/>

@@ -89,7 +89,7 @@ const AboutSection = () => {
           delay: 2,
         }}
       >
-        Contact me
+        Chat with my assistant!
       </motion.button>
     </div>
   </Section>
@@ -256,34 +256,14 @@ const ExperienceSection = () => {
   };
   
   const ProjectsSection = () => {
-    // const [currentProject, setCurrentProject] = useAtom(currentProjectAtom);
+
+  return (
+    <Section>
+      <div className="flex w-full h-full gap-8 items-baseline justify-center inset-x-0 bottom-0">
+        <h2 className="text-5xl font-bold">Projects</h2>
+      </div>
+    </Section>
   
-    const nextProject = () => {
-    //   setCurrentProject((currentProject + 1) % projects.length);
-    };
-  
-    const previousProject = () => {
-    //   setCurrentProject((currentProject - 1 + projects.length) % projects.length);
-    };
-  
-    return (
-      <Section>
-        <div className="flex w-full h-full gap-8 items-baseline justify-center inset-x-0 bottom-0">
-          <button
-            className="hover:text-indigo-600 transition-colors"
-            onClick={previousProject}
-          >
-            ← Previous
-          </button>
-          <h2 className="text-5xl font-bold">Projects</h2>
-          <button
-            className="hover:text-indigo-600 transition-colors"
-            onClick={nextProject}
-          >
-            Next →
-          </button>
-        </div>
-      </Section>
-    );
+  );
   };
   
