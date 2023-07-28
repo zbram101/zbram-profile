@@ -127,9 +127,9 @@ export const Chat = () => {
           "Is he available for opportunities?"<br/>
           "Does he have experience with React.js?"<br/><br/>
 
-          <span style={{ fontWeight: 'bold' }}>You can request things like:</span><br/>
+          {/* <span style={{ fontWeight: 'bold' }}>You can request things like:</span><br/>
           "I would like to setup a zoom call with Bharadwaj"<br/>
-          "I would like Bharadwaj's resume"
+          "I would like Bharadwaj's resume" */}
         </a>
       </div>
       <main className="main">
