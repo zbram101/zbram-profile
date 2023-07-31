@@ -18,7 +18,7 @@ export const Experience = (props) => {
   const handleAnimationChange = (newAnimation) => {
     setAnimation(newAnimation);
   };
-  const { menuOpened } = props;
+  const { menuOpened, onSectionChange } = props;
   const { viewport } = useThree();
   const data = useScroll();
 
@@ -158,7 +158,7 @@ export const Experience = (props) => {
       <AllExp />
 
       <AllSkills />
-      <Projects/>
+      <Projects onSectionChange={onSectionChange}/>
       {/* {section == 1 && (
         <group position={[0,-20,-10]} scale={[.9,.9,.9]} rotation-y={-Math.PI/4}>
           <Desk/>

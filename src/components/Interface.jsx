@@ -33,10 +33,11 @@ export const Section = (props) => {
   );
 };
 
-export const Interface = () => {
+export const Interface = (props) => {
+  const { onSectionChange } = props;
   return (
     <div className="flex flex-col items-center w-screen">
-      <AboutSection />
+      <AboutSection onSectionChange={onSectionChange} />
       <SkillsSection />
       <ExperienceSection />
       <ProjectsSection />
@@ -46,7 +47,8 @@ export const Interface = () => {
   );
 };
 
-const AboutSection = () => {
+const AboutSection = (props) => {
+  const { onSectionChange } = props;
   return (
     <Section>
     <h1 className="text-6xl font-extrabold leading-snug">
@@ -88,6 +90,7 @@ const AboutSection = () => {
           duration: 1,
           delay: 2,
         }}
+        onClick={() => onSectionChange(5)} 
       >
         Chat with my assistant!
       </motion.button>
