@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import LoadingDots from "./LoadingDots";
 import { Section } from "./Interface";
 import { profile } from "../data/profile";
+import { runProfileChat } from "../lib/responsesClient";
 import "./chat.css";
 
 const initialMessage = {
@@ -11,22 +12,6 @@ const initialMessage = {
     "I can brief leaders and collaborators on Bharath Ram's partnership value, AI impact, delivery style, work history, and technical depth. Ask for a short overview or go deep on a system, initiative, or leadership scope.",
   toolsUsed: [],
 };
-
-async function parseResponsePayload(response) {
-  const rawPayload = await response.text();
-
-  if (!rawPayload || !rawPayload.trim()) {
-    throw new Error("Empty response from /api/chat. Check the API route and server logs.");
-  }
-
-  try {
-    return JSON.parse(rawPayload);
-  } catch {
-    throw new Error(
-      "The chat endpoint returned a non-JSON response. Verify /api/chat is available in the current dev server."
-    );
-  }
-}
 
 export const Chat = ({ motionPreset }) => {
   const [query, setQuery] = useState("");
@@ -58,24 +43,7 @@ export const Chat = ({ motionPreset }) => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: nextMessages.map((message) => ({
-            role: message.role,
-            content: message.content,
-          })),
-        }),
-      });
-
-      const data = await parseResponsePayload(response);
-
-      if (!response.ok) {
-        throw new Error(data.error || "The assistant could not complete the request.");
-      }
+      const data = await runProfileChat(nextMessages);
 
       setMessages((currentMessages) => [
         ...currentMessages,
