@@ -1,12 +1,11 @@
-import React from 'react';
-import styles from './loadingdots.css';
+import "./loadingdots.css";
 
 const LoadingDots = ({
-  color = '#000',
-  style = 'small',
+  color = "#000",
+  style = "small",
 }) => {
   return (
-    <span className={style === 'small' ? styles.loading2 : styles.loading}>
+    <span className={style === "small" ? "loading2" : "loading"}>
       <span style={{ backgroundColor: color }} />
       <span style={{ backgroundColor: color }} />
       <span style={{ backgroundColor: color }} />
@@ -15,7 +14,7 @@ const LoadingDots = ({
 };
 
 LoadingDots.defaultProps = {
-  style: 'small',
+  style: "small",
 };
 
 export default LoadingDots;

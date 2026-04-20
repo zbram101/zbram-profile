@@ -1,246 +1,235 @@
-import React, { useRef, useState, useEffect } from 'react';
-import './chat.css';
-import ReactMarkdown from 'react-markdown';
-import LoadingDots from './LoadingDots';
+import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import LoadingDots from "./LoadingDots";
+import { Section } from "./Interface";
+import { profile } from "../data/profile";
+import "./chat.css";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from './Accordion';
-import { Section } from './Interface';
+const initialMessage = {
+  role: "assistant",
+  content:
+    "I can brief leaders and collaborators on Bharath Ram's partnership value, AI impact, delivery style, work history, and technical depth. Ask for a short overview or go deep on a system, initiative, or leadership scope.",
+  toolsUsed: [],
+};
 
-export const Chat = () => {
-  const [query, setQuery] = useState('');
+async function parseResponsePayload(response) {
+  const rawPayload = await response.text();
+
+  if (!rawPayload || !rawPayload.trim()) {
+    throw new Error("Empty response from /api/chat. Check the API route and server logs.");
+  }
+
+  try {
+    return JSON.parse(rawPayload);
+  } catch {
+    throw new Error(
+      "The chat endpoint returned a non-JSON response. Verify /api/chat is available in the current dev server."
+    );
+  }
+}
+
+export const Chat = ({ motionPreset }) => {
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [messageState, setMessageState] = useState({
-    messages: [
-      {
-        message: "Hi, I'm Bharadwaj's assistant. How can I help you?",
-        type: 'apiMessage',
-      },
-    ],
-    history: [],
-  });
-
-  const { messages, history } = messageState;
-
+  const [error, setError] = useState("");
+  const [messages, setMessages] = useState([initialMessage]);
   const messageListRef = useRef(null);
+  const canReset = messages.length > 1 && !loading;
 
-  // handle form submission
-  async function handleSubmit(e) {
-    e.preventDefault();
+  useEffect(() => {
+    messageListRef.current?.scrollTo({
+      top: messageListRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [loading, messages]);
 
-    setError(null);
+  async function sendMessage(prompt) {
+    const question = prompt.trim();
 
-    if (!query) {
-      alert('Please input a question');
+    if (!question) {
       return;
     }
 
-    const question = query.trim();
+    const nextMessages = [...messages, { role: "user", content: question }];
 
-    setMessageState((state) => ({
-      ...state,
-      messages: [
-        ...state.messages,
-        {
-          type: 'userMessage',
-          message: question,
-        },
-      ],
-    }));
-
+    setMessages(nextMessages);
+    setQuery("");
+    setError("");
     setLoading(true);
-    setQuery('');
 
     try {
-
-
-      const history2 = history == []?history:['Hello'];
-      const response = await fetch('https://api.bharadwajramachandran.com/assistant', {
-        method: 'POST',
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          question,
-          "history":history2,
+          messages: nextMessages.map((message) => ({
+            role: message.role,
+            content: message.content,
+          })),
         }),
       });
-      const data = await response.json();
-      console.log('data', data);
 
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setMessageState((state) => ({
-          ...state,
-          messages: [
-            ...state.messages,
-            {
-              type: 'apiMessage',
-              message: data.text,
-              sourceDocs: data.sourceDocuments,
-            },
-          ],
-          history: [...state.history, [question, data.text]],
-        }));
+      const data = await parseResponsePayload(response);
+
+      if (!response.ok) {
+        throw new Error(data.error || "The assistant could not complete the request.");
       }
-      console.log('messageState', messageState);
 
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        {
+          role: "assistant",
+          content: data.text,
+          toolsUsed: data.toolsUsed || [],
+        },
+      ]);
+    } catch (requestError) {
+      setError(requestError.message || "The assistant could not complete the request.");
+    } finally {
       setLoading(false);
-
-      // scroll to bottom
-      messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
-    } catch (error) {
-      setLoading(false);
-      setError(
-        'An error occurred while fetching the data. Please try again.'
-      );
-      console.log('error', error);
     }
   }
 
-  // prevent empty submissions
-  const handleEnter = (e) => {
-    if (e.key === 'Enter' && query) {
-      handleSubmit(e);
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
+  function handleSubmit(event) {
+    event.preventDefault();
+    sendMessage(query);
+  }
+
+  function handleEnter(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage(query);
     }
-  };
+  }
+
+  function resetConversation() {
+    if (!canReset) {
+      return;
+    }
+
+    setMessages([initialMessage]);
+    setQuery("");
+    setError("");
+  }
 
   return (
-    <Section>
+    <Section className="chat-section" motionPreset={motionPreset}>
+      <div className="chat-shell">
+        <div className="chat-overview">
+          <div>
+            <p className="profile-eyebrow">AI briefing</p>
+            <h2 className="section-heading">Interview the profile with the Responses API</h2>
+            <p className="profile-body">
+              This assistant is designed for partnership, advisory, and leadership conversations.
+              It can answer with a concise executive summary or drill into fit, measurable impact,
+              AI initiatives, and contact details using specialized resume-aware tools.
+            </p>
+          </div>
+          <div className="tool-grid">
+            {profile.toolset.map((tool) => (
+              <div key={tool.name} className="tool-card">
+                <h3>{tool.name}</h3>
+                <p>{tool.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="example-list">
+            {profile.chatExamples.map((example) => (
+              <button key={example} className="example-chip" onClick={() => sendMessage(example)}>
+                {example}
+              </button>
+            ))}
+          </div>
+        </div>
 
-<h1 className="text-4xl font-bold text-center">
-          Chat With My AI Assistant!
-        </h1>
-    <div className="flex flex-col md:flex-row items-center justify-between">
-      <div className="subtitle">
-        <a>
-        <span style={{ fontWeight: 'bold' }}>You can ask questions like:</span><br/>
-          "What is his citizenship status?"<br/>
-          "Is he available for opportunities?"<br/>
-          "Does he have experience with React.js?"<br/><br/>
-
-          {/* <span style={{ fontWeight: 'bold' }}>You can request things like:</span><br/>
-          "I would like to setup a zoom call with Bharadwaj"<br/>
-          "I would like Bharadwaj's resume" */}
-        </a>
-      </div>
-      <main className="main">
-        <div className="cloud">
-          <div ref={messageListRef} className="messagelist">
+        <div className="chat-panel">
+          <div className="chat-panel__header">
+            <div>
+              <p className="chat-panel__eyebrow">Conversation</p>
+              <p className="chat-panel__meta">Partnership and leadership live briefing</p>
+            </div>
+            <button
+              type="button"
+              className="chat-reset"
+              disabled={!canReset}
+              onClick={resetConversation}
+            >
+              Reset
+            </button>
+          </div>
+          <div ref={messageListRef} className="message-stream">
             {messages.map((message, index) => {
-              let className;
-              if (message.type === 'apiMessage') {
-                className = 'apimessage';
-              } else {
-                // The latest message sent by the user will be animated while waiting for a response
-                className =
-                  loading && index === messages.length - 1
-                    ? 'usermessagewaiting'
-                    : 'usermessage';
-              }
+              const isAssistant = message.role === "assistant";
+              const className = isAssistant
+                ? "message-bubble message-bubble--assistant"
+                : loading && index === messages.length - 1
+                  ? "message-bubble message-bubble--pending"
+                  : "message-bubble message-bubble--user";
+
               return (
-                <div key={`chatMessage-${index}`} className={className}>
+                <article key={`message-${index}`} className={className}>
+                  <p className="message-bubble__label">{isAssistant ? "AI briefing" : "You"}</p>
                   <div className="markdownanswer">
-                    <ReactMarkdown linkTarget="_blank">
-                      {message.message}
-                    </ReactMarkdown>
+                    <ReactMarkdown linkTarget="_blank">{message.content}</ReactMarkdown>
                   </div>
-                  {message.sourceDocs && (
-                    <div className="p-5" key={`sourceDocsAccordion-${index}`}>
-                      <Accordion
-                        type="single"
-                        collapsible
-                        className="flex-col"
-                      >
-                        {message.sourceDocs.map((doc, index) => (
-                          <div key={`messageSourceDocs-${index}`}>
-                            <AccordionItem value={`item-${index}`}>
-                              <AccordionTrigger>
-                                <h3>Source {index + 1}</h3>
-                              </AccordionTrigger>
-                              <AccordionContent>
-                                <ReactMarkdown linkTarget="_blank">
-                                  {doc.pageContent}
-                                </ReactMarkdown>
-                                <br/>
-                                <p className="mt-2">
-                                  <b>Source:</b> {doc.metadata.source}
-                                </p>
-                              </AccordionContent>
-                            </AccordionItem>
-                          </div>
-                        ))}
-                      </Accordion>
+                  {isAssistant && message.toolsUsed?.length > 0 && (
+                    <div className="tool-pill-row">
+                      {message.toolsUsed.map((tool) => (
+                        <span key={`${message.content}-${tool}`} className="tool-pill">
+                          {tool}
+                        </span>
+                      ))}
                     </div>
                   )}
-                </div>
+                </article>
               );
             })}
+            {loading && (
+              <div className="message-loading">
+                <LoadingDots color="#f4efe7" />
+              </div>
+            )}
           </div>
-        </div>
-        <div className="center">
-          <div className="cloudform">
-            <form onSubmit={handleSubmit}>
-              <textarea
-                disabled={loading}
-                onKeyDown={handleEnter}
-                autoFocus={false}
-                rows={1}
-                maxLength={512}
-                id="userInput"
-                name="userInput"
-                placeholder={
-                  loading ? 'Waiting for response...' : 'What would you like to know about Bharadwaj?'
-                }
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="textarea"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="generatebutton"
-              >
-                {loading ? (
-                  <div className="loadingwheel">
-                    <LoadingDots color="#000" />
-                  </div>
-                ) : (
-                  // Send icon SVG in input field
-                  <svg
-                    viewBox="0 0 20 20"
-                    className="svgicon"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                  </svg>
-                )}
-              </button>
-            </form>
-          </div>
-        </div>
-        {error && (
-          <div className="border border-red-400 rounded-md p-4">
-            <p className="text-red-500">{error}</p>
-          </div>
-        )}
-      </main>
-    </div>
-    <footer className="flex flex-col text-center">
-    <p>
-      Shout out to <a href="https://twitter.com/mayowaoshin" className="text-indigo-600 hover:text-indigo-800">Mayo</a> and <a href="https://www.youtube.com/@WawaSensei" className="text-indigo-600 hover:text-indigo-800">Wawa Sensei</a> for inspiration and guidance.
-    </p>
 
-    </footer>
+          <form className="chat-form" onSubmit={handleSubmit}>
+            <textarea
+              disabled={loading}
+              onKeyDown={handleEnter}
+              rows={2}
+              maxLength={800}
+              name="userInput"
+              placeholder={
+                loading
+                  ? "Building the answer..."
+                  : "Ask about partnership fit, AI impact, work history, or technical depth."
+              }
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              className="textarea"
+            />
+            <div className="chat-form__footer">
+              <p className="chat-form__hint">
+                {loading ? "Generating response..." : "Enter to send, Shift+Enter for a new line"}
+              </p>
+              <div className="chat-form__actions">
+                <span className="chat-form__count">{query.length}/800</span>
+                <button type="submit" disabled={loading || !query.trim()} className="generatebutton">
+                  {loading ? (
+                    <div className="loadingwheel">
+                      <LoadingDots color="#f4efe7" />
+                    </div>
+                  ) : (
+                    <span>Send</span>
+                  )}
+                </button>
+              </div>
+            </div>
+          </form>
+          {error && <p className="chat-error">{error}</p>}
+        </div>
+      </div>
     </Section>
-
   );
-}
+};

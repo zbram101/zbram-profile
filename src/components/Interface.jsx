@@ -1,30 +1,30 @@
 import { motion } from "framer-motion";
-import React, { useState, useRef, useEffect } from 'react';
-import {  useAtom } from "jotai";
-import { currentExpAtom, workExp } from "./WorkExp";
+import { useEffect, useRef, useState } from "react";
+import { useAtom } from "jotai";
 import { Chat } from "./Chat";
-
+import { currentExpAtom, workExp } from "./WorkExp";
+import { currentProjectAtom } from "./Projects";
 import { currentSkillAtom, skills } from "./Skills";
+import { profile, selectedInitiatives } from "../data/profile";
+import { useViewport } from "../hooks/useViewport";
+import { useReducedMotionPreference } from "../hooks/useReducedMotionPreference";
+import { getMotionPreset } from "../ui/motionPresets";
+import { getRailDensity } from "../ui/layoutPresets";
 
-export const Section = (props) => {
-  const { children } = props;
+export const Section = ({ children, className = "", motionPreset }) => {
+  const safeMotionPreset = motionPreset || getMotionPreset();
 
   return (
     <motion.section
-      className={`
-  h-screen w-screen p-8 max-w-screen-2xl mx-auto
-  flex flex-col justify-center overflow-x-auto
-  `}
-      initial={{
-        opacity: 0,
-        y: 50,
-      }}
+      className={`section-shell mx-auto flex min-h-[100svh] w-screen max-w-screen-2xl flex-col justify-start overflow-visible px-5 pb-10 pt-24 md:px-8 lg:justify-center lg:px-10 lg:pb-8 lg:pt-10 xl:px-12 ${className}`}
+      initial={{ opacity: 0, y: safeMotionPreset.sectionReveal.offsetY }}
+      viewport={{ once: true, amount: 0.24 }}
       whileInView={{
         opacity: 1,
         y: 0,
         transition: {
-          duration: 1,
-          delay: 0.6,
+          duration: safeMotionPreset.sectionReveal.duration,
+          delay: safeMotionPreset.sectionReveal.delay,
         },
       }}
     >
@@ -33,240 +33,594 @@ export const Section = (props) => {
   );
 };
 
-export const Interface = (props) => {
-  const { onSectionChange } = props;
-  return (
-    <div className="flex flex-col items-center w-screen">
-      <AboutSection onSectionChange={onSectionChange} />
-      <SkillsSection />
-      <ExperienceSection />
-      <ProjectsSection />
-      <ContactSection />
-      <Chat />
-    </div>
-  );
-};
+const FloatingPanel = ({
+  children,
+  className = "",
+  index = 0,
+  motionPreset,
+  reducedMotion,
+  density = "comfortable",
+  motionVariant = "static",
+}) => {
+  const panelRef = useRef(null);
+  const frameRef = useRef(null);
+  const pendingRef = useRef({ x: 50, y: 50 });
 
-const AboutSection = (props) => {
-  const { onSectionChange } = props;
+  useEffect(() => {
+    const node = panelRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    node.style.setProperty("--hover-x", "50%");
+    node.style.setProperty("--hover-y", "50%");
+    node.style.setProperty("--tilt-x", "0deg");
+    node.style.setProperty("--tilt-y", "0deg");
+    node.style.setProperty("--sweep-alpha", `${motionPreset.hover.sweepOpacity}`);
+    node.style.setProperty("--hover-lift", `${motionPreset.hover.lift}px`);
+    node.style.setProperty("--hover-scale", `${motionPreset.hover.scale}`);
+  }, [motionPreset]);
+
+  useEffect(
+    () => () => {
+      if (frameRef.current) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    },
+    []
+  );
+
+  function updatePointerStyles() {
+    const node = panelRef.current;
+
+    if (!node) {
+      frameRef.current = null;
+      return;
+    }
+
+    const { x, y } = pendingRef.current;
+    const rotateY = ((x - 50) / 50) * motionPreset.hover.tiltY;
+    const rotateX = -((y - 50) / 50) * motionPreset.hover.tiltX;
+
+    node.style.setProperty("--hover-x", `${x.toFixed(2)}%`);
+    node.style.setProperty("--hover-y", `${y.toFixed(2)}%`);
+    node.style.setProperty("--tilt-x", `${rotateX.toFixed(3)}deg`);
+    node.style.setProperty("--tilt-y", `${rotateY.toFixed(3)}deg`);
+    frameRef.current = null;
+  }
+
+  function handlePointerMove(event) {
+    const node = panelRef.current;
+
+    if (!node || reducedMotion || window.matchMedia("(hover: none)").matches) {
+      return;
+    }
+
+    const rect = node.getBoundingClientRect();
+    pendingRef.current = {
+      x: ((event.clientX - rect.left) / rect.width) * 100,
+      y: ((event.clientY - rect.top) / rect.height) * 100,
+    };
+
+    if (!frameRef.current) {
+      frameRef.current = requestAnimationFrame(updatePointerStyles);
+    }
+  }
+
+  function handlePointerLeave() {
+    const node = panelRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    pendingRef.current = { x: 50, y: 50 };
+    node.style.setProperty("--hover-x", "50%");
+    node.style.setProperty("--hover-y", "50%");
+    node.style.setProperty("--tilt-x", "0deg");
+    node.style.setProperty("--tilt-y", "0deg");
+  }
+
   return (
-    <Section>
-    <h1 className="text-6xl font-extrabold leading-snug">
-      Hi, I'm
-      <br />
-      <span className="px-1 italic">Bharadwaj</span>
-    </h1>
-    <motion.p
-      className="text-lg text-gray-600 mt-4"
+    <motion.div
       initial={{
         opacity: 0,
-        y: 25,
+        y: motionPreset.panelReveal.offsetY,
+        scale: motionPreset.panelReveal.scaleFrom,
       }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
       transition={{
-        duration: 1,
-        delay: 1.5,
+        type: "spring",
+        stiffness: 100,
+        damping: 16,
+        duration: motionPreset.panelReveal.duration,
+        delay: index * motionPreset.panelReveal.delayStep,
       }}
     >
-      I'm a pragmatic individual with an innate ability for leadership and growth. 
-      <br />
-      I enjoy building software solutions to real world problems.
-    </motion.p>
-    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-      <motion.button
-        className={`bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16`}
-        initial={{
-          opacity: 0,
-          y: 25,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 1,
-          delay: 2,
-        }}
-        onClick={() => onSectionChange(5)} 
+      <motion.div
+        ref={panelRef}
+        className={`${className} hover-elevate panel-density-${density} panel-variant-${motionVariant}`}
+        style={{ willChange: "transform" }}
+        onMouseMove={handlePointerMove}
+        onMouseLeave={handlePointerLeave}
       >
-        Chat with my assistant!
-      </motion.button>
-    </div>
-  </Section>
-  
+        {children}
+      </motion.div>
+    </motion.div>
   );
 };
 
+async function parseActionResponse(response) {
+  const rawPayload = await response.text();
 
-const SkillsSection = () => {
+  if (!rawPayload || !rawPayload.trim()) {
+    throw new Error("Empty response from server. Please try again.");
+  }
 
+  try {
+    return JSON.parse(rawPayload);
+  } catch {
+    throw new Error("The server returned an invalid response.");
+  }
+}
+
+export const Interface = ({ onSectionChange }) => {
+  const { width } = useViewport();
+  const reducedMotion = useReducedMotionPreference();
+  const motionPreset = getMotionPreset({
+    intensity: "medium",
+    reducedMotion,
+  });
+  const density = getRailDensity(width);
+
+  return (
+    <div className="flex w-screen flex-col items-center">
+      <AboutSection onSectionChange={onSectionChange} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density} />
+      <SkillsSection motionPreset={motionPreset} reducedMotion={reducedMotion} density={density} />
+      <ExperienceSection motionPreset={motionPreset} reducedMotion={reducedMotion} density={density} />
+      <ProjectsSection motionPreset={motionPreset} reducedMotion={reducedMotion} density={density} />
+      <ContactSection onSectionChange={onSectionChange} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density} />
+      <Chat motionPreset={motionPreset} />
+    </div>
+  );
+};
+
+const AboutSection = ({ onSectionChange, motionPreset, reducedMotion, density }) => {
+  return (
+    <Section motionPreset={motionPreset}>
+      <div className="section-frame section-frame--single">
+        <div className="content-rail content-rail--hero">
+          <FloatingPanel className="surface-panel space-y-6" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
+            <p className="profile-eyebrow">AI, automation, and software engineering leadership</p>
+            <div className="space-y-4">
+              <h1 className="profile-hero-title">
+                {profile.name}
+                <span>{profile.title}</span>
+              </h1>
+              <p className="profile-lead">{profile.subtitle}</p>
+              <p className="profile-body">{profile.heroIntro}</p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <button className="profile-action profile-action--primary" onClick={() => onSectionChange(5)}>
+                Ask the AI briefing
+              </button>
+              <a className="profile-action" href={profile.resumePath} target="_blank" rel="noreferrer">
+                Download resume
+              </a>
+              <a className="profile-action" href={profile.linkedin} target="_blank" rel="noreferrer">
+                LinkedIn
+              </a>
+            </div>
+            <div className="metric-grid">
+              {profile.heroMetrics.map((metric) => (
+                <div key={metric.label} className="metric-card">
+                  <p className="metric-card__value">{metric.value}</p>
+                  <p className="metric-card__label">{metric.label}</p>
+                </div>
+              ))}
+            </div>
+            <div className="surface-divider" />
+            <div className="surface-grid">
+              <div className="surface-subpanel">
+                <p className="surface-kicker">Partnership and role focus</p>
+                <div className="pill-list pill-list--ink">
+                  {profile.targetRoles.map((role) => (
+                    <span key={role} className="profile-pill profile-pill--ink">
+                      {role}
+                    </span>
+                  ))}
+                </div>
+                <div className="surface-divider surface-divider--compact" />
+                <p className="surface-kicker">Education</p>
+                <div className="surface-stack">
+                  <div className="stack-item stack-item--ink">
+                    <h3>UC Berkeley Haas</h3>
+                    <p>
+                      Professional Certificate in Machine Learning and Artificial Intelligence, 2025-2026
+                    </p>
+                  </div>
+                  <div className="stack-item stack-item--ink">
+                    <h3>Manav Bharti University</h3>
+                    <p>Bachelor of Science in Computer Science, 2008-2012</p>
+                  </div>
+                </div>
+              </div>
+              <div className="surface-subpanel">
+                <p className="surface-kicker">Leadership pillars</p>
+                <div className="surface-stack">
+                  {profile.leadershipPillars.map((pillar) => (
+                    <div key={pillar.title} className="stack-item stack-item--ink">
+                      <h3>{pillar.title}</h3>
+                      <p>{pillar.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </FloatingPanel>
+        </div>
+      </div>
+    </Section>
+  );
+};
+
+const SkillsSection = ({ motionPreset, reducedMotion, density }) => {
   const [currentSkillGroup, setCurrentSkillGroup] = useAtom(currentSkillAtom);
-  
-  const nextSkillGroup = () => {
-    setCurrentSkillGroup((currentSkillGroup + 1) % skills.length);
-    console.log(currentSkillGroup)
-  };
-
-  const previousSkillGroup = () => {
-    setCurrentSkillGroup((currentSkillGroup - 1 + skills.length) % skills.length);
-  };
+  const skillGroup = skills[currentSkillGroup];
+  const capability = profile.capabilityHighlights[currentSkillGroup % profile.capabilityHighlights.length];
 
   return (
-    <Section>
-      <div className="flex w-full h-full gap-8 items-baseline justify-center inset-x-0 bottom-0">
-        <button
-          className="hover:text-indigo-600 transition-colors"
-          onClick={previousSkillGroup}
-        >
-          ← Previous
-        </button>
-        <h2 className="text-5xl font-bold">Skills</h2>
-        <button
-          className="hover:text-indigo-600 transition-colors"
-          onClick={nextSkillGroup}
-        >
-          Next →
-        </button>
+    <Section motionPreset={motionPreset}>
+      <div className="section-frame section-frame--single">
+        <div className="content-rail">
+          <FloatingPanel className="surface-panel space-y-6" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
+            <p className="profile-eyebrow">Capability stack</p>
+            <h2 className="section-heading">Hands-on depth with manager-level range</h2>
+            <p className="profile-body">
+              The rotating wheel shows the current capability group without turning the section into
+              a keyword wall. It keeps the engineering depth visible while the written story stays
+              concise and professional.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <button
+                className="profile-action"
+                onClick={() => setCurrentSkillGroup((currentSkillGroup - 1 + skills.length) % skills.length)}
+              >
+                Previous stack
+              </button>
+              <button
+                className="profile-action profile-action--primary"
+                onClick={() => setCurrentSkillGroup((currentSkillGroup + 1) % skills.length)}
+              >
+                Next stack
+              </button>
+            </div>
+            <div className="surface-split">
+              <div className="section-card">
+                <p className="section-card__eyebrow">Current focus</p>
+                <h3 className="section-card__title">{skillGroup.title}</h3>
+                <div className="space-y-3 pt-3">
+                  {skillGroup.skills.map((skill) => (
+                    <div key={skill.name}>
+                      <div className="mb-1 flex items-center justify-between text-sm text-slate-100">
+                        <span>{skill.name}</span>
+                        <span>{skill.level}%</span>
+                      </div>
+                      <div className="skill-bar">
+                        <span style={{ width: `${skill.level}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="surface-subpanel surface-subpanel--ink">
+                <p className="surface-kicker surface-kicker--ink">Why this matters</p>
+                <h3 className="surface-subtitle surface-subtitle--ink">{capability.title}</h3>
+                <ul className="detail-list">
+                  {capability.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </FloatingPanel>
+        </div>
       </div>
     </Section>
   );
-
-                              
 };
 
-const ContactSection = () => {
-  return (
-    <Section>
-    <h2 className="flex justify-center h-full text-4xl font-bold text-center">Old boring Contact and Connect <br/>or<br/> Chat with my AI Assistant below!</h2>
-    <div className="flex flex-col md:flex-row items-center justify-between">
-      <div className="md:w-1/2">
-        <div className="mt-8 p-8 rounded-md bg-white w-96 max-w-full">
-
-        <h2 className="text-4xl font-bold text-center">Send me a message</h2>
-          <form>
-            <label htmlFor="name" className="font-medium text-gray-900 block mb-1">
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-            />
-            <label
-              htmlFor="email"
-              className="font-medium text-gray-900 block mb-1 mt-8"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-            />
-            <label
-              htmlFor="message"
-              className="font-medium text-gray-900 block mb-1 mt-8"
-            >
-              Message
-            </label>
-            <textarea
-              name="message"
-              id="message"
-              className="h-32 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-            />
-            <button className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 hover:bg-indigo-700 transition-colors duration-300 ease-in-out">
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-      <hr className="md:block border-black my-8 w-0 h-full mx-8" />
-      <div className="mt-8 p-8 rounded-md bg-white w-96 max-w-full">
-
-      <h2 className="text-4xl font-bold text-center">Connect with me</h2>
-        <div className="mt-8 flex justify-center space-x-6">
-          <a
-            href="https://github.com/zbram101"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-indigo-600 hover:text-indigo-800"
-          >
-            <img
-              src="images/github.png"
-              alt="GitHub"
-              className="w-30 h-20 transform hover:scale-110 transition-transform duration-300 ease-in-out"
-            />
-          </a>
-          <a
-            href="https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-indigo-600 hover:text-indigo-800"
-          >
-            <img
-              src="images/linkdin.png"
-              alt="LinkedIn"
-              className="w-30 h-20 transform hover:scale-110 transition-transform duration-300 ease-in-out"
-            />
-          </a>
-          {/* Add other social media links similarly */}
-        </div>
-      </div>
-    </div>
-  </Section>
-  
-
-
-  );
-};
-
-
-const ExperienceSection = () => {
-    const [currentProject, setCurrentProject] = useAtom(currentExpAtom);
-  
-    const nextProject = () => {
-      setCurrentProject((currentProject + 1) % workExp.length);
-    };
-  
-    const previousProject = () => {
-      setCurrentProject((currentProject - 1 + workExp.length) % workExp.length);
-    };
-  
-    return (
-      <Section>
-        <div className="flex w-full h-full gap-8 items-baseline justify-center inset-x-0 bottom-0">
-          <button
-            className="hover:text-indigo-600 transition-colors"
-            onClick={previousProject}
-          >
-            ← Previous
-          </button>
-          <h2 className="text-5xl font-bold">Experience</h2>
-          <button
-            className="hover:text-indigo-600 transition-colors"
-            onClick={nextProject}
-          >
-            Next →
-          </button>
-        </div>
-      </Section>
-    );
-  };
-  
-  const ProjectsSection = () => {
+const ExperienceSection = ({ motionPreset, reducedMotion, density }) => {
+  const [currentExperience, setCurrentExperience] = useAtom(currentExpAtom);
+  const experience = workExp[currentExperience];
 
   return (
-    <Section>
-      <div className="flex w-full h-full gap-8 items-baseline justify-center inset-x-0 bottom-0">
-        <h2 className="text-5xl font-bold">Projects</h2>
+    <Section motionPreset={motionPreset}>
+      <div className="section-frame section-frame--single">
+        <div className="content-rail content-rail--wide">
+          <FloatingPanel className="surface-panel space-y-5" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
+            <p className="profile-eyebrow">Career arc</p>
+            <h2 className="section-heading">Leadership growth grounded in delivery</h2>
+            <p className="profile-body">
+              The experience selector shows progression from enterprise delivery foundations into
+              engineering leadership, platform ownership, and AI-first operating models.
+            </p>
+            <div className="surface-split">
+              <div className="surface-subpanel">
+                <p className="surface-kicker">Role sequence</p>
+                <div className="timeline-list">
+                  {workExp.map((item, index) => (
+                    <button
+                      key={item.company}
+                      className={`timeline-list__item ${index === currentExperience ? "is-active" : ""}`}
+                      onClick={() => setCurrentExperience(index)}
+                    >
+                      <span>{item.company}</span>
+                      <small>{item.period}</small>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="surface-subpanel surface-subpanel--ink">
+                <p className="section-card__eyebrow">{experience.badge}</p>
+                <h3 className="section-card__title section-card__title--compact">{experience.company}</h3>
+                <p className="section-card__role">{experience.role}</p>
+                <p className="section-card__meta">{experience.period}</p>
+                <p className="section-card__impact">{experience.impact}</p>
+                <p className="section-card__body">{experience.headline}</p>
+                <ul className="detail-list">
+                  {experience.highlights.slice(0, 4).map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-3 pt-1">
+              <button
+                className="profile-action"
+                onClick={() => setCurrentExperience((currentExperience - 1 + workExp.length) % workExp.length)}
+              >
+                Previous role
+              </button>
+              <button
+                className="profile-action profile-action--primary"
+                onClick={() => setCurrentExperience((currentExperience + 1) % workExp.length)}
+              >
+                Next role
+              </button>
+            </div>
+          </FloatingPanel>
+        </div>
       </div>
     </Section>
-  
   );
-  };
-  
+};
+
+const ProjectsSection = ({ motionPreset, reducedMotion, density }) => {
+  const [currentProject, setCurrentProject] = useAtom(currentProjectAtom);
+  const initiative = selectedInitiatives[currentProject];
+
+  return (
+    <Section motionPreset={motionPreset}>
+      <div className="section-frame section-frame--single">
+        <div className="content-rail content-rail--wide">
+          <FloatingPanel className="surface-panel space-y-5" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
+            <p className="profile-eyebrow">Selected impact</p>
+            <h2 className="section-heading">Early-stage startups I co-founded and built</h2>
+            <p className="profile-body">
+              These ventures reflect founder-stage product building across hardware, software, AI,
+              and user experience, from concept through early release and traction.
+            </p>
+            <div className="surface-split">
+              <div className="surface-subpanel">
+                <p className="surface-kicker">Startup shortlist</p>
+                <div className="timeline-list">
+                  {selectedInitiatives.map((item, index) => (
+                    <button
+                      key={item.title}
+                      className={`timeline-list__item ${index === currentProject ? "is-active" : ""}`}
+                      onClick={() => setCurrentProject(index)}
+                    >
+                      <span>{item.title}</span>
+                      <small>{item.status}</small>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="surface-subpanel surface-subpanel--ink">
+                <p className="section-card__eyebrow">{initiative.category}</p>
+                <h3 className="section-card__title section-card__title--compact">{initiative.title}</h3>
+                <p className="section-card__meta">{initiative.status}</p>
+                {initiative.link && (
+                  <p className="section-card__meta">
+                    <a
+                      href={initiative.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[#9ed7dc] underline underline-offset-2"
+                    >
+                      {initiative.link}
+                    </a>
+                  </p>
+                )}
+                <p className="section-card__impact">{initiative.impact}</p>
+                <p className="section-card__body">{initiative.description}</p>
+                <ul className="detail-list">
+                  {initiative.accomplishments.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </FloatingPanel>
+        </div>
+      </div>
+    </Section>
+  );
+};
+
+const ContactSection = ({ onSectionChange, motionPreset, reducedMotion, density }) => {
+  const [lead, setLead] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    message: "",
+  });
+  const [isPhoneUnlocked, setIsPhoneUnlocked] = useState(false);
+  const [leadLoading, setLeadLoading] = useState(false);
+  const [leadError, setLeadError] = useState("");
+  const [leadSuccess, setLeadSuccess] = useState("");
+
+  function updateLeadField(field, value) {
+    setLead((previous) => ({
+      ...previous,
+      [field]: value,
+    }));
+  }
+
+  async function submitLead(event) {
+    event.preventDefault();
+    setLeadError("");
+    setLeadSuccess("");
+
+    if (!lead.name.trim() || !lead.email.trim() || !lead.phone.trim()) {
+      setLeadError("Name, email, and phone are required to unlock direct phone contact.");
+      return;
+    }
+
+    setLeadLoading(true);
+
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(lead),
+      });
+
+      const payload = await parseActionResponse(response);
+
+      if (!response.ok) {
+        throw new Error(payload.error || "Lead submission failed.");
+      }
+
+      setIsPhoneUnlocked(true);
+      setLeadSuccess("Thanks. Your details were submitted and phone access is now unlocked.");
+    } catch (error) {
+      setLeadError(error.message || "Lead submission failed.");
+    } finally {
+      setLeadLoading(false);
+    }
+  }
+
+  return (
+    <Section motionPreset={motionPreset}>
+      <div className="section-frame section-frame--single">
+        <div className="content-rail content-rail--wide">
+          <FloatingPanel className="surface-panel space-y-6" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
+            <p className="profile-eyebrow">Connect</p>
+            <h2 className="section-heading">Open to strategic partnerships and aligned leadership scopes</h2>
+            <p className="profile-body">{profile.availability}</p>
+            <div className="surface-split">
+              <div className="section-card">
+                <p className="section-card__eyebrow">Reach out</p>
+                <div className="contact-grid">
+                  <a href={`mailto:${profile.email}`} className="contact-item">
+                    <span>Email</span>
+                    <strong>{profile.email}</strong>
+                  </a>
+                  <div className="contact-item contact-item--locked">
+                    <span>Phone</span>
+                    <strong>{isPhoneUnlocked ? profile.phone : "Locked until lead form is submitted"}</strong>
+                  </div>
+                  <a href={profile.linkedin} target="_blank" rel="noreferrer" className="contact-item">
+                    <span>LinkedIn</span>
+                    <strong>View profile</strong>
+                  </a>
+                  <a href={profile.website} target="_blank" rel="noreferrer" className="contact-item">
+                    <span>Location</span>
+                    <strong>{profile.location}</strong>
+                  </a>
+                </div>
+                <div className="flex flex-wrap gap-3 pt-4">
+                  <a className="profile-action profile-action--primary" href={profile.resumePath} target="_blank" rel="noreferrer">
+                    Open resume
+                  </a>
+                  <button className="profile-action" onClick={() => onSectionChange(5)}>
+                    Interview the AI briefing
+                  </button>
+                </div>
+              </div>
+              <div className="surface-subpanel">
+                <p className="surface-kicker">Collaboration intake form</p>
+                <p className="lead-helper">
+                  Submit your name, email, and phone to unlock direct phone contact. Your intake is sent by email automatically.
+                </p>
+                <form className="lead-form" onSubmit={submitLead}>
+                  <label className="lead-field">
+                    <span>Name</span>
+                    <input
+                      type="text"
+                      value={lead.name}
+                      onChange={(event) => updateLeadField("name", event.target.value)}
+                      placeholder="Your full name"
+                      autoComplete="name"
+                    />
+                  </label>
+                  <label className="lead-field">
+                    <span>Email</span>
+                    <input
+                      type="email"
+                      value={lead.email}
+                      onChange={(event) => updateLeadField("email", event.target.value)}
+                      placeholder="you@company.com"
+                      autoComplete="email"
+                    />
+                  </label>
+                  <label className="lead-field">
+                    <span>Phone</span>
+                    <input
+                      type="tel"
+                      value={lead.phone}
+                      onChange={(event) => updateLeadField("phone", event.target.value)}
+                      placeholder="(555) 555-5555"
+                      autoComplete="tel"
+                    />
+                  </label>
+                  <label className="lead-field">
+                    <span>Company (optional)</span>
+                    <input
+                      type="text"
+                      value={lead.company}
+                      onChange={(event) => updateLeadField("company", event.target.value)}
+                      placeholder="Company name"
+                      autoComplete="organization"
+                    />
+                  </label>
+                  <label className="lead-field">
+                    <span>Message (optional)</span>
+                    <textarea
+                      rows={3}
+                      value={lead.message}
+                      onChange={(event) => updateLeadField("message", event.target.value)}
+                      placeholder="Partnership context, problem space, or hiring timeline"
+                    />
+                  </label>
+                  <button className="profile-action profile-action--primary lead-submit" type="submit" disabled={leadLoading}>
+                    {leadLoading ? "Submitting..." : "Submit and unlock phone"}
+                  </button>
+                </form>
+                {leadError && <p className="lead-error">{leadError}</p>}
+                {leadSuccess && <p className="lead-success">{leadSuccess}</p>}
+              </div>
+            </div>
+          </FloatingPanel>
+        </div>
+      </div>
+    </Section>
+  );
+};

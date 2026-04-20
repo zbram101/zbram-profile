@@ -10,8 +10,13 @@ let outlineY = 0;
 export const Cursor = () => {
   const cursorOutline = useRef();
   const [hoverButton, setHoverButton] = useState(false);
+  const [enabled, setEnabled] = useState(false);
 
   const animate = () => {
+    if (!cursorOutline.current) {
+      return;
+    }
+
     let distX = mouseX - outlineX;
     let distY = mouseY - outlineY;
 
@@ -24,42 +29,64 @@ export const Cursor = () => {
   };
 
   useEffect(() => {
-    const mouseEventsListener = document.addEventListener(
-      "mousemove",
-      function (event) {
-        mouseX = event.pageX;
-        mouseY = event.pageY;
-      }
-    );
+    const supportsFinePointer =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    setEnabled(Boolean(supportsFinePointer));
+
+    if (!supportsFinePointer) {
+      return undefined;
+    }
+
+    const onMouseMove = (event) => {
+      mouseX = event.pageX;
+      mouseY = event.pageY;
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+
     const animateEvent = requestAnimationFrame(animate);
     return () => {
-      document.removeEventListener("mousemove", mouseEventsListener);
+      document.removeEventListener("mousemove", onMouseMove);
       cancelAnimationFrame(animateEvent);
     };
   }, []);
 
   useEffect(() => {
-    const mouseEventListener = document.addEventListener(
-      "mouseover",
-      function (e) {
-        if (
-          e.target.tagName.toLowerCase() === "button" ||
-          // check parent is button
-          e.target.parentElement.tagName.toLowerCase() === "button" ||
-          // check is input or textarea
-          e.target.tagName.toLowerCase() === "input" ||
-          e.target.tagName.toLowerCase() === "textarea"
-        ) {
-          setHoverButton(true);
-        } else {
-          setHoverButton(false);
-        }
+    if (!enabled) {
+      return undefined;
+    }
+
+    const onMouseOver = (event) => {
+      const target = event.target;
+      const tagName = target?.tagName?.toLowerCase?.();
+      const parentTagName = target?.parentElement?.tagName?.toLowerCase?.();
+
+      if (
+        tagName === "button" ||
+        parentTagName === "button" ||
+        tagName === "input" ||
+        tagName === "textarea" ||
+        tagName === "a"
+      ) {
+        setHoverButton(true);
+      } else {
+        setHoverButton(false);
       }
-    );
-    return () => {
-      document.removeEventListener("mouseover", mouseEventListener);
     };
-  }, []);
+
+    document.addEventListener("mouseover", onMouseOver);
+
+    return () => {
+      document.removeEventListener("mouseover", onMouseOver);
+    };
+  }, [enabled]);
+
+  if (!enabled) {
+    return null;
+  }
 
   return (
     <>
@@ -67,8 +94,8 @@ export const Cursor = () => {
         className={`z-50 fixed -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none transition-transform
         ${
           hoverButton
-            ? "bg-transparent border-2 border-indigo-900 w-5 h-5"
-            : "bg-indigo-500 w-3 h-3"
+            ? "h-6 w-6 border border-[#be6841]/70 bg-transparent"
+            : "h-3.5 w-3.5 bg-[#0f5c62]/85"
         }`}
         ref={cursorOutline}
       ></div>
