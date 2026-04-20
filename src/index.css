@@ -83,32 +83,6 @@ textarea {
   height: 100svh;
 }
 
-.app-shell {
-  position: relative;
-  width: 100vw;
-  height: 100svh;
-}
-
-.scene-canvas {
-  position: absolute !important;
-  inset: 0;
-  z-index: 0;
-}
-
-.character-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 15;
-  pointer-events: none;
-}
-
-.character-overlay-canvas {
-  width: 100% !important;
-  height: 100% !important;
-  pointer-events: none !important;
-  background: transparent !important;
-}
-
 .section-shell {
   box-sizing: border-box;
   position: relative;
