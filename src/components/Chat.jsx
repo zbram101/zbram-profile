@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import LoadingDots from "./LoadingDots";
-import { Section } from "./Interface";
+import { Section, SECTION_IDS } from "./Interface";
 import { profile } from "../data/profile";
 import { runProfileChat } from "../lib/responsesClient";
 import "./chat.css";
@@ -83,7 +83,7 @@ export const Chat = ({ motionPreset }) => {
   }
 
   return (
-    <Section className="chat-section" motionPreset={motionPreset}>
+    <Section id={SECTION_IDS[5]} className="chat-section" motionPreset={motionPreset}>
       <div className="chat-shell">
         <div className="chat-overview">
           <div>

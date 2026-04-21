@@ -38,10 +38,13 @@
 
 html {
   scroll-behavior: smooth;
+  min-height: 100%;
 }
 
 body {
   margin: 0;
+  min-height: 100%;
+  overflow-x: hidden;
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   background:
     radial-gradient(circle at 10% 7%, rgba(45, 139, 146, 0.22), transparent 34%),
@@ -81,6 +84,10 @@ textarea {
 #root {
   width: 100vw;
   height: 100svh;
+}
+
+.mobile-app-shell {
+  min-height: 100svh;
 }
 
 .section-shell {
@@ -789,7 +796,14 @@ textarea {
 }
 
 @media (max-width: 768px) {
+  #root {
+    width: 100%;
+    height: auto;
+    min-height: 100svh;
+  }
+
   .section-shell {
+    min-height: auto !important;
     padding-left: 1.1rem !important;
     padding-right: 1.1rem !important;
     padding-top: 4.7rem !important;
@@ -799,6 +813,12 @@ textarea {
 
   .chat-section.section-shell {
     padding-bottom: 2rem !important;
+  }
+
+  .section-frame,
+  .section-frame--single {
+    min-height: auto;
+    gap: 0.9rem;
   }
 
   .content-rail,
@@ -863,6 +883,7 @@ textarea {
     padding-left: 0.82rem !important;
     padding-right: 0.82rem !important;
     padding-top: 4.6rem !important;
+    padding-bottom: 1.2rem !important;
   }
 
   .surface-panel {

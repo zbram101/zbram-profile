@@ -373,13 +373,23 @@
     min-height: 0;
   }
 
+  .chat-overview {
+    overflow: visible;
+  }
+
+  .chat-panel {
+    min-height: min(42rem, calc(100dvh - 6.5rem));
+  }
+
   .tool-grid {
     grid-template-columns: 1fr;
   }
 
   .message-stream {
     min-height: 17rem;
-    max-height: 22rem;
+    max-height: min(48dvh, 24rem);
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 }
 
@@ -395,6 +405,14 @@
     padding: 0.9rem;
   }
 
+  .chat-overview {
+    overflow: visible;
+  }
+
+  .chat-panel {
+    min-height: 0;
+  }
+
   .chat-panel__header {
     align-items: center;
   }
@@ -404,8 +422,8 @@
   }
 
   .message-stream {
-    min-height: 16rem;
-    max-height: 19rem;
+    min-height: 15rem;
+    max-height: min(50dvh, 22rem);
   }
 
   .generatebutton {

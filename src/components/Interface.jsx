@@ -11,12 +11,22 @@ import { useReducedMotionPreference } from "../hooks/useReducedMotionPreference"
 import { getMotionPreset } from "../ui/motionPresets";
 import { getRailDensity } from "../ui/layoutPresets";
 
-export const Section = ({ children, className = "", motionPreset }) => {
+export const SECTION_IDS = [
+  "overview",
+  "capabilities",
+  "experience",
+  "impact",
+  "connect",
+  "ai-briefing",
+];
+
+export const Section = ({ children, className = "", motionPreset, id }) => {
   const safeMotionPreset = motionPreset || getMotionPreset();
 
   return (
     <motion.section
-      className={`section-shell mx-auto flex min-h-[100svh] w-screen max-w-screen-2xl flex-col justify-start overflow-visible px-5 pb-10 pt-24 md:px-8 lg:justify-center lg:px-10 lg:pb-8 lg:pt-10 xl:px-12 ${className}`}
+      id={id}
+      className={`section-shell mx-auto flex min-h-[100svh] w-full max-w-screen-2xl flex-col justify-start overflow-visible px-5 pb-10 pt-24 md:px-8 lg:justify-center lg:px-10 lg:pb-8 lg:pt-10 xl:px-12 ${className}`}
       initial={{ opacity: 0, y: safeMotionPreset.sectionReveal.offsetY }}
       viewport={{ once: true, amount: 0.24 }}
       whileInView={{
@@ -176,7 +186,7 @@ export const Interface = ({ onSectionChange }) => {
   const density = getRailDensity(width);
 
   return (
-    <div className="flex w-screen flex-col items-center">
+    <div className="flex w-full flex-col items-center">
       <AboutSection onSectionChange={onSectionChange} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density} />
       <SkillsSection motionPreset={motionPreset} reducedMotion={reducedMotion} density={density} />
       <ExperienceSection motionPreset={motionPreset} reducedMotion={reducedMotion} density={density} />
@@ -189,7 +199,7 @@ export const Interface = ({ onSectionChange }) => {
 
 const AboutSection = ({ onSectionChange, motionPreset, reducedMotion, density }) => {
   return (
-    <Section motionPreset={motionPreset}>
+    <Section id={SECTION_IDS[0]} motionPreset={motionPreset}>
       <div className="section-frame section-frame--single">
         <div className="content-rail content-rail--hero">
           <FloatingPanel className="surface-panel space-y-6" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
@@ -272,7 +282,7 @@ const SkillsSection = ({ motionPreset, reducedMotion, density }) => {
   const capability = profile.capabilityHighlights[currentSkillGroup % profile.capabilityHighlights.length];
 
   return (
-    <Section motionPreset={motionPreset}>
+    <Section id={SECTION_IDS[1]} motionPreset={motionPreset}>
       <div className="section-frame section-frame--single">
         <div className="content-rail">
           <FloatingPanel className="surface-panel space-y-6" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
@@ -337,7 +347,7 @@ const ExperienceSection = ({ motionPreset, reducedMotion, density }) => {
   const experience = workExp[currentExperience];
 
   return (
-    <Section motionPreset={motionPreset}>
+    <Section id={SECTION_IDS[2]} motionPreset={motionPreset}>
       <div className="section-frame section-frame--single">
         <div className="content-rail content-rail--wide">
           <FloatingPanel className="surface-panel space-y-5" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
@@ -403,7 +413,7 @@ const ProjectsSection = ({ motionPreset, reducedMotion, density }) => {
   const initiative = selectedInitiatives[currentProject];
 
   return (
-    <Section motionPreset={motionPreset}>
+    <Section id={SECTION_IDS[3]} motionPreset={motionPreset}>
       <div className="section-frame section-frame--single">
         <div className="content-rail content-rail--wide">
           <FloatingPanel className="surface-panel space-y-5" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
@@ -518,7 +528,7 @@ const ContactSection = ({ onSectionChange, motionPreset, reducedMotion, density 
   }
 
   return (
-    <Section motionPreset={motionPreset}>
+    <Section id={SECTION_IDS[4]} motionPreset={motionPreset}>
       <div className="section-frame section-frame--single">
         <div className="content-rail content-rail--wide">
           <FloatingPanel className="surface-panel space-y-6" index={0} motionPreset={motionPreset} reducedMotion={reducedMotion} density={density}>
