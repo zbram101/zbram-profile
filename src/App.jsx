@@ -25,13 +25,13 @@ export default function App() {
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="header">
-      <a className="wordmark" href="#about" aria-label="Bharadwaj home">br<span>.</span><small>ENGINEER & BUILDER</small></a>
+      <a className="wordmark" href="#about" aria-label="Bharadwaj home">zb<span>.</span><small>ENGINEER & BUILDER</small></a>
       <button className="menu-toggle icon-button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="navigation" aria-label={menuOpen ? 'Close menu' : 'Open menu'}>{menuOpen ? <X /> : <Menu />}</button>
       <nav id="navigation" className={menuOpen ? 'navigation open' : 'navigation'} aria-label="Main navigation">{sections.map((id, i) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)} className={active === id ? 'active' : ''} aria-current={active === id ? 'location' : undefined}>{labels[i]}{i === 4 && <ArrowUpRight size={16}/>}</a>)}</nav>
     </header>
     <main id="main" className="page-shell">
       <aside className="character-column" aria-label="Interactive character">
-        <div className="character-panel"><div className="stage-topline"><span><i className="status-dot"/> THE HUMAN BEHIND THE CODE</span><span>01 / BR</span></div>
+        <div className="character-panel"><div className="stage-topline"><span><i className="status-dot"/> THE HUMAN BEHIND THE CODE</span><span>01 / ZB</span></div>
           <Suspense fallback={<div className="character-fallback"><img src="/images/myavatar.png" alt="Bharadwaj’s character"/><span>Getting ready…</span></div>}><CharacterStage section={active} busy={chatBusy}/></Suspense>
         </div>
       </aside>
@@ -71,7 +71,7 @@ export default function App() {
         </section>
       </div>
     </main>
-    <footer className="footer"><a className="wordmark" href="#about">br<span>.</span></a><span>Made with curiosity. Built by Bharadwaj.</span><a href="#about">Back to top ↑</a></footer>
+    <footer className="footer"><a className="wordmark" href="#about">zb<span>.</span></a><span>Made with curiosity. Built by Bharadwaj.</span><a href="#about">Back to top ↑</a></footer>
   </>;
 }
 function SectionTitle({ number, label, title }) { return <><div className="eyebrow"><span className="section-number">{number}</span>{label}</div><h2>{title}</h2></>; }
