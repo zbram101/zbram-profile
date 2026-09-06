@@ -15,7 +15,7 @@ Official API documentation: https://developers.openai.com/api/docs/quickstart
 ## Validation and deployment
 
 - `npm test` tests profile answers, conversation context, input validation, and API error handling using mock provider responses.
-- `npm run build` produces the browser assets in `dist/client` and the Cloudflare Worker in `dist/server/index.js`.
+- `npm run build` produces browser assets in `dist` and the Cloudflare Worker in `dist/server/index.js`.
 - `npm run preview` previews the built client and the same chat handler locally.
 - The Worker expects the static asset binding `ASSETS`; requests to `/api/chat` go to the server handler. Deploy the Worker with its assets; static hosting alone cannot run AI chat.
 - Set `OPENAI_API_KEY` as a private runtime secret on the hosting provider to activate AI conversation. Local environment files are intentionally excluded from version control and deployments.
