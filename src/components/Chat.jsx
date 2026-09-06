@@ -1,18 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { ArrowUp, MessageSquare, RotateCcw } from 'lucide-react';
+import { projects, skills, workExp } from '../profile';
 import './chat.css';
 const greeting={role:'assistant',content:'Hi, I’m Bharadwaj’s portfolio assistant. What would you like to know about his work?'};
 const prompts=['What has he built?','Tell me about his leadership','Does he work with React?'];
+const chatApiUrl=import.meta.env.VITE_CHAT_API_URL?.trim();
+
+function profileAnswer(question){
+  const q=question.toLowerCase();
+  if(/citizen|visa|available|availability|salary|phone|email|current|today/.test(q))return 'That information isn’t listed in the portfolio. Please connect with Bharadwaj on [LinkedIn](https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3) for the latest details.';
+  if(/react|frontend|front.end|angular|javascript|typescript/.test(q))return 'Yes — Bharadwaj’s portfolio includes React, Angular, JavaScript, and TypeScript. At Kaiser Permanente, he built responsive web applications, worked on accessible interfaces, and collaborated with product managers and designers.';
+  if(/project|build|built|skirmesh|skipped|fiji|bot/.test(q))return 'His projects include:\n\n'+projects.map(p=>`- **${p.title}:** ${p.description}.`).join('\n');
+  if(/skill|tool|stack|language|python|sql|aws|backend/.test(q))return 'His toolkit includes:\n\n'+skills.map(s=>`- **${s.title === 'SASS/ERP/Tools' ? 'Platforms & tools' : s.title}:** ${s.skills.map(i=>i.name).join(', ')}.`).join('\n');
+  if(/lead|team|globality|manage/.test(q))return 'At **Globality (May 2021–May 2023)**, Bharadwaj was Lead Application Engineer, leading Integrations and Business Applications teams. His work included a bid-proposal evaluation app, NPS reporting, engineering design reviews, roadmaps, and integrations with platforms such as Slack, NetSuite, and Salesforce.';
+  if(/experience|career|work|background|about|who|kaiser|anthem/.test(q))return 'Bharadwaj is an engineer and builder whose listed experience includes:\n\n'+workExp.map(j=>`- **${j.role}**, ${j.company} (${j.period}).`).join('\n')+'\n\nHis focus spans software development, enterprise integrations, and engineering leadership.';
+  if(/contact|connect|hire|linkedin|github|hello|hi\b/.test(q))return 'You can connect with Bharadwaj on [LinkedIn](https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3) or explore his code on [GitHub](https://github.com/zbram101). You can also ask here about his experience, skills, or projects.';
+  return 'I can help with Bharadwaj’s experience, skills, projects, and contact links. Ask me about one of those topics.';
+}
 export function Chat({onBusyChange}) {
   const [messages,setMessages]=useState([greeting]);
   const [query,setQuery]=useState('');
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
   const [failedQuestion,setFailedQuestion]=useState('');
-  const [mode,setMode]=useState('loading');
+  const [mode,setMode]=useState(chatApiUrl?'loading':'profile');
   const log=useRef();const input=useRef();const controller=useRef();const inFlight=useRef(false);
-  useEffect(()=>{const abort=new AbortController();fetch('/api/chat',{signal:abort.signal}).then(r=>{if(!r.ok)throw new Error();return r.json();}).then(d=>setMode(d.mode)).catch(()=>setMode('unavailable'));return()=>{abort.abort();controller.current?.abort();};},[]);
+  useEffect(()=>{if(!chatApiUrl)return undefined;const abort=new AbortController();fetch(chatApiUrl,{signal:abort.signal}).then(r=>{if(!r.ok)throw new Error();return r.json();}).then(d=>setMode(d.mode)).catch(()=>setMode('unavailable'));return()=>{abort.abort();controller.current?.abort();};},[]);
   useEffect(()=>{if(log.current)log.current.scrollTop=log.current.scrollHeight;},[messages,busy,error]);
   async function send(question,retry=false){
     question=question.trim();if(!question || inFlight.current)return;
@@ -21,8 +35,12 @@ export function Chat({onBusyChange}) {
     setMessages(next);controller.current=new AbortController();
     const timeout=setTimeout(()=>controller.current.abort(),30000);
     try{
+      if(!chatApiUrl){
+        setMessages([...next,{role:'assistant',content:profileAnswer(question)}]);
+        return;
+      }
       const history=next.slice(1).slice(-8).map(m=>({role:m.role,content:m.content.slice(0,4000)}));
-      const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history}),signal:controller.current.signal});
+      const response=await fetch(chatApiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history}),signal:controller.current.signal});
       const data=await response.json().catch(()=>({error:'The assistant is temporarily unavailable.'}));
       if(!response.ok || typeof data.text!=='string' || !data.text.trim())throw new Error(data.error || 'The assistant returned an empty answer. Please try again.');
       setMode(data.mode);setMessages([...next,{role:'assistant',content:data.text}]);
