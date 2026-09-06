@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { ArrowUp, MessageSquare, RotateCcw } from 'lucide-react';
 import { projects, skills, workExp } from '../profile';
+import { chatApiUrl } from '../analytics';
 import './chat.css';
 const greeting={role:'assistant',content:'Hi, I’m Bharadwaj’s portfolio assistant. What would you like to know about his work?'};
 const prompts=['What has he built?','Tell me about his leadership','Does he work with React?'];
-const chatApiUrl=import.meta.env.VITE_CHAT_API_URL?.trim() || 'https://zho73b11v5.execute-api.us-east-1.amazonaws.com/chat';
 
 function profileAnswer(question){
   const q=question.toLowerCase();

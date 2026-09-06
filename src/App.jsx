@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { ArrowUpRight, ArrowDown, Github, Linkedin, Code2, Layers, MessageSquare, Menu, X } from 'lucide-react';
 import { workExp, skills, projects } from './profile';
+import { recordVisit } from './analytics';
 const CharacterStage = lazy(() => import('./components/CharacterStage'));
 const Chat = lazy(() => import('./components/Chat').then(m => ({default:m.Chat})));
 const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
@@ -22,6 +23,7 @@ export default function App() {
     window.addEventListener('resize', update);
     return () => { window.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
   }, []);
+  useEffect(() => { recordVisit(); }, []);
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="header">
@@ -71,7 +73,7 @@ export default function App() {
         </section>
       </div>
     </main>
-    <footer className="footer"><a className="wordmark" href="#about">br<span>.</span></a><span>Made with curiosity. Built by Bharadwaj.</span><a href="#about">Back to top ↑</a></footer>
+    <footer className="footer"><a className="wordmark" href="#about">br<span>.</span></a><span>Made with curiosity. Built by Bharadwaj. Anonymous visit analytics help improve this site.</span><a href="#about">Back to top ↑</a></footer>
   </>;
 }
 function SectionTitle({ number, label, title }) { return <><div className="eyebrow"><span className="section-number">{number}</span>{label}</div><h2>{title}</h2></>; }
