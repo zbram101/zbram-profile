@@ -186,15 +186,14 @@ export const projects = [
         ]
     },
     {
-        title: "Personal Bot",
-        status: "Active",
-        description: "Working on a project to train LLMs to promote and answer questions for candidates",
-        category: "Machine Learning",
-        link:"https://www.bharadwajramachandran.com/",
+        title: "trytherapy.ai",
+        status: "#2 on Product Hunt",
+        description: "Built an iOS mental health conversation app end to end",
+        category: "iOS · Mental Health",
+        link:"https://trytherapy.ai/",
         accomplishments: [
-          "Developing a personalized bot to assist candidates",
-          "Training Language Model Models (LLMs) to interact effectively",
-          "Helping candidates with their questions and concerns"
+          "Built the complete iOS mental health conversation app end to end",
+          "Reached #2 on Product Hunt"
         ]
     },
     {
