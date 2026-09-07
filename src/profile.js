@@ -196,5 +196,18 @@ export const projects = [
           "Training Language Model Models (LLMs) to interact effectively",
           "Helping candidates with their questions and concerns"
         ]
+    },
+    {
+        title: "Context Platform",
+        status: "Active — MVP",
+        description: "Building a governed context platform that connects shared business definitions to AI-assisted data analysis, with validated queries and traceable answers.",
+        category: "AI & Data Platform",
+        link: null,
+        accomplishments: [
+          "Built a versioned definition registry with independent reviews, release promotion, rollback, and an audit trail",
+          "Connected conversational analysis to validated, read-only queries over AdventureWorks, with query evidence, Python analysis, and downloadable charts and CSVs",
+          "Added interactive relationship exploration, API and MCP access, and publisher-only chat usage and estimated cost reporting",
+          "Developed the MVP with React, TypeScript, FastAPI, and PostgreSQL, containerized with Docker and deployed on AWS ECS"
+        ]
     }
   ];

@@ -7,6 +7,8 @@ const json = (value,status=200) => new Response(JSON.stringify(value),{status,he
 export function profileAnswer(question) {
   const q = question.toLowerCase();
   if (/citizen|visa|available|availability|salary|phone|email|current|today/.test(q)) return 'That information isn’t listed in the portfolio. Please connect with Bharadwaj on [LinkedIn]('+profile.linkedin+') for the latest details.';
+  const namedProject = projects.find(project => q.includes(project.title.toLowerCase()));
+  if (namedProject) return `**${namedProject.title}** (${namedProject.status})\n\n${namedProject.description}\n\n` + namedProject.accomplishments.map(item => `- ${item}`).join('\n');
   if (/react|frontend|front.end|angular|javascript|typescript/.test(q)) return 'Yes — Bharadwaj’s portfolio includes React, Angular, JavaScript, and TypeScript. At Kaiser Permanente, he built responsive web applications, worked on accessible interfaces, and collaborated with product managers and designers. Explore the Experience section for the full details.';
   if (/project|build|built|skirmesh|skipped|fiji|bot/.test(q)) return 'His projects include:\n\n'+projects.map(p=>`- **${p.title}:** ${p.description}.`).join('\n');
   if (/skill|tool|stack|language|python|sql|aws|backend/.test(q)) return 'His toolkit includes:\n\n'+skills.map(s=>`- **${s.title === 'SASS/ERP/Tools' ? 'Platforms & tools' : s.title}:** ${s.skills.map(i=>i.name).join(', ')}.`).join('\n');
