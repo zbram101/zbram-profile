@@ -188,11 +188,13 @@ export const projects = [
     {
         title: "trytherapy.ai",
         status: "#2 on Product Hunt",
-        description: "Built TherapyAI end to end, an iOS AI companion for mental wellness",
-        category: "iOS · Mental Health",
+        description: "Built TherapyAI end to end, an iOS AI companion offering 24/7 conversations and personalized support to help people reflect, feel heard, and better understand their emotions",
+        category: "iOS · AI Mental Wellness",
         link:"https://www.trytherapy.ai/",
         accomplishments: [
-          "Built the complete iOS mental health conversation app end to end",
+          "Created conversations that remember previous sessions, making support more personal over time",
+          "Provided tailored guidance and exercises based on each person's needs",
+          "Built a space to vent, explore feelings, and reflect on the roots of stress and anxiety",
           "Reached #2 on Product Hunt"
         ]
     },
