@@ -9,6 +9,11 @@ Resources:
     Properties:
       LogGroupName: !Sub '/aws/lambda/${AWS::StackName}-chat'
       RetentionInDays: 14
+      Tags:
+        - Key: Application
+          Value: zbramprofile
+        - Key: ManagedBy
+          Value: Codex
 
   VisitorAnalyticsTable:
     Type: AWS::DynamoDB::Table
@@ -31,6 +36,11 @@ Resources:
       TimeToLiveSpecification:
         AttributeName: expiresAt
         Enabled: true
+      Tags:
+        - Key: Application
+          Value: zbramprofile
+        - Key: ManagedBy
+          Value: Codex
 
   ChatRole:
     Type: AWS::IAM::Role
@@ -42,6 +52,11 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
+      Tags:
+        - Key: Application
+          Value: zbramprofile
+        - Key: ManagedBy
+          Value: Codex
       Policies:
         - PolicyName: WriteChatLogs
           PolicyDocument:
@@ -68,6 +83,9 @@ Resources:
       MemorySize: 256
       Timeout: 25
       ReservedConcurrentExecutions: 3
+      Tags:
+        Application: zbramprofile
+        ManagedBy: Codex
       Environment:
         Variables:
           OPENAI_SECRET: '{{resolve:secretsmanager:OAIprofile:SecretString}}'
@@ -135,6 +153,9 @@ Resources:
     Properties:
       Name: !Sub '${AWS::StackName}-api'
       ProtocolType: HTTP
+      Tags:
+        Application: zbramprofile
+        ManagedBy: Codex
       CorsConfiguration:
         AllowOrigins:
           - https://bharadwajramachandran.com
@@ -183,6 +204,9 @@ Resources:
       ApiId: !Ref ChatApi
       StageName: '$default'
       AutoDeploy: true
+      Tags:
+        Application: zbramprofile
+        ManagedBy: Codex
       DefaultRouteSettings:
         DetailedMetricsEnabled: true
         ThrottlingBurstLimit: 10
