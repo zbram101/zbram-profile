@@ -202,7 +202,7 @@ export const projects = [
         status: "Active — MVP",
         description: "Building a governed context platform that connects shared business definitions to AI-assisted data analysis, with validated queries and traceable answers.",
         category: "AI & Data Platform",
-        link: null,
+        link: "https://context.bharadwajramachandran.com",
         accomplishments: [
           "Built a versioned definition registry with independent reviews, release promotion, rollback, and an audit trail",
           "Connected conversational analysis to validated, read-only queries over AdventureWorks, with query evidence, Python analysis, and downloadable charts and CSVs",
