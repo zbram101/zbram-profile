@@ -47,9 +47,9 @@ const projects = [
     {
         title: "trytherapy.ai",
         status: "#2 on Product Hunt",
-        description: "Built an iOS mental health conversation app end to end",
+        description: "Built TherapyAI end to end, an iOS AI companion for mental wellness",
         category: "iOS · Mental Health",
-        link:"https://trytherapy.ai/",
+        link:"https://www.trytherapy.ai/",
         accomplishments: [
           "Built the complete iOS mental health conversation app end to end",
           "Reached #2 on Product Hunt"
