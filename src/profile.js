@@ -1,71 +1,98 @@
 export const workExp = [
   {
-    company: "Globality",
-    role: "Lead Application Engineer",
-    description:"Lead 2 teams Integrations and Business Applictions",
-    image:"images/Glo.jpeg",
-    period: "May 2021 – May 2023",
-    responsibilities: [
-      "Led development of critical applications, including engineering design, product development, and implementation",
-      "Built a rules-based evaluation application for bid proposals ensuring adaptability to changing requirements",
-      "Built a system to map and report Net Promoter Score from multiple sources and provide valuable insights to drive business growth",
-      "Developed and Implemented Technical Design Review Process across all engineering teams based on sound engineering principles of full SDLC life cycle covering platform changes and 3rd party application changes",
-      "Partnered with Product and Engineering to create team roadmap and prioritize build of internal tools and built reports to review and recourse to better team performance",
-      "Contributed innovative ideas and solutions to software architecture and design decisions, ensuring scalability and maintainability",
-      "Implemented agile development process and educated business members and stakeholders on benefits of agile process",
-      "Created Integrations with Slack, Walkme, Netsuite, SFDC, AD, Freshservice, Cronitor for operational and data needs"
+    "company": "Thermo Fisher Scientific",
+    "role": "Senior AI Solutions Manager",
+    "additionalRole": "Staff AI Software Engineer",
+    "aliases": [
+      "thermo",
+      "thermo fisher"
+    ],
+    "period": "Nov 2023 – Present",
+    "current": true,
+    "description": "Leading teams that turn enterprise AI into measurable operational impact, from multi-agent automation and RAG to MCP platforms and AI adoption.",
+    "highlights": [
+      {
+        "value": "30%",
+        "label": "less excess & obsolete inventory"
+      },
+      {
+        "value": "60%",
+        "label": "fewer unnecessary onsite visits"
+      },
+      {
+        "value": "30+",
+        "label": "MCP servers in the pipeline"
+      }
+    ],
+    "responsibilities": [
+      "Led a team of 8 engineers building multi-agent systems, Model Context Protocol (MCP) integrations, and retrieval-augmented generation (RAG) solutions for intelligent automation.",
+      "Designed and deployed a multi-agent framework using Microsoft AutoGen that reduced excess and obsolete manufacturing inventory by 30%.",
+      "Architected and led development of a RAG-powered decision-support tool combining instrument manuals with historical service data. It reduced unnecessary onsite visits by 60% and saved over $1M annually in field service costs.",
+      "Created a reusable MCP archetype and framework that enabled engineering teams across business units to build integrations, establishing a pipeline of 30+ MCP servers.",
+      "Built and maintained an internal GenAI playground to compare models and agents across quality, latency, and cost, accelerating experimentation.",
+      "Managed 3 direct reports and 4 dotted-line contributors, and delivered MCP integrations and multi-agent systems for senior leadership and CLT.",
+      "Supported the rollout of ChatGPT Enterprise for IT teams and established engineering guidelines and best practices for AI tools.",
+      "Replaced costly Power BI dashboards with an LLM-backed querying engine, reducing licensing costs and making organizational data more accessible."
     ]
   },
   {
-    company: "Kaiser Permanente",
-    role: "Software Application Engineer",
-    description:"Part of a scrum team building features in kp.org",
-    image:"images/Kaiser.png",
-    period: "Oct 2018 – Sep 2021",
-    responsibilities: [
-      "Designed and developed responsive and user-friendly web applications using modern front-end frameworks (Handlebars, Angular, React)",
-      "Implemented web designs and visualizations using HTML, CSS, and JavaScript, ensuring cross-browser, device compatibility, and accessibility (ADA)",
-      "Collaborated cross-functionally with product managers and UI/UX designers to plan and develop intuitive user interfaces and ensure successful delivery of projects",
-      "Led code reviews and design reviews for critical projects",
-      "Developed technical documentation for web applications, including user manuals and technical specifications",
-      "Created and administered training and internal certification program for SSIS integration tool across the department",
-      "Conducted technical interviews for hiring engineers, QA, and BA and onboarded new hires",
-      "Mentored junior-level developers on SDLC process and guided them to enhance their technical skills"
+    "company": "Globality",
+    "role": "Senior Software Engineer",
+    "period": "May 2021 – Jun 2023",
+    "description": "Led engineering delivery, technical design standards, and the team roadmap for enterprise applications.",
+    "image": "images/Glo.jpeg",
+    "responsibilities": [
+      "Managed the team’s product roadmap and delivery commitments, ran scrum meetings, and used reporting to improve team performance.",
+      "Established a Technical Design Review process covering the full SDLC, platform changes, third-party applications, and business processes.",
+      "Standardized feature releases with technical design, build design, test design, and supporting operational documentation.",
+      "Added automated checks for code quality, test coverage, and package imports across projects.",
+      "Created a support and intake process, and built administrative tools to help frontline teams investigate root causes and resolve client issues.",
+      "Partnered with engineering stakeholders to evaluate problems and shape technical solutions."
     ]
   },
   {
-    company: "Kaiser Permanente (Contract)",
-    role: "Software Engineer",
-    description:"Part of a scrum team to build and test features in kp.org",
-    image:"images/Kaiser.png",
-    period: "Oct 2015 – Sep 2018",
-    responsibilities: [
-      "Translated wireframes into functional requirements and built reusable and high-performance code for UI components",
-      "Migrated web applications from using RESTful back-end APIs to GraphQL services",
-      "Built and authored AEM components and pages to support CMS needs and modified out-of-the-box AEM components to meet project requirements",
-      "Supported dual languages using AEM sites and JCR, set up analytics using AEM Analytics tool",
-      "Championed new operational principles to increase automated test cases for scalable and more robust solutions",
-      "Ensured 94% of test cases were automated and built custom scripts to auto-update test status for monitoring health, issues, and gaps",
-      "Built KP testing framework including features to standardize testing practice across KP org",
-      "Built a mailer service for a microservice architecture backend and upgraded multiple services to leverage the new mailer system"
+    "company": "Kaiser Permanente",
+    "role": "Software Engineer",
+    "period": "Oct 2018 – Sep 2021",
+    "description": "Built web applications and services, improved engineering quality, and championed test automation.",
+    "image": "images/Kaiser.png",
+    "responsibilities": [
+      "Built Angular components and corresponding services for a single-page application.",
+      "Developed and customized Adobe Experience Manager components to meet project requirements.",
+      "Reviewed code, identified functional gaps, and resolved issues across the software development lifecycle.",
+      "Designed service architectures with the team lead and translated designs into working code.",
+      "Collaborated with product managers, UI/UX designers, technical specialists, and business stakeholders.",
+      "Trained team members to troubleshoot and modify SSIS packages, and championed broader use of automated testing."
     ]
   },
   {
-    company: "Anthem (Contract)",
-    role: "Data Engineer",
-    description:"Create, maintaine Data",
-    image:"images/Anthem.jpeg",
-    period: "July 2013 – Sep 2015",
-    responsibilities: [
-      "Built scalable data pipelines involving data ingestion and transformation and prototyped emerging solutions using custom scripts",
-      "Trained the offshore team and implemented a ticketing system for efficient data change request submission and triaging",
-      "Wrote production-ready recursive scripts to solve and mitigate data discrepancies in production",
-      "Created automation scripts for generating test data for testers",
-      "Wrote SSIS packages for moving data examples being moving data from warehouse to data marts for analytics teams",
-      "Built views based on the latest data so analytics teams can use reports to interpret data",
-      "Wrote SSIS packages that process flat files dropped by vendors into an FTP location",
-      "Created functions and procedures for processing and managing platform interactions",
-      "Created OLAP DBs for researchers and analysts to leverage a subset of the data in DW"
+    "company": "Infostretch",
+    "role": "Automation Engineer",
+    "period": "Oct 2015 – Sep 2018",
+    "description": "Built enterprise test automation and continuous delivery capabilities for Kaiser Permanente.",
+    "image": "images/Kaiser.png",
+    "responsibilities": [
+      "Translated business requirements into test cases and automated approximately 94% of them.",
+      "Built the KP testing framework to standardize testing across teams within the organization.",
+      "Integrated automated tests into deployment workflows to give developers faster feedback.",
+      "Developed CI/CD proofs of concept for deploying validated features across environments without manual intervention.",
+      "Automated test-status updates in Quality Center so business stakeholders could monitor development progress.",
+      "Investigated issues across frontend code, content, service data, and external dependencies."
+    ]
+  },
+  {
+    "company": "UST Global",
+    "role": "Data Engineer",
+    "period": "Jul 2013 – Sep 2015",
+    "description": "Built data tools, integrations, and automation to reduce operational effort.",
+    "image": "images/Anthem.jpeg",
+    "responsibilities": [
+      "Created a user interface for data modifications that reduced business change requests and saved the company nearly $300K per year.",
+      "Wrote complex scripts to resolve data-quality issues, repair relationships between datasets, and generate correspondence.",
+      "Trained an offshore team to handle analyzed data-change requests through development and testing.",
+      "Created automation scripts to generate test data.",
+      "Built SSIS packages for warehouse-to-data-mart transfers and processing vendor files delivered through FTP.",
+      "Built reports from current data to support analytics and business decisions."
     ]
   }
 ];
@@ -77,8 +104,26 @@ export const skills = [
         { name: "Javascript", level: 80 },
         { name: "Typescript", level: 70 },
         { name: "Python", level: 60 },
+        { name: "Go" },
+        { name: "PL/SQL" },
         { name: "SQL", level: 80 },
         { name: "TSQL", level: 80 }
+      ]
+    },
+    {
+      title: "AI & GenAI",
+      skills: [
+        { name: "Multi-agent systems" },
+        { name: "Model Context Protocol (MCP)" },
+        { name: "RAG" },
+        { name: "LLM orchestration" },
+        { name: "LLM evaluation" },
+        { name: "OpenAI APIs & Agents" },
+        { name: "Azure OpenAI" },
+        { name: "Microsoft AutoGen" },
+        { name: "Azure AI Search" },
+        { name: "Flowise" },
+        { name: "VannaAI" }
       ]
     },
     {
@@ -121,6 +166,11 @@ export const skills = [
         { name: "SES", level: 80 },
         { name: "Route 53", level: 80 },
         { name: "SQS", level: 50 },
+        { name: "Docker" },
+        { name: "Kubernetes" },
+        { name: "Jenkins" },
+        { name: "CircleCI" },
+        { name: "Harness" },
       ]
     },
     {
@@ -234,3 +284,13 @@ export function projectAnswer(question) {
   return `**${project.title}**${project.status ? ` (${project.status})` : ''}\n\n${project.description}`
     + (project.accomplishments.length ? '\n\n' + project.accomplishments.map(item => `- ${item}`).join('\n') : '');
 }
+
+export const profile = {
+  name: 'Bharadwaj Ramachandran',
+  summary: 'Engineering leader with 12+ years of experience across enterprise AI, software engineering, automation, and data. Leading AI solutions at Thermo Fisher Scientific.',
+  workExp,
+  projects,
+  skills,
+  linkedin: 'https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3',
+  github: 'https://github.com/zbram101',
+};

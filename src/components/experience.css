@@ -1,0 +1,15 @@
+.current-experience { border-top: 1px solid #c2f36b55; }
+.current-experience .company-mark { background: var(--lime); color: #17200e; }
+.job-date { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.current-role-label { color: var(--lime); font-size: 10px; letter-spacing: .7px; text-transform: uppercase; }
+.additional-role { display: block; color: #c6cebf; font-size: 14px; line-height: 1.5; margin-bottom: 8px; }
+.job-description { color: #c5cbbb; font-size: 14px; line-height: 1.8; margin: 0 0 20px; }
+.experience-highlights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin: 0 0 26px; padding: 20px 0; border-block: 1px solid var(--border); }
+.experience-highlights > div { min-width: 0; }
+.experience-highlights dt { color: var(--lime); font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px, 3vw, 34px); line-height: 1.15; letter-spacing: -1px; }
+.experience-highlights dd { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 8px 0 0; }
+@media (max-width: 480px) {
+  .experience-highlights { gap: 12px; }
+  .experience-highlights dd { font-size: 11px; }
+  .additional-role { font-size: 13px; }
+}

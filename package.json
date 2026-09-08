@@ -7,8 +7,9 @@
     "dev": "vite",
     "build": "vite build && node scripts/build-server.mjs",
     "preview": "vite preview",
-    "test": "node --test server/chat.test.js src/components/characterAnimations.test.js",
-    "prebuild": "node scripts/clean-build.mjs"
+    "test": "node scripts/sync-chat-profile.mjs --check && node --test server/chat.test.js src/components/characterAnimations.test.js",
+    "prebuild": "node scripts/clean-build.mjs",
+    "sync:profile": "node scripts/sync-chat-profile.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^9.68.6",

@@ -24,4 +24,6 @@ Official API documentation: https://developers.openai.com/api/docs/quickstart
 
 The character uses the original avatar and Wave, Pointing, Typing, and Standing animation assets. Controls allow visitors to try poses or pause motion; reduced-motion preferences start with motion paused. The layout and links remain usable if 3D assets or WebGL fail.
 
-Experience dates and project details are preserved from the original portfolio and should be updated by the owner as needed.
+Work history reflects the latest manager résumé supplied in September 2026, including Thermo Fisher Scientific from November 2023 to present. Both Thermo titles share the date range provided in the résumé; separate promotion dates are not listed.
+
+`src/profile.js` is the source for website and assistant facts. After updating it, run `npm run sync:profile` to refresh the AWS chat template. `npm test` checks that the deployed profile definition stays synchronized. Deploy the updated `infrastructure/portfolio-chat.yml` alongside the Amplify website when profile facts change.

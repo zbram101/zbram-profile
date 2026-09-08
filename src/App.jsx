@@ -3,6 +3,7 @@ import { ArrowUpRight, ArrowDown, Github, Linkedin, Code2, Layers, MessageSquare
 import { workExp, skills, projects } from './profile';
 import { recordVisit } from './analytics';
 import ProjectVisual from './components/ProjectVisual';
+import './components/experience.css';
 const CharacterStage = lazy(() => import('./components/CharacterStage'));
 const Chat = lazy(() => import('./components/Chat').then(m => ({default:m.Chat})));
 const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
@@ -42,9 +43,9 @@ export default function App() {
         <section id="about" className="hero section">
           <div className="eyebrow"><span className="little-line"/> HELLO, WORLD. I’M BHARADWAJ.</div>
           <h1>Good ideas.<br/>Thoughtful code.<br/><span>Real impact.</span></h1>
-          <p className="hero-description">I’m Bharadwaj Ramachandran. An engineer, a hands-on leader, and a builder who enjoys turning real-world problems into useful software.</p>
+          <p className="hero-description">I’m Bharadwaj Ramachandran. An engineering leader building enterprise AI at Thermo Fisher Scientific, with 12+ years of turning real-world problems into useful software.</p>
           <div className="button-row"><a className="button primary" href="#projects">Explore my work <ArrowUpRight size={19}/></a><a className="button text-button" href="#contact">Meet my AI assistant <MessageSquare size={17}/></a></div>
-          <div className="hero-notes"><span><Code2 size={17}/> Software engineering</span><span><Layers size={17}/> Product thinking</span></div>
+          <div className="hero-notes"><span><Code2 size={17}/> Enterprise AI & engineering</span><span><Layers size={17}/> Team leadership</span></div>
           <a className="scroll-cue" href="#skills"><ArrowDown size={16}/> A little more about me</a>
         </section>
         <section id="skills" className="section">
@@ -55,8 +56,11 @@ export default function App() {
         </section>
         <section id="experience" className="section">
           <SectionTitle number="02" label="THE JOURNEY" title={<>Building software.<br/>Growing teams.</>}/>
-          <p className="section-intro">Engineering, integration, and leadership across enterprise applications and healthcare.</p>
-          <div className="timeline">{workExp.map((job,i) => <details key={job.company} className="experience-item" open={i === 0 ? true : undefined}><summary><span className="company-mark">{job.company.startsWith('Globality') ? 'G' : job.company.startsWith('Kaiser') ? 'K' : 'A'}</span><span className="job-heading"><span className="job-date">{job.period}</span><h3>{job.role}</h3><span className="company-name">{job.company}</span></span><span className="details-plus">+</span></summary><div className="experience-details"><ul>{job.responsibilities.map(item => <li key={item}>{item}</li>)}</ul></div></details>)}</div>
+          <p className="section-intro">12+ years across enterprise AI, software engineering, and data. Now leading AI solutions at Thermo Fisher Scientific.</p>
+          <div className="timeline">{workExp.map((job,i) => <details key={job.company} className={`experience-item${job.current ? ' current-experience' : ''}`} open={i === 0 ? true : undefined}>
+            <summary><span className="company-mark">{job.company.charAt(0)}</span><span className="job-heading"><span className="job-date">{job.period}{job.current && <span className="current-role-label">Current role</span>}</span><h3>{job.role}</h3>{job.additionalRole && <span className="additional-role">{job.additionalRole}</span>}<span className="company-name">{job.company}</span></span><span className="details-plus">+</span></summary>
+            <div className="experience-details"><p className="job-description">{job.description}</p>{job.highlights && <dl className="experience-highlights">{job.highlights.map(item => <div key={item.label}><dt>{item.value}</dt><dd>{item.label}</dd></div>)}</dl>}<ul>{job.responsibilities.map(item => <li key={item}>{item}</li>)}</ul></div>
+          </details>)}</div>
         </section>
         <section id="projects" className="section">
           <SectionTitle number="03" label="SELECTED WORK" title={<>Ideas out of my head.<br/>Into the world.</>}/>
