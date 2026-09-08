@@ -1,31 +1,132 @@
 export const posts = [
   {
     slug: 'astra-the-good-and-the-bad',
-    title: 'Astra: the good and the bad',
-    excerpt: 'A candid note on what is exciting about Astra, the tradeoffs worth naming, and how we will keep learning from the rollout.',
+    title: 'Astra: AGI is here',
+    excerpt: 'GPT-6 Astra feels less like another model upgrade and more like a boundary crossing. Here is the evidence, the recurrent-compute lens, and the caveats behind my take that AGI is here.',
     date: 'September 7, 2026',
-    readTime: '6 min read',
-    tags: ['Product', 'Lessons learned'],
+    readTime: '10 min read',
+    tags: ['GPT-6 Astra', 'AGI', 'Architecture'],
+    hero: '/images/astra-agi-hero.jpg',
+    heroAlt: 'Abstract luminous loops connecting tools, documents, charts, and software tasks.',
     body: [
-      { heading: 'The problem Astra is trying to solve', paragraphs: ['Astra begins with a simple constraint: people should not need to learn a new system just to complete an important task. The experience should make the next useful step obvious, preserve context, and make outcomes feel dependable rather than surprising.', 'That is deliberately narrower than trying to be everything to everyone. A clear core loop gives the product a reason to exist, gives users a reason to return, and gives the team an honest way to decide what not to build yet.'] },
-      { heading: 'What is working', paragraphs: ['The strongest part of Astra is focus. A smaller, more opinionated surface makes the product easier to understand and gives the team room to polish the moments that create trust: first use, the primary task, and recovery when something does not go as expected.', 'The rollout is also staged by design. Each release is an opportunity to observe actual behavior before expanding the audience. That creates a feedback loop around activation, task completion, repeat use, support signals, and reliability—not just a one-way feature delivery process.'], diagram: 'astra' },
-      { heading: 'The hard parts we should name', paragraphs: ['Focus creates gaps. Some useful workflows will not be covered on day one, and early users will encounter edges that feel unfinished. Those are real tradeoffs, not details to hide behind launch language.', 'There is also a persistent tension between speed and confidence. Moving quickly is valuable only when the system remains understandable, observable, and safe to change. Privacy, reliability, and coherent product behavior must be part of the foundation; they cannot be deferred until after people depend on the product.'] },
-      { heading: 'How the architecture supports the rollout', paragraphs: ['Astra is organized as clear, independent layers. The experience layer keeps the interface focused. The workflow layer turns user intent into explicit actions. Shared services handle identity, data access, integrations, and notifications. The operations layer makes the system measurable and gives the team controls to operate it responsibly.', 'The point is not architectural complexity for its own sake. Clear boundaries let the team improve a single capability without destabilizing the rest of the product, and they make failures easier to understand. The architecture protects the pace of learning.'], diagram: 'astra-architecture', callout: 'Design principle: keep the user experience simple while making the system underneath observable, secure, and easy to change.' },
-      { heading: 'Goals and plans', paragraphs: ['Near term, the goal is to prove a strong core loop: make first use clear, help people complete the primary task, and remove the friction that prevents a return visit. Success should be reflected in activation, repeat use, qualitative feedback, and reliability—not vanity metrics alone.', 'From there, the plan is to deepen the workflows people already rely on, strengthen the integrations around them, and expand only when the foundation is ready. Astra should grow because users are pulling it forward, not because a feature list says it has to.'] }
+      {
+        heading: 'The line has moved',
+        paragraphs: [
+          'My reaction to GPT-6 Astra is simple: this is a mind-blowing leap. I do not mean that every benchmark is solved or that the system never fails. I mean the center of gravity has shifted—from a model that answers questions to a general system that can carry difficult work across tools, interfaces, code, research, and documents.',
+          'OpenAI describes Astra as its most capable broadly deployed model. The published results show state-of-the-art performance across computer use, professional work, coding, science, long context, and abstract reasoning. The breadth matters more to me than any single score: the same system can understand an objective, operate software, revise its approach, and produce a usable artifact.'
+        ]
+      },
+      {
+        heading: 'What I mean by “AGI is here”',
+        paragraphs: [
+          'OpenAI’s charter defines AGI as highly autonomous systems that outperform humans at most economically valuable work. Astra does not prove every word of that definition in every environment, and OpenAI has not declared that the AGI milestone has been reached.',
+          'My claim is a practical one. When a single system can perform expert-level reasoning across domains, navigate real software, use tools over long workflows, recover from ambiguity, and produce work rather than merely advice, the old “narrow AI” frame stops being useful. We can debate the finish line; the operating reality has already changed.'
+        ],
+        callout: 'This is my interpretation of the evidence—not an official OpenAI declaration that AGI has been achieved.'
+      },
+      {
+        heading: 'The jump, in numbers',
+        paragraphs: [
+          'Astra’s strongest story is the shape of the gains. It improves conventional coding and professional-work results, but the striking changes appear in agentic work, long-horizon science, computer use, and abstract reasoning. The chart below uses figures published by OpenAI and compares Astra with GPT-5.6 Sol where both were reported.'
+        ],
+        diagram: 'astra-benchmarks'
+      },
+      {
+        heading: 'The recurrent-model question',
+        paragraphs: [
+          '“Recurrent model” can mean several different things. A classic recurrent neural network passes a hidden state from one token or time step to the next. A recurrent-depth system instead applies a shared computation block repeatedly, allowing harder problems to receive more internal computation. At the product level, an agent can also look recurrent: observe, reason, act, inspect the result, and repeat.',
+          'OpenAI has not publicly disclosed Astra’s underlying neural architecture or confirmed that it uses recurrent layers or recurrent depth. So it would be inaccurate to reverse-engineer a hidden architecture from behavior alone. What is public is the system-level pattern: reasoning tokens, persisted reasoning, compaction, long context, tool use, async tool calling, and mid-turn steering let work continue through repeated cycles rather than a single prompt-and-answer pass.'
+        ],
+        diagram: 'recurrent-lens'
+      },
+      {
+        heading: 'Why it feels qualitatively different',
+        paragraphs: [
+          'The previous generation made impressive artifacts. Astra appears better at preserving intent while the task expands. It can work across a browser and terminal, use context without echoing all of it back, handle steering without throwing away completed work, and choose when missing information is truly consequential.',
+          'That combination changes the economics of delegation. Per-token pricing is higher than Sol, but OpenAI reports that Astra can use substantially fewer output tokens on several hard tasks. The right unit is no longer the price of a response; it is the cost of a completed, reviewable outcome.'
+        ]
+      },
+      {
+        heading: 'The good—and the part we cannot hand-wave',
+        paragraphs: [
+          'The good is extraordinary: broader competence, stronger computer use, better long-context retrieval, higher-quality professional artifacts, and more consistent respect for user intent. Astra also supports a 1.05-million-token context window and up to 128,000 output tokens through the API.',
+          'The caveat is equally real. OpenAI classifies Astra at the Critical level for cybersecurity capability and reports that its written reasoning is harder to monitor than Sol’s under adversarial evaluation. The model is also more robustly aligned overall, but capability and risk are advancing together. An AGI-level claim should increase the demand for careful deployment, human judgment, and defense in depth—not reduce it.'
+        ]
+      },
+      {
+        heading: 'What I am watching next',
+        paragraphs: [
+          'I want to see how the leap holds up outside benchmark harnesses: messy requirements, partial access, contradictory stakeholders, long-running projects, and the slow feedback loops of real organizations. Reliability across weeks matters more than brilliance in a single session.',
+          'But I am done treating this as a slightly better chatbot. Astra is a general-purpose work system. Whether history names this exact release as the arrival of AGI or as the final step before it, the practical response is the same: learn how to direct it, verify it, and redesign work around what has become possible.'
+        ]
+      }
+    ],
+    sources: [
+      { label: 'GPT-6 Astra: A new generation of intelligence', url: 'https://openai.com/index/gpt-6-astra/' },
+      { label: 'GPT-6 Astra model documentation', url: 'https://developers.openai.com/api/docs/models/gpt-6-astra' },
+      { label: 'Safety overview: GPT-6 Astra', url: 'https://openai.com/index/safety-overview-gpt-6-astra/' },
+      { label: 'OpenAI Charter', url: 'https://openai.com/charter/' }
     ]
   },
   {
     slug: 'goloadout-architecture-goals-and-plans',
     title: 'goLoadout: architecture, goals, and plans',
-    excerpt: 'How goLoadout is being shaped around a portable tactical gaming identity—and the system designed to let it grow with the community.',
+    excerpt: 'A public product blueprint for a portable tactical gaming identity—using C4 and dynamic views without exposing security-sensitive implementation details.',
     date: 'September 7, 2026',
-    readTime: '7 min read',
-    tags: ['goLoadout', 'Architecture', 'Roadmap'],
+    readTime: '9 min read',
+    tags: ['goLoadout', 'C4 Architecture', 'Roadmap'],
+    hero: '/images/goloadout-architecture-hero.jpg',
+    heroAlt: 'A player identity connected to a modular loadout and a wider gaming community.',
     body: [
-      { heading: 'A tactical identity that travels', paragraphs: ['goLoadout is built on the belief that a tactical gaming identity should not stop at the screen. The goal is to give players a home for the gear, style, and connections that make their identity feel personal—online and in the field.', 'The product should make that identity easy to express, easy to carry, and useful to the communities that form around shared play. The identity belongs to the player; the platform’s role is to make it useful.'] },
-      { heading: 'The core product loop', paragraphs: ['The first version focuses on a simple loop: establish an identity, create a loadout, and share it where it creates connection. Each step should create value on its own, while making the next step more compelling.', 'This is important because social products need a useful individual experience before they can become valuable as a network. A player should be proud of a profile and find a loadout useful even before a friend sees it.'], diagram: 'goloadout-loop' },
-      { heading: 'Architecture that can evolve', paragraphs: ['goLoadout is designed in clear layers. The experience layer provides a fast, visual player-facing interface. The domain layer owns profiles, loadouts, and the rules that connect them. A sharing layer makes that identity portable across community touchpoints. Supporting services establish the boundaries around permissions, data, and integrations.', 'Keeping these concerns separate gives the product room to improve individual capabilities without destabilizing the whole system. It also creates the conditions for a responsible platform: the team can understand what happens at the boundaries, protect player data, and make changes without losing sight of the social experience.'], diagram: 'goloadout-architecture', callout: 'Design principle: give players a portable identity, while keeping the rules, permissions, and connections explicit.' },
-      { heading: 'Roadmap: deepen before expanding', paragraphs: ['The immediate plan is a strong core: a compelling identity, useful loadouts, and a simple path to share them. The next phase can deepen the community features and real-world connections that make goLoadout distinct.', 'The roadmap should be guided by the people already choosing to bring it with them. The best next feature is not the loudest one; it is the one that makes the existing player experience more valuable and gives the community another reason to return.'] }
+      {
+        heading: 'A tactical identity that travels',
+        paragraphs: [
+          'goLoadout starts from a simple product belief: a tactical gaming identity should not stop at the screen. Players invest thought in their equipment, style, role, and community. The product gives those choices a portable home that can travel from an individual profile to a loadout and into the places where people play together.',
+          'That makes the core goal larger than cataloging gear. goLoadout should help a player express an identity, prepare for play, share useful context, and discover connections—without taking ownership away from the player.'
+        ]
+      },
+      {
+        heading: 'C4 level 1: system context',
+        paragraphs: [
+          'The C4 model begins with context: who uses the system, what they want from it, and which outside systems matter. This public view intentionally stays at the product boundary. It shows relationships and responsibilities, not deployment topology, credentials, private interfaces, or internal controls.'
+        ],
+        diagram: 'goloadout-context'
+      },
+      {
+        heading: 'C4 level 2: container responsibilities',
+        paragraphs: [
+          'The next zoom level divides goLoadout into major runtime responsibilities. The player experience handles profile and loadout interaction. The product services own the rules behind identity, loadouts, publishing, and community connections. Media storage manages player-selected assets, while the product data store preserves the player-owned record.',
+          'This is a logical container view rather than a disclosure of the production environment. Technology names, network details, access rules, provider configuration, and operational topology are deliberately omitted from a public article.'
+        ],
+        diagram: 'goloadout-containers'
+      },
+      {
+        heading: 'A dynamic view of the core journey',
+        paragraphs: [
+          'Static architecture explains what exists. A dynamic view explains how those parts collaborate during a real use case. The core journey is intentionally short: establish identity, assemble a loadout, preview what will be shared, then publish it to a community touchpoint.',
+          'The preview step matters. It gives the player a clear boundary between private work-in-progress and intentionally shared identity. That is both a product principle and a clean responsibility boundary.'
+        ],
+        diagram: 'goloadout-dynamic'
+      },
+      {
+        heading: 'Decisions behind the shape',
+        paragraphs: [
+          'The architecture follows the product loop. Identity and loadouts are related but remain separable, so each can evolve without forcing a rewrite of the other. Publishing is treated as an explicit capability rather than a side effect. External communities are integrations, not the source of truth for a player’s identity.',
+          'Those boundaries support a gradual roadmap. The system can deepen individual value first, then add community value without making the early experience depend on network scale.'
+        ],
+        callout: 'Public architecture rule: describe responsibilities and relationships; omit anything that would help someone map or operate the production environment.'
+      },
+      {
+        heading: 'Roadmap: deepen before expanding',
+        paragraphs: [
+          'The first milestone is a strong individual loop: a compelling identity, useful loadouts, and a simple, deliberate way to share them. The next phase can add discovery and community features that make those existing objects more valuable.',
+          'Later expansion should be earned by use. The best next feature is the one that increases the value of the player’s existing identity and loadouts—not the one that merely makes the roadmap look larger.'
+        ]
+      }
+    ],
+    sources: [
+      { label: 'C4 model: diagrams', url: 'https://c4model.com/diagrams' },
+      { label: 'C4 model: notation', url: 'https://c4model.com/diagrams/notation' }
     ]
   }
 ];

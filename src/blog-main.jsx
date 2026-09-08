@@ -7,8 +7,9 @@ import './blog.css';
 function App() {
   return <main className="blog-shell">
     <header className="blog-header"><a href="/" className="blog-home"><ArrowLeft size={17}/> Portfolio home</a><a href="#top" className="blog-wordmark">br<span>.</span><small>FIELD NOTES</small></a></header>
-    <section className="blog-hero" id="top"><p>FIELD NOTES / 2026</p><h1>Notes from<br/><em>the build.</em></h1><span>Product thinking, architecture, and the decisions behind the work.</span></section>
+    <section className="blog-hero" id="top"><p>FIELD NOTES / 2026</p><h1>Sharing my<br/><em>thoughts & experience.</em></h1><span>Reflections on the products I’m building, the systems behind them, and the lessons I’m learning along the way.</span></section>
     <section className="article-list" aria-label="Articles">{posts.map((post, index) => <article className="article-card" key={post.slug}>
+      <a className="article-card-image" href={`/blog/${post.slug}/`} aria-label={`Read ${post.title}`}><img src={post.hero} alt=""/></a>
       <div className="article-kicker"><span>ARTICLE {String(index + 1).padStart(2, '0')}</span><span>{post.readTime}</span></div>
       <h2>{post.title}</h2><p className="article-excerpt">{post.excerpt}</p>
       <div className="article-meta"><span><CalendarDays size={15}/>{post.date}</span><span><Clock3 size={15}/>{post.readTime}</span></div>
