@@ -31,8 +31,7 @@ export const workExp = [
       "Created a reusable MCP archetype and framework that enabled engineering teams across business units to build integrations, establishing a pipeline of 30+ MCP servers.",
       "Built and maintained an internal GenAI playground to compare models and agents across quality, latency, and cost, accelerating experimentation.",
       "Managed 3 direct reports and 4 dotted-line contributors, and delivered MCP integrations and multi-agent systems for senior leadership and CLT.",
-      "Supported the rollout of ChatGPT Enterprise for IT teams and established engineering guidelines and best practices for AI tools.",
-      "Replaced costly Power BI dashboards with an LLM-backed querying engine, reducing licensing costs and making organizational data more accessible."
+      "Supported the rollout of ChatGPT Enterprise for IT teams and established engineering guidelines and best practices for AI tools."
     ]
   },
   {
