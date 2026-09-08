@@ -3,11 +3,12 @@ import { ArrowUpRight, ArrowDown, Github, Linkedin, Code2, Layers, MessageSquare
 import { workExp, skills, projects } from './profile';
 import { recordVisit } from './analytics';
 import ProjectVisual from './components/ProjectVisual';
+import Blog from './components/Blog';
 import './components/experience.css';
 const CharacterStage = lazy(() => import('./components/CharacterStage'));
 const Chat = lazy(() => import('./components/Chat').then(m => ({default:m.Chat})));
-const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
-const labels = ['Intro', 'Skills', 'Experience', 'Projects', 'Let’s talk'];
+const sections = ['about', 'skills', 'experience', 'projects', 'blog', 'contact'];
+const labels = ['Intro', 'Skills', 'Experience', 'Projects', 'Writing', 'Let’s talk'];
 
 export default function App() {
   const [active, setActive] = useState('about');
@@ -31,7 +32,7 @@ export default function App() {
     <header className="header">
       <a className="wordmark" href="#about" aria-label="Bharadwaj home">br<span>.</span><small>ENGINEER & BUILDER</small></a>
       <button className="menu-toggle icon-button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="navigation" aria-label={menuOpen ? 'Close menu' : 'Open menu'}>{menuOpen ? <X /> : <Menu />}</button>
-      <nav id="navigation" className={menuOpen ? 'navigation open' : 'navigation'} aria-label="Main navigation">{sections.map((id, i) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)} className={active === id ? 'active' : ''} aria-current={active === id ? 'location' : undefined}>{labels[i]}{i === 4 && <ArrowUpRight size={16}/>}</a>)}</nav>
+      <nav id="navigation" className={menuOpen ? 'navigation open' : 'navigation'} aria-label="Main navigation">{sections.map((id, i) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)} className={active === id ? 'active' : ''} aria-current={active === id ? 'location' : undefined}>{labels[i]}{i === 5 && <ArrowUpRight size={16}/>}</a>)}</nav>
     </header>
     <main id="main" className="page-shell">
       <aside className="character-column" aria-label="Interactive character">
@@ -70,8 +71,13 @@ export default function App() {
             <div className="project-body"><div className="project-category">{project.category}<span>{String(i+1).padStart(2,'0')}</span></div><h3>{project.title}</h3><p>{project.description}</p>{project.title === "trytherapy.ai" && <span className="project-status">{project.status}</span>}{project.accomplishments.length > 0 && <details className="project-details"><summary>Behind the project <span>+</span></summary><ul>{project.accomplishments.map(item => <li key={item}>{item}</li>)}</ul></details>}{project.link ? <a className="project-link" href={project.link} target="_blank" rel="noreferrer">Visit project <ArrowUpRight size={17}/></a> : project.status && <span className="project-status">{project.status}</span>}</div>
           </article>)}</div>
         </section>
+        <section id="blog" className="section">
+          <SectionTitle number="04" label="FIELD NOTES" title={<>Building in public.<br/>Thinking out loud.</>}/>
+          <p className="section-intro">Notes on products, engineering systems, and the ideas that are still taking shape.</p>
+          <Blog />
+        </section>
         <section id="contact" className="section contact-section">
-          <SectionTitle number="04" label="LET’S CONNECT" title={<>A conversation is<br/>a good place to start.</>}/>
+          <SectionTitle number="05" label="LET’S CONNECT" title={<>A conversation is<br/>a good place to start.</>}/>
           <p className="section-intro">Explore my experience with my assistant, or connect with me directly.</p>
           <div className="social-row"><a href="https://github.com/zbram101" target="_blank" rel="noreferrer"><Github size={18}/> GitHub <ArrowUpRight size={16}/></a><a href="https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3" target="_blank" rel="noreferrer"><Linkedin size={18}/> LinkedIn <ArrowUpRight size={16}/></a></div>
           <Suspense fallback={<p>Loading assistant…</p>}><Chat onBusyChange={setChatBusy}/></Suspense>
