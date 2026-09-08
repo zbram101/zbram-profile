@@ -150,19 +150,17 @@ export const skills = [
 
 export const projects = [
     {
-        title: "Skipped",
-        status: "Exited",
-        description: "Lead development of recruiting application",
-        category: "Recruiting SAAS",
+        title: "Smart Pin",
+        visual: "smart-pin",
+        status: "Stealth mode",
+        description: "Building a smart pin. Currently in stealth mode, with more to share when it’s ready.",
+        category: "Product development",
         link:null,
-        accomplishments: [
-          "Lead development efforts with PR review",
-          "Architected and designed candidate and job description matching logic",
-          "Learned the importance of market testing before building out the product"
-        ]
+        accomplishments: []
     },
     {
         title: "Skirmesh",
+        visual: "skirmesh",
         status: "Exited - Sold Equity",
         description: "Architected and redesigned the technical and product architecture to make it a viable product",
         category: "IRL Gaming SAAS",
@@ -175,6 +173,7 @@ export const projects = [
     },
     {
         title: "Fiji Fry House",
+        visual: "fiji",
         status: "Active",
         description: "Managing IT infrastructure, online presence, and operational efficiency for a friend's restaurant",
         category: "Restaurant",
@@ -187,6 +186,7 @@ export const projects = [
     },
     {
         title: "trytherapy.ai",
+        visual: "therapy",
         status: "#2 on Product Hunt",
         description: "Built TherapyAI end to end, an iOS AI companion offering 24/7 conversations and personalized support to help people reflect, feel heard, and better understand their emotions",
         category: "iOS · AI Mental Wellness",
@@ -200,6 +200,7 @@ export const projects = [
     },
     {
         title: "Context Platform",
+        visual: "context",
         status: "Active — MVP",
         description: "Building a governed context platform that connects shared business definitions to AI-assisted data analysis, with validated queries and traceable answers.",
         category: "AI & Data Platform",
@@ -210,5 +211,26 @@ export const projects = [
           "Added interactive relationship exploration, API and MCP access, and publisher-only chat usage and estimated cost reporting",
           "Developed the MVP with React, TypeScript, FastAPI, and PostgreSQL, containerized with Docker and deployed on AWS ECS"
         ]
+    },
+    {
+        title: "goLoadout",
+        aliases: ["go loadout", "go loadouts", "goloadouts"],
+        visual: "loadout",
+        status: null,
+        description: "Your tactical gaming identity follows you from the screen to the field.",
+        category: "Gaming & Digital Identity",
+        link: "https://goloadout.bharadwajramachandran.com/",
+        accomplishments: [
+          "Connecting real-life gaming with your online persona",
+          "Putting your personal gaming identity at the center of the experience"
+        ]
     }
   ];
+
+export function projectAnswer(question) {
+  const query = question.toLowerCase();
+  const project = projects.find(item => [item.title, ...(item.aliases || [])].some(name => query.includes(name.toLowerCase())));
+  if (!project) return null;
+  return `**${project.title}**${project.status ? ` (${project.status})` : ''}\n\n${project.description}`
+    + (project.accomplishments.length ? '\n\n' + project.accomplishments.map(item => `- ${item}`).join('\n') : '');
+}

@@ -7,57 +7,9 @@ import { atom, useAtom } from "jotai";
 import { useEffect, useState, useRef } from "react";
 
 
-const projects = [
-    {
-        title: "Skipped",
-        status: "Exited",
-        description: "Lead development of recruiting application",
-        category: "Recruiting SAAS",
-        link:null,
-        accomplishments: [
-          "Lead development efforts with PR review",
-          "Architected and designed candidate and job description matching logic",
-          "Learned the importance of market testing before building out the product"
-        ]
-    },
-    {
-        title: "Skirmesh",
-        status: "Exited - Sold Equity",
-        description: "Architected and redesigned the technical and product architecture to make it a viable product",
-        category: "IRL Gaming SAAS",
-        link:"https://play.skirmesh.net/public/home",
-        accomplishments: [
-          "Revamped the project with software engineering concepts like web sockets and APIs",
-          "Aided in transforming the project into a money-making business",
-          "Acquired initial customers to kickstart the project"
-        ]
-    },
-    {
-        title: "Fiji Fry House",
-        status: "Active",
-        description: "Managing IT infrastructure, online presence, and operational efficiency for a friend's restaurant",
-        category: "Restaurant",
-        link:"https://fijifryhouse.com/",
-        accomplishments: [
-          "Providing IT support and management for the restaurant",
-          "Enhancing online presence for the restaurant",
-          "Improving operational efficiency through IT solutions"
-        ]
-    },
-    {
-        title: "trytherapy.ai",
-        status: "#2 on Product Hunt",
-        description: "Built TherapyAI end to end, an iOS AI companion offering 24/7 conversations and personalized support to help people reflect, feel heard, and better understand their emotions",
-        category: "iOS · AI Mental Wellness",
-        link:"https://www.trytherapy.ai/",
-        accomplishments: [
-          "Created conversations that remember previous sessions, making support more personal over time",
-          "Provided tailored guidance and exercises based on each person's needs",
-          "Built a space to vent, explore feelings, and reflect on the roots of stress and anxiety",
-          "Reached #2 on Product Hunt"
-        ]
-    }
-  ];export const Projects = () => {
+import { projects } from '../profile';
+
+export const Projects = () => {
     const [currentProject, setCurrentProject] = useState(0);
     const { viewport } = useThree();
   

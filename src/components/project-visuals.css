@@ -1,0 +1,17 @@
+.project-card .visual-smart-pin { background: radial-gradient(ellipse at 50% 35%, #354033, #1c241c 75%); }
+.pin-art { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.pin-device { width: 63px; height: 78px; border-radius: 24px; border: 1px solid #687062; background: linear-gradient(135deg, #4d5549, #1e251f 65%); transform: rotate(-12deg); box-shadow: 7px 10px 20px #0c140b88, inset 1px 1px #d2e3c233; display: grid; place-items: center; position: relative; }
+.pin-device i { width: 4px; height: 4px; position: absolute; top: 12px; right: 15px; border-radius: 50%; background: #c2f36b; box-shadow: 0 0 7px #c2f36b55; }
+.pin-device span { font-family: 'Space Grotesk', sans-serif; font-size: 25px; letter-spacing: -2px; color: #9aa790; }
+.pin-stealth { display: flex; align-items: center; gap: 6px; font-size: 8px; letter-spacing: 2px; color: #b8c7a7; }
+.project-card .visual-loadout { background: radial-gradient(ellipse at 50% 40%, #354940, #192a24); }
+.loadout-art { display: flex; align-items: center; flex-direction: column; gap: 7px; }
+.loadout-badge { position: relative; height: 45px; color: #beddad; }
+.loadout-badge svg + svg { position: absolute; top: 10px; left: 12px; color: #d1eac5; }
+.loadout-art strong { font-family: 'Space Grotesk', sans-serif; font-size: 23px; letter-spacing: -.8px; color: #bce58c; }
+.loadout-art strong span { color: #e6eee0; }
+.loadout-path { display: flex; align-items: center; gap: 6px; font-size: 8px; letter-spacing: 1.2px; color: #a0b9aa; }
+.project-card .visual-skirmesh { background: #202b26; }
+.project-card .visual-fiji { background: #c66835; }
+.project-card .visual-therapy { background: #292837; }
+.project-card .visual-context { background: #252e2b; }

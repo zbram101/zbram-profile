@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/build-server.mjs",
     "preview": "vite preview",
-    "test": "node --test server/chat.test.js",
+    "test": "node --test server/chat.test.js src/components/characterAnimations.test.js",
     "prebuild": "node scripts/clean-build.mjs"
   },
   "dependencies": {

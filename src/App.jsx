@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { ArrowUpRight, ArrowDown, Github, Linkedin, Code2, Layers, MessageSquare, Menu, X } from 'lucide-react';
 import { workExp, skills, projects } from './profile';
 import { recordVisit } from './analytics';
+import ProjectVisual from './components/ProjectVisual';
 const CharacterStage = lazy(() => import('./components/CharacterStage'));
 const Chat = lazy(() => import('./components/Chat').then(m => ({default:m.Chat})));
 const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
@@ -33,7 +34,7 @@ export default function App() {
     </header>
     <main id="main" className="page-shell">
       <aside className="character-column" aria-label="Interactive character">
-        <div className="character-panel"><div className="stage-topline"><span><i className="status-dot"/> THE HUMAN BEHIND THE CODE</span><span>01 / BR</span></div>
+        <div className="character-panel"><div className="stage-topline"><span><i className="status-dot"/> THE HUMAN BEHIND THE CODE</span><span>BR / 3D</span></div>
           <Suspense fallback={<div className="character-fallback"><img src="/images/myavatar.png" alt="Bharadwaj’s character"/><span>Getting ready…</span></div>}><CharacterStage section={active} busy={chatBusy}/></Suspense>
         </div>
       </aside>
@@ -61,8 +62,8 @@ export default function App() {
           <SectionTitle number="03" label="SELECTED WORK" title={<>Ideas out of my head.<br/>Into the world.</>}/>
           <p className="section-intro">A few things I’ve helped build, rethink, and bring to life.</p>
           <div className="project-grid">{projects.map((project,i) => <article className={`project-card project-${i}`} key={project.title}>
-            <div className="project-visual" aria-hidden="true">{i === 0 ? <div className="match-art"><span>candidate</span><div className="match-line">↔</div><span>opportunity</span></div> : i === 1 ? <div className="radar-art"><i/><i/><span>SKIRMESH</span></div> : i === 2 ? <div className="fiji-art">FIJI<br/><span>FRY HOUSE</span><small>GOOD FOOD. GOOD COMPANY.</small></div> : project.title === "Context Platform" ? <div className="bot-art"><Layers size={38}/><span>Context → Query → Evidence</span></div> : <div className="bot-art"><MessageSquare size={38}/><span>TherapyAI · Here to listen</span></div>}</div>
-            <div className="project-body"><div className="project-category">{project.category}<span>{String(i+1).padStart(2,'0')}</span></div><h3>{project.title}</h3><p>{project.description}</p>{project.title === "trytherapy.ai" && <span className="project-status">{project.status}</span>}<details className="project-details"><summary>Behind the project <span>+</span></summary><ul>{project.accomplishments.map(item => <li key={item}>{item}</li>)}</ul></details>{project.link ? <a className="project-link" href={project.link} target="_blank" rel="noreferrer">Visit project <ArrowUpRight size={17}/></a> : <span className="project-status">{project.status} · {project.category}</span>}</div>
+            <ProjectVisual type={project.visual}/>
+            <div className="project-body"><div className="project-category">{project.category}<span>{String(i+1).padStart(2,'0')}</span></div><h3>{project.title}</h3><p>{project.description}</p>{project.title === "trytherapy.ai" && <span className="project-status">{project.status}</span>}{project.accomplishments.length > 0 && <details className="project-details"><summary>Behind the project <span>+</span></summary><ul>{project.accomplishments.map(item => <li key={item}>{item}</li>)}</ul></details>}{project.link ? <a className="project-link" href={project.link} target="_blank" rel="noreferrer">Visit project <ArrowUpRight size={17}/></a> : project.status && <span className="project-status">{project.status}</span>}</div>
           </article>)}</div>
         </section>
         <section id="contact" className="section contact-section">

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { ArrowUp, MessageSquare, RotateCcw } from 'lucide-react';
-import { projects, skills, workExp } from '../profile';
+import { projects, skills, workExp, projectAnswer } from '../profile';
 import { chatApiUrl } from '../analytics';
 import './chat.css';
 const greeting={role:'assistant',content:'Hi, I’m Bharadwaj’s portfolio assistant. What would you like to know about his work?'};
@@ -10,8 +10,10 @@ const prompts=['What has he built?','Tell me about his leadership','Does he work
 function profileAnswer(question){
   const q=question.toLowerCase();
   if(/citizen|visa|available|availability|salary|phone|email|current|today/.test(q))return 'That information isn’t listed in the portfolio. Please connect with Bharadwaj on [LinkedIn](https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3) for the latest details.';
+  const namedProject=projectAnswer(q);
+  if(namedProject)return namedProject;
   if(/react|frontend|front.end|angular|javascript|typescript/.test(q))return 'Yes — Bharadwaj’s portfolio includes React, Angular, JavaScript, and TypeScript. At Kaiser Permanente, he built responsive web applications, worked on accessible interfaces, and collaborated with product managers and designers.';
-  if(/project|build|built|skirmesh|skipped|fiji|bot/.test(q))return 'His projects include:\n\n'+projects.map(p=>`- **${p.title}:** ${p.description}.`).join('\n');
+  if(/project|build|built|skirmesh|fiji|bot/.test(q))return 'His projects include:\n\n'+projects.map(p=>`- **${p.title}:** ${p.description.replace(/\.$/, '')}.`).join('\n');
   if(/skill|tool|stack|language|python|sql|aws|backend/.test(q))return 'His toolkit includes:\n\n'+skills.map(s=>`- **${s.title === 'SASS/ERP/Tools' ? 'Platforms & tools' : s.title}:** ${s.skills.map(i=>i.name).join(', ')}.`).join('\n');
   if(/lead|team|globality|manage/.test(q))return 'At **Globality (May 2021–May 2023)**, Bharadwaj was Lead Application Engineer, leading Integrations and Business Applications teams. His work included a bid-proposal evaluation app, NPS reporting, engineering design reviews, roadmaps, and integrations with platforms such as Slack, NetSuite, and Salesforce.';
   if(/experience|career|work|background|about|who|kaiser|anthem/.test(q))return 'Bharadwaj is an engineer and builder whose listed experience includes:\n\n'+workExp.map(j=>`- **${j.role}**, ${j.company} (${j.period}).`).join('\n')+'\n\nHis focus spans software development, enterprise integrations, and engineering leadership.';
