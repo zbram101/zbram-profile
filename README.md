@@ -8,7 +8,7 @@ Use Node.js 20+ and run `npm install`, then `npm run dev`.
 
 ## Publishing blog posts
 
-The blog is a lightweight, code-backed publishing flow. Add a new entry to `src/blog.js`, then deploy the site as usual. Each post needs a title, excerpt, date, read-time estimate, tags, and content sections; the existing three posts are copyable examples.
+The blog is available at `/blog/` on the portfolio domain. It is a lightweight, code-backed publishing flow: add a new entry to `src/blog.js`, then deploy the site as usual. Each post needs a title, excerpt, date, read-time estimate, tags, and content sections; the existing articles are copyable examples.
 
 The assistant works as a clearly labeled profile guide without a key. For AI conversation, copy `.env.example` to `.env.local`, set `OPENAI_API_KEY`, and restart the development server. `OPENAI_MODEL` defaults to `gpt-4.1-mini` and can be changed to a compatible Responses API model available to the account. Never prefix a key with `VITE_`; that would expose it to visitors.
 
