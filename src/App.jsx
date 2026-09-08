@@ -31,7 +31,7 @@ export default function App() {
     <header className="header">
       <a className="wordmark" href="#about" aria-label="Bharadwaj home">br<span>.</span><small>ENGINEER & BUILDER</small></a>
       <button className="menu-toggle icon-button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="navigation" aria-label={menuOpen ? 'Close menu' : 'Open menu'}>{menuOpen ? <X /> : <Menu />}</button>
-      <nav id="navigation" className={menuOpen ? 'navigation open' : 'navigation'} aria-label="Main navigation">{sections.map((id, i) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)} className={active === id ? 'active' : ''} aria-current={active === id ? 'location' : undefined}>{labels[i]}{i === 4 && <ArrowUpRight size={16}/>}</a>)}</nav>
+      <nav id="navigation" className={menuOpen ? 'navigation open' : 'navigation'} aria-label="Main navigation"><a href="/blog/" onClick={() => setMenuOpen(false)}>Writing <ArrowUpRight size={16}/></a>{sections.map((id, i) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)} className={active === id ? 'active' : ''} aria-current={active === id ? 'location' : undefined}>{labels[i]}{i === 4 && <ArrowUpRight size={16}/>}</a>)}</nav>
     </header>
     <main id="main" className="page-shell">
       <aside className="character-column" aria-label="Interactive character">

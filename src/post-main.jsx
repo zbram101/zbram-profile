@@ -1,0 +1,21 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { ArrowLeft, ArrowUp, CalendarDays, Clock3 } from 'lucide-react';
+import { posts } from './blog';
+import './blog.css';
+
+function Diagram({ type }) {
+  if (type === 'astra') return <figure className="diagram rollout-diagram"><figcaption>Astra’s rollout feedback loop</figcaption><div className="diagram-flow"><span>Release</span><i>→</i><span>Observe</span><i>→</i><span>Learn</span><i>→</i><span>Improve</span></div><p>Signals: activation · task completion · repeat use · reliability</p></figure>;
+  if (type === 'astra-architecture') return <figure className="diagram architecture-diagram"><figcaption>Astra’s layered architecture</figcaption><div className="layer-stack"><span>Experience<br/><small>focused interface</small></span><span>Workflows<br/><small>explicit actions</small></span><span>Shared services<br/><small>identity · data · integrations</small></span><span>Operations<br/><small>telemetry · controls · safeguards</small></span></div></figure>;
+  if (type === 'goloadout-loop') return <figure className="diagram loop-diagram"><figcaption>The goLoadout core loop</figcaption><div className="diagram-flow"><span>Identity</span><i>→</i><span>Loadout</span><i>→</i><span>Share</span><i>→</i><span>Connection</span></div><p>Each step is useful alone and stronger together.</p></figure>;
+  return <figure className="diagram architecture-diagram"><figcaption>goLoadout’s system map</figcaption><div className="layer-stack"><span>Player experience<br/><small>profile · visual identity</small></span><span>Domain model<br/><small>profiles · loadouts · rules</small></span><span>Sharing layer<br/><small>community touchpoints</small></span><span>Platform services<br/><small>permissions · data · integrations</small></span></div></figure>;
+}
+
+function App() {
+  const slug = document.body.dataset.post;
+  const post = posts.find(item => item.slug === slug);
+  if (!post) return <main className="blog-shell"><header className="blog-header"><a href="/blog/" className="blog-home"><ArrowLeft size={17}/> All articles</a></header><section className="blog-hero"><h1>Article not<br/><em>found.</em></h1></section></main>;
+  return <main className="blog-shell"><header className="blog-header"><a href="/blog/" className="blog-home"><ArrowLeft size={17}/> All articles</a><a href="/" className="blog-wordmark">br<span>.</span><small>FIELD NOTES</small></a></header><article className="article post-page" id="top"><div className="article-kicker"><span>FIELD NOTES</span><span>{post.readTime}</span></div><h1>{post.title}</h1><p className="article-excerpt">{post.excerpt}</p><div className="article-meta"><span><CalendarDays size={15}/>{post.date}</span><span><Clock3 size={15}/>{post.readTime}</span></div><div className="article-tags">{post.tags.map(tag => <span key={tag}>{tag}</span>)}</div><div className="article-body">{post.body.map(section => <section key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}{section.diagram && <Diagram type={section.diagram}/>} {section.callout && <aside>{section.callout}</aside>}</section>)}</div></article><footer className="blog-footer"><a href="/blog/">← All articles</a><a href="#top">Back to top <ArrowUp size={15}/></a></footer></main>;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
