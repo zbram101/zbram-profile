@@ -1,5 +1,61 @@
 export const posts = [
   {
+    slug: 'data-agent-feedback-openai-feature',
+    title: 'When feedback becomes part of the product story',
+    excerpt: 'OpenAI featured my perspective in its launch article for the Data agent in ChatGPT Work. Here is what that moment means to me—and what I learned from testing the product in an enterprise setting.',
+    date: 'September 10, 2026',
+    readTime: '5 min read',
+    tags: ['Data agent', 'ChatGPT Work', 'Enterprise AI'],
+    hero: '/images/data-agent-openai-feature.png',
+    heroAlt: 'OpenAI customer examples page featuring Bharadwaj Ramachandran’s quote about the Data agent in ChatGPT Work.',
+    body: [
+      {
+        heading: 'A note I was glad to see',
+        paragraphs: [
+          'Seeing my perspective in an OpenAI release article was a meaningful moment: exciting, humbling, and worth saving a screenshot of.',
+          'What I value most is the opportunity behind it. I was able to review the tools early, share feedback from an enterprise perspective, and help shape how a broader vision for business intelligence could be understood and shared.',
+          'The article is about a bigger idea than a single quote. The Data agent is designed to help people connect to trusted company data, investigate questions in plain language, build interactive dashboards, and turn analysis into action. My perspective appears alongside examples from other organizations in the program.'
+        ]
+      },
+      {
+        heading: 'The work behind the quote',
+        paragraphs: [
+          'I had the opportunity to test the Data agent and share feedback from an enterprise perspective. That meant looking at it through the lens of real teams, existing data environments, and the practical questions that come up when analysis has to support a decision—not just produce an impressive demo.',
+          'The most interesting part was seeing how a conversational interface can change the starting point for analysis. Instead of first translating a question into a query, finding the right dashboard, or waiting for someone else to prepare a report, a user can begin with the business question itself and then refine the investigation from there.',
+          'That does not remove the need for data quality, governance, or subject-matter expertise. It makes those foundations more visible. Definitions, permissions, relationships between data, and the ability to inspect evidence are what turn a fast answer into a useful one.'
+        ]
+      },
+      {
+        heading: 'Why the Data agent matters',
+        paragraphs: [
+          'Many organizations do not have a shortage of data. They have a shortage of time and shared context around the data. People know the question they want answered, but the path from that question to a reliable insight can be slow and highly dependent on a small number of analysts or engineers.',
+          'The Data agent points toward a more accessible model: ask a question, examine the reasoning and evidence, ask follow-ups, and shape the result into something the team can use. OpenAI describes support for approved data connections, semantic layers, interactive dashboards, and connected tools for sharing or carrying out approved actions.',
+          'For me, the promise is not “AI replaces analytics.” It is that more people can participate in analysis while analytics teams spend more of their time on the harder work: improving the underlying data, defining meaningful metrics, and helping the organization make better decisions.'
+        ]
+      },
+      {
+        heading: 'Three things testing reinforced for me',
+        paragraphs: [
+          'First, context is a product feature. A model can be capable, but it still needs the organization’s definitions and relationships to understand what a metric actually means. Trusted context is what keeps natural-language analysis connected to the business.',
+          'Second, confidence comes from inspection. A useful data experience should make it easy to ask follow-up questions, review the evidence behind a finding, and compare the result with the reports and processes a team already relies on.',
+          'Third, adoption is human. The best tool is not the one that produces the most elaborate dashboard. It is the one that helps someone move from uncertainty to a clear next question, and then to a decision they can explain to someone else.'
+        ]
+      },
+      {
+        heading: 'A meaningful milestone—and a beginning',
+        paragraphs: [
+          'Being included in the article feels meaningful because it captures a particular kind of contribution: using an early product seriously, sharing what works and what needs attention, and helping the team understand how the experience lands in a real organization. I am grateful that perspective made it into the story.',
+          'I also see the quote as a snapshot, not a finish line. Enterprise AI earns its place through repeated use, careful validation, and measurable impact over time. The next chapter is watching how tools like the Data agent evolve as teams learn where conversational analysis genuinely helps—and where human judgment remains essential.',
+          'For now, I am simply happy to have played a small part in the feedback loop, and very happy to see that part of the journey documented.'
+        ],
+        callout: 'The official OpenAI article includes the original customer example and describes the Data agent’s capabilities and participating organizations.'
+      }
+    ],
+    sources: [
+      { label: 'OpenAI — Now everyone can put data to work', url: 'https://openai.com/index/put-data-to-work/' }
+    ]
+  },
+  {
     slug: 'astra-the-good-and-the-bad',
     title: 'Astra: AGI is here',
     excerpt: 'GPT-6 Astra feels less like another model upgrade and more like a boundary crossing. Here is the evidence, the recurrent-compute lens, and the caveats behind my take that AGI is here.',
