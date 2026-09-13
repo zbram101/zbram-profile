@@ -26,7 +26,9 @@ Official API documentation: https://developers.openai.com/api/docs/quickstart
 - AWS Amplify static hosting uses the profile guide by default. To use an AI endpoint there, deploy a server-side endpoint separately and set only its public URL as `VITE_CHAT_API_URL`; the API key belongs exclusively in that endpoint's private runtime configuration.
 - Before opening to unrestricted public traffic, configure provider usage limits and edge rate limiting appropriate to the audience.
 
-The character uses the original avatar and Wave, Pointing, Typing, and Standing animation assets. Controls allow visitors to try poses or pause motion; reduced-motion preferences start with motion paused. The layout and links remain usable if 3D assets or WebGL fail.
+The character keeps the original skeleton and uses custom appearance textures based on Bharadwaj’s reference photo, with a matching illustrated fallback portrait. Asset paths and generation prompts are recorded in `docs/avatar-assets.md`.
+
+The portrait card opens in Portrait mode and offers Wave, Head nod, Portrait, and Work. Reset returns to Portrait mode. Wave and Head nod play once and blend back to a calm standing pose. Portrait shows the illustrated image, with playback and rotation controls hidden, and pauses the 3D scene while keeping it ready for the next gesture. Work returns to the seated typing animation. Section-aware thinking, explaining, and typing poses remain available through the page context; an explicitly selected Portrait mode remains visible while scrolling. There are no dance routines, movement prompts, or model calls for character controls. Reduced-motion preferences start with playback paused. The layout and portrait remain usable if 3D assets or WebGL fail. `npm test` checks the real rig for gesture bounds and workstation fit.
 
 Work history reflects the latest manager résumé supplied in September 2026, including Thermo Fisher Scientific from November 2023 to present. Both Thermo titles share the date range provided in the résumé; separate promotion dates are not listed.
 

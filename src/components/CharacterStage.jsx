@@ -1,7 +1,7 @@
 import { Component, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
 import { ContactShadows } from '@react-three/drei';
-import { ArrowUpRight, HelpCircle, Code2, Hand, Lightbulb, MoveHorizontal, Pause, Play, RotateCcw, Scan, Smile, PartyPopper } from 'lucide-react';
+import { Image as ImageIcon, MoveHorizontal, Pause, Play, RotateCcw, Scan } from 'lucide-react';
 import { MathUtils, Vector3 } from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Avatar } from './Avatar';
@@ -11,14 +11,16 @@ import './character-stage.css';
 extend({ RoundedBoxGeometry });
 
 const actions = {
-  hello: { animation: 'Wave', icon: Hand, button: 'Say hi', label: 'GOOD TO MEET YOU', title: 'A builder. A curious human.', caption: 'Thoughtful code starts with a little curiosity.', note: 'Hey, welcome in.' },
-  explain: { animation: 'Pointing', icon: Lightbulb, button: 'Explain', label: 'CONNECTING THE DOTS', title: 'Big ideas, made simple.', caption: 'The best part? Figuring it out together.', note: 'What if we tried…' },
-  build: { animation: 'Typing', icon: Code2, button: 'Build', label: 'IN THE FLOW', title: 'An idea becomes something real.', caption: 'A little focus. A lot of making things work.', note: 'One good idea at a time.' },
-  think: { animation: 'Thinking', icon: HelpCircle, button: 'Think', label: 'A MOMENT OF CURIOSITY', title: 'There’s always another angle.', caption: 'Step back. Ask why. Find a better way.', note: 'Let me think about that.' },
-  celebrate: { animation: 'Celebrate', icon: PartyPopper, button: 'Celebrate', label: 'ENJOY THE SMALL WINS', title: 'That feeling when it works.', caption: 'Good work deserves a little celebration.', note: 'Yes. We got it.' },
-  relax: { animation: 'Standing', icon: Smile, button: 'Relax', label: 'ROOM TO BREATHE', title: 'A little pause goes a long way.', caption: 'Fresh perspective starts with a clear head.', note: 'Taking a moment.' },
+  hello: { animation: 'Wave', button: 'Wave' },
+  explain: { animation: 'Pointing', button: 'Explain' },
+  build: { animation: 'Typing', button: 'Work' },
+  think: { animation: 'Thinking', button: 'Think' },
+  nod: { animation: 'Nod', button: 'Head nod' },
+  portrait: { button: 'Portrait' },
+  relax: { animation: 'Standing', button: 'Rest' },
 };
-const sectionActions = { about: 'hello', skills: 'explain', experience: 'explain', projects: 'build', contact: 'hello' };
+const sectionActions = { about: 'relax', skills: 'explain', experience: 'relax', projects: 'build', contact: 'relax' };
+const portraitGestures = ['hello', 'nod', 'portrait', 'build'];
 
 function PortraitFallback({ loading = false }) {
   return <div className="character-fallback stage-portrait-fallback">
@@ -136,6 +138,7 @@ export default function CharacterStage({ section = 'about', busy = false }) {
   const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [paused, setPaused] = useState(reducedMotion);
   const [override, setOverride] = useState(null);
+  const [portraitMode, setPortraitMode] = useState(true);
   const [replay, setReplay] = useState(0);
   const [closeup, setCloseup] = useState(true);
   const [dragging, setDragging] = useState(false);
@@ -165,10 +168,19 @@ export default function CharacterStage({ section = 'about', busy = false }) {
 
   const selected = busy ? 'think' : override || sectionActions[section] || 'hello';
   const mood = actions[selected];
-  const MoodIcon = mood.icon;
-  const frozen = paused || !visible || !pageVisible;
-  const chooseAction = id => { setOverride(id); setReplay(value => value + 1); };
+  const frozen = portraitMode || paused || !visible || !pageVisible;
+  const chooseAction = id => {
+    if (id === 'portrait') {
+      setPortraitMode(true); setDragging(false); drag.current = null;
+      return;
+    }
+    setPortraitMode(false);
+    setOverride(id); setReplay(value => value + 1);
+    if (!reducedMotion) setPaused(false);
+    invalidate.current();
+  };
   const reset = () => {
+    setPortraitMode(true);
     setOverride(null); setReplay(value => value + 1); setCloseup(true);
     rotation.current = 0; pointer.current = { x: 0, y: 0 }; invalidate.current();
   };
@@ -178,20 +190,21 @@ export default function CharacterStage({ section = 'about', busy = false }) {
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
-  return <div ref={stage} className={`character-studio${paused ? ' is-paused' : ''}`}>
+  return <div ref={stage} className={`character-studio${paused ? ' is-paused' : ''}${portraitMode ? ' is-portrait-mode' : ''}`}>
     <div className="studio-backdrop" aria-hidden="true"><span>br.</span><div className="studio-halo" /></div>
-    <div className="studio-toolbar" role="group" aria-label="Portrait controls">
+    {!portraitMode && <div className="studio-toolbar" role="group" aria-label="Portrait controls">
       <button className="studio-icon-button" disabled={unavailable || !ready} onClick={() => setCloseup(value => !value)} aria-pressed={closeup} aria-label="Close-up view" title={closeup ? 'Full-body view' : 'Close-up view'}><Scan size={16} /></button>
       <button className="studio-icon-button" disabled={unavailable || !ready} onClick={() => setPaused(value => !value)} aria-label={paused ? 'Play character animation' : 'Pause character animation'} title={paused ? 'Play motion' : 'Pause motion'}>{paused ? <Play size={15} /> : <Pause size={15} />}</button>
       <button className="studio-icon-button" disabled={unavailable || !ready} onClick={reset} aria-label="Reset character and view" title="Reset character and view"><RotateCcw size={15} /></button>
-    </div>
-    <div className={`studio-viewport${dragging ? ' is-dragging' : ''}`} role="group" aria-label="Interactive 3D portrait" aria-describedby="studio-drag-hint" tabIndex={unavailable ? -1 : 0}
+    </div>}
+    <div className={`studio-viewport${dragging ? ' is-dragging' : ''}${portraitMode ? ' is-portrait' : ''}`} role="group" aria-label={portraitMode ? 'Illustrated portrait' : 'Interactive 3D portrait'} aria-describedby="studio-drag-hint" tabIndex={portraitMode || unavailable ? -1 : 0}
       onPointerDown={event => {
-        if (event.button !== 0 || unavailable) return;
+        if (event.button !== 0 || unavailable || portraitMode) return;
         drag.current = { id: event.pointerId, x: event.clientX, rotation: rotation.current };
         event.currentTarget.setPointerCapture(event.pointerId); setDragging(true);
       }}
       onPointerMove={event => {
+        if (portraitMode) return;
         const bounds = event.currentTarget.getBoundingClientRect();
         pointer.current = { x: (event.clientX - bounds.left) / bounds.width * 2 - 1, y: (event.clientY - bounds.top) / bounds.height * 2 - 1 };
         if (drag.current?.id === event.pointerId) rotation.current = drag.current.rotation + (event.clientX - drag.current.x) * .009;
@@ -200,11 +213,13 @@ export default function CharacterStage({ section = 'about', busy = false }) {
       onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={() => { drag.current = null; setDragging(false); }}
       onPointerLeave={() => { pointer.current = { x: 0, y: 0 }; }}
       onKeyDown={event => {
+        if (portraitMode) return;
         if (!['ArrowLeft', 'ArrowRight', 'Home'].includes(event.key)) return;
         event.preventDefault();
         rotation.current = event.key === 'Home' ? 0 : rotation.current + (event.key === 'ArrowLeft' ? -.3 : .3);
         invalidate.current();
       }}>
+      <div className={`studio-scene${portraitMode ? ' is-hidden' : ''}`} aria-hidden={portraitMode}>
       {unavailable ? <PortraitFallback /> : <SceneBoundary onUnavailable={handleUnavailable}>
         <Canvas aria-hidden="true" dpr={[1, 1.5]} frameloop={frozen ? 'demand' : 'always'} camera={{ position: [0, 1.54, 2.15], fov: 34 }} gl={{ alpha: true, antialias: true }}
           onCreated={({ invalidate: draw, gl }) => { invalidate.current = draw; gl.domElement.addEventListener('webglcontextlost', handleUnavailable, { once: true }); }}
@@ -215,19 +230,19 @@ export default function CharacterStage({ section = 'about', busy = false }) {
         </Canvas>
         {!ready && !unavailable && <div className="studio-loading"><PortraitFallback loading /></div>}
       </SceneBoundary>}
+      </div>
+      {portraitMode && <img className="studio-portrait-image" src="/images/myavatar.png" alt="Illustrated portrait of Bharadwaj smiling in a charcoal suit and glasses" />}
     </div>
-    <div className="studio-note" key={selected} aria-hidden="true"><MoodIcon size={14} /><span>{busy ? 'Connecting the dots…' : mood.note}</span></div>
-    <div id="studio-drag-hint" className="studio-hint"><MoveHorizontal size={13} /><span>{unavailable ? 'Portrait preview' : 'Drag to rotate'}<span className="studio-keyboard-hint"> · ← → keys</span></span><span className="studio-motion-state">{paused ? (reducedMotion ? 'Reduced motion' : 'Motion paused') : 'A little more human'}</span></div>
+    <div id="studio-drag-hint" className="studio-hint">{portraitMode ? <ImageIcon size={13} /> : <MoveHorizontal size={13} />}<span>{portraitMode ? 'Portrait mode' : unavailable ? 'Portrait preview' : 'Drag to rotate'}{!portraitMode && <span className="studio-keyboard-hint"> · ← → keys</span>}</span><span className="studio-motion-state">{portraitMode ? 'Illustrated portrait' : paused ? (reducedMotion ? 'Reduced motion' : 'Motion paused') : 'Interactive portrait'}</span></div>
     <div className="studio-caption">
-      <div className="studio-story" role="status" aria-live="polite" aria-atomic="true">
-        <span className="studio-label"><span className={`studio-equalizer${busy ? ' is-busy' : ''}`} aria-hidden="true"><i /><i /><i /></span>{busy ? 'THINKING THROUGH YOUR QUESTION' : mood.label}</span>
-        <h3>{busy ? 'Let’s connect those dots.' : mood.title}</h3>
-        <p>{busy ? 'My assistant is working on your answer.' : mood.caption}</p>
+      <div className="studio-story">
+        <span className="studio-label">ENGINEER & BUILDER</span>
+        <h3>Bharadwaj Ramachandran</h3>
+        <p>Engineering leadership. Thoughtful AI. Real impact.</p>
       </div>
-      <div className="studio-actions" role="group" aria-label="Character actions">
-        {Object.entries(actions).map(([id, { icon: Icon, button }]) => <button key={id} aria-pressed={selected === id} disabled={busy || unavailable || !ready} onClick={() => chooseAction(id)}><Icon size={16} strokeWidth={1.6} /><span>{button}</span></button>)}
+      <div className="studio-actions" role="group" aria-label="Portrait gestures">
+        {portraitGestures.map(id => <button key={id} aria-pressed={id === 'portrait' ? portraitMode : id === 'build' ? !portraitMode && selected === id : undefined} disabled={id !== 'portrait' && (busy || unavailable || !ready)} onClick={() => chooseAction(id)}>{actions[id].button}</button>)}
       </div>
-      <a className="studio-chat-link" href="#contact"><span>Curious about my work?</span> Ask my AI <ArrowUpRight size={14} /></a>
     </div>
   </div>;
 }

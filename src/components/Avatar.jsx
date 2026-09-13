@@ -1,27 +1,48 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useAnimations, useFBX, useGLTF } from '@react-three/drei';
-import { LoopOnce, LoopRepeat, MathUtils } from 'three';
+import { useAnimations, useFBX, useGLTF, useTexture } from '@react-three/drei';
+import { LoopOnce, LoopRepeat, MathUtils, sRGBEncoding } from 'three';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { createGestureClips } from './characterAnimations';
 
 export function Avatar({ animation = 'Standing', paused = false, replay = 0, pointer, ...props }) {
   const group = useRef();
   const { scene } = useGLTF('/models/6490f6229837221882d60895-2.glb');
+  const [headTexture, outfitTexture] = useTexture(['/models/textures/bharadwaj-head.png', '/models/textures/bharadwaj-outfit.png']);
   const typing = useFBX('/animations/Typing.fbx').animations[0];
   const standing = useFBX('/animations/Standing.fbx').animations[0];
   const wave = useFBX('/animations/Wave.fbx').animations[0];
   const pointing = useFBX('/animations/Pointing.fbx').animations[0];
   const character = useMemo(() => {
     const instance = clone(scene);
+    for (const texture of [headTexture, outfitTexture]) {
+      // External maps must use the same orientation/color space as the GLB maps.
+      texture.flipY = false; texture.encoding = sRGBEncoding; texture.needsUpdate = true;
+    }
     instance.traverse(node => {
       if (node.isMesh) { node.castShadow = true; node.receiveShadow = true; }
+      if (node.isMesh && node.material) {
+        node.material = node.material.clone();
+        if (node.name === 'Wolf3D_Head') { node.material.map = headTexture; node.material.color.set('#b4a9a3'); }
+        if (node.name === 'Wolf3D_Body') node.material.color.set('#b4a9a3');
+        if (node.name === 'Wolf3D_Outfit_Top') { node.material.map = outfitTexture; node.material.color.set('#b7b7b7'); }
+        if (node.name === 'Wolf3D_Glasses') {
+          node.material.map = null; node.material.color.set('#aaa396');
+          node.material.metalness = .65; node.material.roughness = .32;
+        }
+        if (node.name === 'Wolf3D_Outfit_Bottom') node.material.color.set('#737574');
+        if (node.name === 'Wolf3D_Outfit_Footwear') {
+          node.material.map = null; node.material.color.set('#643a25'); node.material.roughness = .4;
+        }
+      }
+      // The new scalp texture supplies the close crop; remove the original quiff.
+      if (node.name === 'Wolf3D_Hair') node.visible = false;
       // This Three.js version culls against the undeformed geometry. The seated
       // head, eyes, and clothing move outside those bounds during a turn.
       if (node.isSkinnedMesh) node.frustumCulled = false;
     });
     return instance;
-  }, [scene]);
+  }, [scene, headTexture, outfitTexture]);
   const clips = useMemo(() => [
     ...[[typing, 'Typing'], [standing, 'Standing'], [wave, 'Wave'], [pointing, 'Pointing']].map(([clip, name]) => {
       const copy = clip.clone(); copy.name = name; return copy;
@@ -41,8 +62,8 @@ export function Avatar({ animation = 'Standing', paused = false, replay = 0, poi
     if (!action) return;
     const previous = current.current;
     action.reset().setEffectiveWeight(1).setEffectiveTimeScale(animation === 'Wave' ? .8 : 1);
-    const gesture = ['Wave', 'Pointing', 'Celebrate'].includes(animation);
-    action.setLoop(gesture && animation !== 'Wave' ? LoopOnce : LoopRepeat, animation === 'Wave' ? 3 : Infinity);
+    const gesture = ['Wave', 'Pointing', 'Nod'].includes(animation);
+    action.setLoop(gesture ? LoopOnce : LoopRepeat, gesture ? 1 : Infinity);
     action.clampWhenFinished = gesture;
     action.play();
     if (pausedRef.current) {
@@ -68,13 +89,13 @@ export function Avatar({ animation = 'Standing', paused = false, replay = 0, poi
   useEffect(() => () => mixer.stopAllAction(), [mixer]);
   useFrame((_, delta) => {
     if (paused) return;
-    const follow = animation !== 'Typing' && animation !== 'Thinking';
+    const follow = !['Typing', 'Thinking', 'Nod'].includes(animation);
     gaze.current.x = MathUtils.damp(gaze.current.x, follow ? (pointer?.current.x || 0) * .16 : 0, 4, delta);
     gaze.current.y = MathUtils.damp(gaze.current.y, follow ? (pointer?.current.y || 0) * .08 : 0, 4, delta);
-    head.rotateY(gaze.current.x);
-    head.rotateX(gaze.current.y);
-    const smile = face.morphTargetDictionary?.mouthSmile;
-    if (smile !== undefined) face.morphTargetInfluences[smile] = MathUtils.damp(face.morphTargetInfluences[smile], animation === 'Celebrate' ? .65 : animation === 'Wave' ? .3 : .12, 4, delta);
+    head?.rotateY(gaze.current.x);
+    head?.rotateX(gaze.current.y);
+    const smile = face?.morphTargetDictionary?.mouthSmile;
+    if (smile !== undefined) face.morphTargetInfluences[smile] = MathUtils.damp(face.morphTargetInfluences[smile], animation === 'Wave' ? .35 : .2, 4, delta);
   });
   return <group ref={group} {...props} dispose={null}><primitive object={character} /></group>;
 }

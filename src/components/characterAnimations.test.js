@@ -77,3 +77,22 @@ test('build framing leaves clearance for a complete rotation on narrow screens',
     assert(distance >= 3.3);
   }
 });
+
+test('head nod stays subtle and leaves the body in its standing motion', () => {
+  const rig = loadRig(); const reference = loadRig(); const standing = loadClip('Standing');
+  const clips = createGestureClips(rig, standing, loadClip('Pointing'));
+  assert.deepEqual(clips.map(clip => clip.name), ['Thinking', 'Nod']);
+  const mixer = new AnimationMixer(rig); const baseline = new AnimationMixer(reference);
+  mixer.clipAction(clips.find(clip => clip.name === 'Nod')).play(); baseline.clipAction(standing).play();
+  let maxAngle = 0;
+  for (let time = 0; time < 2.2; time += 1 / 30) {
+    mixer.setTime(time); baseline.setTime(time);
+    const angle = rig.getObjectByName('Head').quaternion.angleTo(reference.getObjectByName('Head').quaternion);
+    maxAngle = Math.max(maxAngle, angle);
+    assert(angle < .17, 'a nod should stay below ten degrees');
+    for (const name of ['Hips', 'LeftArm', 'RightArm', 'LeftUpLeg', 'RightUpLeg']) {
+      assert(rig.getObjectByName(name).quaternion.angleTo(reference.getObjectByName(name).quaternion) < .002, `${name} at ${time}: ${rig.getObjectByName(name).quaternion.angleTo(reference.getObjectByName(name).quaternion)}`);
+    }
+  }
+  assert(maxAngle > .14, 'the nod should be visible');
+});

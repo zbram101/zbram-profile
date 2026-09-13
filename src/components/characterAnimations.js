@@ -1,4 +1,4 @@
-import { AnimationClip, AnimationMixer, Matrix4, Quaternion, QuaternionKeyframeTrack, Vector3, VectorKeyframeTrack } from 'three';
+import { AnimationClip, Matrix4, Quaternion, QuaternionKeyframeTrack, Vector3, VectorKeyframeTrack } from 'three';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 
 // Solve in world space, then convert back to the rig's local coordinates.
@@ -35,8 +35,6 @@ function poseArm(rig, side, target, pole) {
 
 export function createGestureClips(scene, standing, pointing) {
   const rig = clone(scene);
-  const mixer = new AnimationMixer(rig);
-  mixer.clipAction(standing).play();
   // Retain a captured hand shape: extended index, relaxed thumb, curled fingers.
   const thinkingFingers = pointing.tracks.filter(track => /^RightHand.+\.quaternion$/.test(track.name)).map(track => ({
     bone: rig.getObjectByName(track.name.split('.')[0]),
@@ -44,15 +42,17 @@ export function createGestureClips(scene, standing, pointing) {
   }));
   const bindings = standing.tracks.map(track => {
     const [name, property] = track.name.split('.');
-    return { track, node: rig.getObjectByName(name), property };
+    return { track, node: rig.getObjectByName(name), property, interpolant: track.createInterpolant() };
   }).filter(binding => binding.node);
   const makeClip = (name, duration, pose) => {
     const times = [];
     const values = bindings.map(() => []);
-    const steps = Math.round(duration * 15);
+    const steps = Math.round(duration * 30);
     for (let index = 0; index <= steps; index++) {
       const time = duration * index / steps;
-      mixer.setTime(time % standing.duration);
+      // Apply every captured track explicitly: mixer caching can otherwise retain
+      // a previous gesture's IK pose when the next sample has the same time.
+      bindings.forEach(({ node, property, interpolant }) => node[property].fromArray(interpolant.evaluate(time % standing.duration)));
       rig.updateMatrixWorld(true);
       pose(time);
       times.push(time);
@@ -80,13 +80,11 @@ export function createGestureClips(scene, standing, pointing) {
     head.rotateX(.045 + Math.sin(time * Math.PI / 3) * .02);
     head.rotateZ(-.05);
   });
-  const celebrate = makeClip('Celebrate', 3, time => {
-    const lift = Math.sin(time * Math.PI * 2) * .045;
-    poseArm(rig, 'Right', new Vector3(-.47, 1.88 + lift, .08), new Vector3(-.7, 1.5, .1));
-    poseArm(rig, 'Left', new Vector3(.47, 1.88 + lift, .08), new Vector3(.7, 1.5, .1));
-    rig.getObjectByName('Head').rotateX(-.045);
+  const nod = makeClip('Nod', 2.2, time => {
+    const phase = Math.max(0, Math.min(1, (time - .25) / 1.45));
+    // Two small acknowledgements, with the second softer than the first.
+    const dip = Math.sin(phase * Math.PI * 2) ** 2 * (phase < .5 ? .16 : .1);
+    rig.getObjectByName('Head').rotateX(dip);
   });
-  mixer.stopAllAction();
-  mixer.uncacheRoot(rig);
-  return [thinking, celebrate];
+  return [thinking, nod];
 }
