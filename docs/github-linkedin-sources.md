@@ -32,7 +32,7 @@ A live LinkedIn integration would need its own authorized API application and ap
 
 ## Validation and deployment
 
-Run `npm run sync:profile`, `npm test`, and `npm run build` after changing server tools or approved content. The generated AWS handler includes the same modules as local development. Changes in this task remain local until deployed.
+Run `npm run sync:profile`, `npm test`, and `npm run build` after changing server tools or approved content. The generated AWS handler includes the same modules as local development. The production backend includes these tools; only the empty approved-private-summary catalog and the explicit pending LinkedIn snapshot are deployed.
 
 References:
 

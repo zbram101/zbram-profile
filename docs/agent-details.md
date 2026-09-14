@@ -1,6 +1,6 @@
 # Bharadwaj’s portfolio agent — prompts, tools, and resources
 
-This is the source configuration registered as the reusable [Bharadwaj Portfolio Agent](https://platform.openai.com/agents/agent_2277fc669dce41c1a15c5692602ad6e328e652398384480e9b?project_id=proj_2qUBy2K0BahF9SIkNij1L84a) in **Therapy AI / Default project**. Local sessions now use its saved ID; later portal edits apply to new sessions. Application function implementations and validation remain in the source files below. The website changes have not been deployed. Real API tests verified portfolio retrieval, public GitHub README lookup, conversational drafts, and a separate saved-agent session with portfolio tools.
+This is the source configuration registered as the reusable [Bharadwaj Portfolio Agent](https://platform.openai.com/agents/agent_2277fc669dce41c1a15c5692602ad6e328e652398384480e9b?project_id=proj_2qUBy2K0BahF9SIkNij1L84a) in **Therapy AI / Default project**. Local and production AWS sessions now use its saved ID; later portal edits apply to new sessions. Application function implementations and validation remain in the source files below. The AWS backend was deployed with this agent on September 13, 2026. Real API tests verified portfolio retrieval, public GitHub README lookup, conversational drafts, and a separate saved-agent session with portfolio tools.
 
 ## Agent configuration
 
@@ -17,7 +17,7 @@ This is the source configuration registered as the reusable [Bharadwaj Portfolio
 | Style | Low verbosity; normal answers under 200 words |
 | Tool budget | Prompt asks for at most 8 per message; server enforces a 12-call ceiling |
 | Other bounds | 20 turns, 120 seconds per active turn, reported 60,000 cumulative session tokens |
-| Scheduling | Live Google Calendar free/busy verified locally with owner-approved hours; draft preparation and an optional booking-page link; no event creation |
+| Scheduling | Live Google Calendar free/busy verified through the production API with owner-approved hours; draft preparation and an optional booking-page link; no event creation |
 
 Session setup and execution: [server/agent.js](../server/agent.js). Tool validation and prompt: [server/portfolio-tools.js](../server/portfolio-tools.js).
 
@@ -290,7 +290,7 @@ The agent searches the bundled portfolio catalog and can read public GitHub meta
 4. Otherwise, it asks one short question at a time for missing details and calls `prepare_meeting_request`.
 5. The draft appears inside the conversation. The visitor can ask for changes, then copy and send the message on LinkedIn.
 
-The agent can check Google Calendar availability with owner OAuth authorization and approved rules. That connection has passed a real local test and is prepared for AWS publication. It cannot send messages, reserve a slot, create a calendar invitation, or follow up later. See [Google Calendar setup](./google-calendar.md).
+The agent can check Google Calendar availability with owner OAuth authorization and approved rules. That connection has passed real local and production AWS conversation tests. It cannot send messages, reserve a slot, create a calendar invitation, or follow up later. See [Google Calendar setup](./google-calendar.md).
 
 ## No-key and rollback behavior
 

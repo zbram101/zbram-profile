@@ -2,7 +2,7 @@
 
 The website now has a `find_meeting_times` agent tool. It reads free/busy data from the owner's configured Google Calendar and offers times in the visitor's time zone, entirely through chat. It does not request event titles, descriptions, attendees, or Gmail messages. It cannot yet create events or send invitations; the owner's booking preference is pending.
 
-**Current status:** Google Calendar is authorized and verified for local development. The owner-approved Google Cloud project **Portfolio Calendar** (`zbram-portfolio-calendar`) is created, its Calendar API is enabled, and its OAuth app is registered under the same name with an External testing audience. The owner approved Google's terms, credential creation, adding their account as the only test user, and the meeting hours below, then completed Google consent. Client credentials and the refresh token are stored in ignored `.env.local` with owner-only file permissions. A real saved-agent conversation called `get_scheduling_options` and `find_meeting_times`, checked the owner's primary calendar, and returned available times. Its temporary OpenAI session was deleted. The website/AWS changes have not been deployed; Google OAuth remains in Testing. Gmail connected to Codex is separate from this website connection.
+**Current status:** Google Calendar is authorized and verified through the production AWS chat API as of September 13, 2026. The owner-approved Google Cloud project **Portfolio Calendar** (`zbram-portfolio-calendar`) is created, its Calendar API is enabled, and its OAuth app is registered under the same name with an External testing audience. The owner approved Google's terms, credential creation, adding their account as the only test user, and the meeting hours below, then completed Google consent. Client credentials and the refresh token are stored in ignored `.env.local` with owner-only file permissions and, with the owner’s explicit approval, in the server-only AWS secret `bharadwaj-portfolio/google-calendar` in us-east-1. A real saved-agent conversation called `get_scheduling_options` and `find_meeting_times`, checked the owner's primary calendar, and returned available times. Its temporary OpenAI session was deleted. The AWS backend uses the saved OpenAI agent and the existing `OAIprofile` secret. Google OAuth remains in Testing, so availability needs reauthorization when its short-lived refresh token expires (typically after seven days). Gmail connected to Codex is separate from this website connection.
 
 ## Owner setup
 
@@ -22,7 +22,7 @@ The setup utility listens only on loopback, validates a single-use OAuth state, 
 
 ## Scheduling rules
 
-The owner approved the following rules, now active locally through `GOOGLE_CALENDAR_RULES`:
+The owner approved the following rules, now active locally and in AWS through `GOOGLE_CALENDAR_RULES`:
 
 ```json
 {"timeZone":"America/Los_Angeles","durationMinutes":30,"weekdays":[1,2,3,4,5],"startTime":"09:00","endTime":"17:00","noticeHours":24,"bufferMinutes":15,"horizonDays":21}
@@ -39,7 +39,7 @@ The existing CloudFormation template supports two optional parameters:
 - `GoogleCalendarSecretName`: the name of an existing Secrets Manager secret containing `clientId`, `clientSecret`, `refreshToken`, and `calendarId` as JSON.
 - `GoogleCalendarRules`: the approved rules JSON above.
 
-The template resolves the secret into the Lambda environment through a Secrets Manager dynamic reference. Neither the secret nor tokens belong in stack parameters, frontend assets, logs, or this documentation. The Lambda handler passes this configuration to the same calendar module used locally. No Google secret or AWS stack update has been performed yet. Deploy the generated template through S3 because its size exceeds CloudFormation's inline template limit.
+The template resolves the secret into the Lambda environment through a Secrets Manager dynamic reference. Neither the secret nor tokens belong in stack parameters, frontend assets, logs, or this documentation. The Lambda handler passes this configuration to the same calendar module used locally. The Google secret is created and the `bharadwaj-portfolio-chat` stack is updated with the approved rules. Deploy the generated template through S3 because its size exceeds CloudFormation's inline template limit.
 
 ## Tests and boundaries
 
