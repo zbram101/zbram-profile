@@ -72,7 +72,7 @@ export default function App() {
         </section>
         <section id="contact" className="section contact-section">
           <SectionTitle number="04" label="LET’S CONNECT" title={<>A conversation is<br/>a good place to start.</>}/>
-          <p className="section-intro">Explore my experience with my assistant, or connect with me directly.</p>
+          <p className="section-intro">Find the work that’s relevant to you, explore a potential role, or let my assistant help you arrange a conversation.</p>
           <div className="social-row"><a href="https://github.com/zbram101" target="_blank" rel="noreferrer"><Github size={18}/> GitHub <ArrowUpRight size={16}/></a><a href="https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3" target="_blank" rel="noreferrer"><Linkedin size={18}/> LinkedIn <ArrowUpRight size={16}/></a></div>
           <Suspense fallback={<p>Loading assistant…</p>}><Chat onBusyChange={setChatBusy}/></Suspense>
         </section>

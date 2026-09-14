@@ -1,0 +1,22 @@
+# Focused release requirements for this stack, not a general compliance certification.
+let tables = Resources.*[ Type == 'AWS::DynamoDB::Table' ]
+rule tables_are_encrypted_and_retained {
+  %tables {
+    DeletionPolicy == 'Retain'
+    UpdateReplacePolicy == 'Retain'
+    Properties.SSESpecification.SSEEnabled == true
+    Properties.BillingMode == 'PAY_PER_REQUEST'
+    Properties.TimeToLiveSpecification.Enabled == true
+  }
+}
+rule bounded_lambda {
+  Resources.ChatFunction.Properties {
+    Runtime == 'nodejs24.x'
+    Timeout <= 25
+    ReservedConcurrentExecutions == 3
+    Environment.Variables.OPENAI_SECRET.'Fn::Sub' == '{{resolve:secretsmanager:${OpenAISecretName}:SecretString}}'
+  }
+}
+rule bounded_log_retention {
+  Resources.ChatLogGroup.Properties.RetentionInDays == 14
+}

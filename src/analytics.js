@@ -1,4 +1,4 @@
-const chatApiUrl = import.meta.env.VITE_CHAT_API_URL?.trim() || 'https://zho73b11v5.execute-api.us-east-1.amazonaws.com/chat';
+const chatApiUrl = import.meta.env.VITE_CHAT_API_URL?.trim() || (import.meta.env.DEV ? '/api/chat' : 'https://zho73b11v5.execute-api.us-east-1.amazonaws.com/chat');
 
 export { chatApiUrl };
 export const analyticsApiUrl = chatApiUrl.replace(/\/chat$/, '/event');

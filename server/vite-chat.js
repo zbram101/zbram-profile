@@ -4,7 +4,7 @@ export function chatMiddleware(env) {
     if(req.url?.split('?')[0] !== '/api/chat') return next();
     try {
       const chunks=[];let size=0;
-      for await(const chunk of req){size+=chunk.length;if(size>24000){res.writeHead(413,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'Conversation is too long. Start a new chat.'}));return;}chunks.push(chunk);}
+      for await(const chunk of req){size+=chunk.length;if(size>40000){res.writeHead(413,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'Conversation is too long. Start a new chat.'}));return;}chunks.push(chunk);}
       const host=req.headers.host || 'localhost';
       const request=new Request(`http://${host}/api/chat`,{method:req.method,headers:req.headers,...(req.method==='POST'?{body:Buffer.concat(chunks)}:{})});
       const response=await handleChat(request,env);
