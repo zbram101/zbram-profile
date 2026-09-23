@@ -86,7 +86,54 @@ function DynamicDiagram() {
   </figure>;
 }
 
+function ContextPlatformDiagram() {
+  const layers = [
+    ['01', 'Data context', 'What does it mean?', 'Released metrics, dimensions, and policies', 'Working foundation'],
+    ['02', 'Personal context', 'What applies to me?', 'Accepted scope, preferences, and effective dates', 'Implemented pilot'],
+    ['03', 'Process context', 'How should this run?', 'Reusable steps, inputs, and personal bindings', 'In development']
+  ];
+  return <figure className="diagram context-platform-diagram">
+    <figcaption>The context behind repeatable intelligence</figcaption>
+    <div className="context-layers">{layers.map(([number, title, question, description, status]) => <div className="context-layer" key={number}>
+      <small>{number} / {status}</small><strong>{title}</strong><em>{question}</em><span>{description}</span>
+    </div>)}</div>
+    <div className="context-compose"><span aria-hidden="true">↓</span><strong>Resolve context → validate → compile</strong><span>Query evidence · definition versions · accepted assumptions</span></div>
+    <p>Conceptual product direction. Full process publication and owned runs remain planned.</p>
+  </figure>;
+}
+
+function JevBindingFlow() {
+  const steps = [
+    ['01', 'Subject', 'sales'],
+    ['02', 'Metric', 'sales_revenue'],
+    ['03', 'Grouping', 'sales_channel'],
+    ['04', 'Personal requirement', 'region']
+  ];
+  return <figure className="diagram jev-binding-diagram">
+    <figcaption>From a sales-review description to accepted bindings</figcaption>
+    <div className="dynamic-steps">{steps.map(([number, title, key]) => <div className="dynamic-step" key={number}>
+      <b>{number}</b><strong>{title}</strong><code>{key}</code><span>Suggest → inspect → accept</span>
+    </div>)}</div>
+    <p>Each stage uses confirmed selections and approved candidates. Independent review and publication follow the completed draft.</p>
+  </figure>;
+}
+
+function ArticleTable({ table }) {
+  return <div className="article-table-scroll" role="region" aria-label={table.caption} tabIndex={0}>
+    <table className={`article-table${table.variant === 'metrics' ? ' article-table-metrics' : ''}`}>
+      <caption>{table.caption}</caption>
+      <thead><tr>{table.columns.map(column => <th scope="col" key={column}>{column}</th>)}</tr></thead>
+      <tbody>{table.rows.map((row, rowIndex) => <tr key={rowIndex}>{row.map((cell, columnIndex) => {
+        const Cell = columnIndex === 0 ? 'th' : 'td';
+        return <Cell key={columnIndex} scope={columnIndex === 0 ? 'row' : undefined}>{typeof cell === 'string' ? cell : <a href={cell.href} target="_blank" rel="noreferrer">{cell.text}</a>}</Cell>;
+      })}</tr>)}</tbody>
+    </table>
+  </div>;
+}
+
 function Diagram({ type }) {
+  if (type === 'jev-binding-flow') return <JevBindingFlow />;
+  if (type === 'context-platform-layers') return <ContextPlatformDiagram />;
   if (type === 'astra-benchmarks') return <BenchmarkChart />;
   if (type === 'recurrent-lens') return <RecurrentLens />;
   if (type === 'goloadout-context') return <ContextDiagram />;
@@ -109,12 +156,15 @@ function App() {
       <p className="article-excerpt">{post.excerpt}</p>
       <div className="article-meta"><span><CalendarDays size={15}/>{post.date}</span><span><Clock3 size={15}/>{post.readTime}</span></div>
       <div className="article-tags">{post.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
-      <figure className="article-hero"><img src={post.hero} alt={post.heroAlt}/></figure>
+      <figure className="article-hero" style={post.heroAspectRatio ? { aspectRatio: post.heroAspectRatio } : undefined}><img src={post.hero} alt={post.heroAlt}/></figure>
       <div className="article-body">{post.body.map(section => <section key={section.heading}>
         <h2>{section.heading}</h2>
         {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+        {section.bullets && <ul className="article-points">{section.bullets.map(point => <li key={point.label}><strong>{point.label}</strong><span>{point.text}</span></li>)}</ul>}
+        {section.table && <ArticleTable table={section.table}/>}
         {section.diagram && <Diagram type={section.diagram}/>}
         {section.callout && <aside>{section.callout}</aside>}
+        {section.references && <p className="article-references"><span>References: </span>{section.references.map((reference, index) => <React.Fragment key={reference.url}>{index > 0 && ' · '}<a href={reference.url} target="_blank" rel="noreferrer">{reference.label}</a></React.Fragment>)}</p>}
       </section>)}</div>
       <section className="article-sources"><p>SOURCES & FURTHER READING</p><ol>{post.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.label}</a></li>)}</ol></section>
     </article>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" fill="none">
+  <defs>
+    <radialGradient id="light" cx="0" cy="0" r="1" gradientTransform="translate(1100 390) rotate(90) scale(600 750)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#30432a"/>
+      <stop offset="1" stop-color="#111710"/>
+    </radialGradient>
+    <linearGradient id="path" x1="775" y1="200" x2="1430" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#516044"/>
+      <stop offset="1" stop-color="#c2f36b"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" stroke="#a2bf7f" stroke-opacity=".07"/>
+    </pattern>
+  </defs>
+  <path fill="url(#light)" d="M0 0h1600v800H0z"/>
+  <path fill="url(#grid)" d="M0 0h1600v800H0z"/>
+  <path d="M96 108h43" stroke="#c2f36b" stroke-width="4"/>
+  <text x="159" y="116" fill="#a8b79b" font-family="Arial,sans-serif" font-size="18" letter-spacing="4">CONTEXT PLATFORM</text>
+  <g font-family="Arial,sans-serif" font-size="88" font-weight="600" letter-spacing="-4">
+    <text x="92" y="300" fill="#edf2e6">Meaning.</text>
+    <text x="92" y="402" fill="#edf2e6">Scope.</text>
+    <text x="92" y="504" fill="#c2f36b">Method.</text>
+  </g>
+  <text x="98" y="650" fill="#a8b79b" font-family="Arial,sans-serif" font-size="19" letter-spacing="1">THE CONTEXT BEHIND THE ANSWER</text>
+  <g stroke="url(#path)" stroke-width="2">
+    <path d="M918 216h92c115 0 64 184 194 184h80"/>
+    <path d="M918 400h366"/>
+    <path d="M918 584h92c115 0 64-184 194-184h80"/>
+  </g>
+  <g font-family="Arial,sans-serif">
+    <rect x="694" y="155" width="224" height="122" rx="16" fill="#25331e" stroke="#637f48"/>
+    <text x="720" y="193" font-size="12" letter-spacing="2" fill="#a7bf91">01 / MEANING</text>
+    <text x="720" y="237" font-size="29" fill="#e7f0de">Data</text>
+    <rect x="694" y="339" width="224" height="122" rx="16" fill="#25331e" stroke="#637f48"/>
+    <text x="720" y="377" font-size="12" letter-spacing="2" fill="#a7bf91">02 / SCOPE</text>
+    <text x="720" y="421" font-size="29" fill="#e7f0de">Personal</text>
+    <rect x="694" y="523" width="224" height="122" rx="16" fill="#203132" stroke="#77999d" stroke-dasharray="7 6"/>
+    <text x="720" y="561" font-size="12" letter-spacing="2" fill="#a2c2c5">03 / METHOD</text>
+    <text x="720" y="605" font-size="29" fill="#e7f0de">Process</text>
+    <text x="718" y="678" font-size="12" letter-spacing="1.5" fill="#92b1b5">IN DEVELOPMENT</text>
+    <circle cx="1340" cy="400" r="116" stroke="#c2f36b" stroke-opacity=".15"/>
+    <circle cx="1340" cy="400" r="90" fill="#c2f36b"/>
+    <path d="m1304 397 25 25 47-49" stroke="#233315" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1340" y="550" text-anchor="middle" font-size="22" fill="#e7f0de">Inspectable</text>
+    <text x="1340" y="581" text-anchor="middle" font-size="22" fill="#e7f0de">answer</text>
+  </g>
+  <g fill="#c2f36b"><circle cx="918" cy="216" r="5"/><circle cx="918" cy="400" r="5"/><circle cx="918" cy="584" r="5"/><circle cx="1204" cy="400" r="6"/></g>
+  <path d="M96 732h1408" stroke="#46583a"/>
+  <text x="96" y="766" fill="#829275" font-family="Arial,sans-serif" font-size="12" letter-spacing="2">FIELD NOTES / 2026</text>
+  <text x="1504" y="766" text-anchor="end" fill="#829275" font-family="Arial,sans-serif" font-size="12" letter-spacing="2">PRODUCT STRATEGY + TRADEOFFS</text>
+</svg>

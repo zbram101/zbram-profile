@@ -8,7 +8,7 @@ Use Node.js 20+ and run `npm install`, then `npm run dev`.
 
 ## Publishing blog posts
 
-The blog is available at `/blog/` on the portfolio domain. It is a lightweight, code-backed publishing flow: add a new entry to `src/blog.js`, then deploy the site as usual. Each post needs a title, excerpt, date, read-time estimate, tags, and content sections; the existing articles are copyable examples.
+The blog is available at `/blog/` on the portfolio domain. Add a new entry to `src/blog.js`, create `blog/<slug>/index.html` with the matching `data-post` value, and register the HTML entry in `vite.config.js` before deploying. Each post needs a title, excerpt, date, read-time estimate, tags, hero image, and content sections; the existing articles are copyable examples. Sections support paragraphs, labeled bullet points, comparison tables, diagrams, and callouts.
 
 The assistant works as a clearly labeled profile guide without a key. For AI conversation, copy `.env.example` to `.env.local`, set `OPENAI_API_KEY`, and restart the development server. Run `npm run agent:register` to create/reuse a saved OpenAI portfolio agent and save `OPENAI_AGENT_ID` locally. New sessions inherit that agent's portal configuration; `OPENAI_AGENT_MODEL` controls registration and the inline fallback, defaulting to `gpt-6-astra`. The key must have Agents API permissions and access to the selected model. `OPENAI_MODEL` remains the setting for the legacy Responses fallback. Never prefix a key with `VITE_`; that would expose it to visitors.
 

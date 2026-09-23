@@ -1,4 +1,163 @@
+import { jevContextPlatformPost } from './posts/jev-context-platform.js';
+
 export const posts = [
+  jevContextPlatformPost,
+  {
+    slug: 'context-platform-strategy-features-and-tradeoffs',
+    title: 'Context Platform: BI by AI, with repeatable intelligence',
+    excerpt: 'Business intelligence powered by AI, built around reusable analytical methods. How Context Platform connects data, personal, and process context—and where its features, strategy, and tradeoffs fit in the market.',
+    date: 'September 19, 2026',
+    readTime: '10 min read',
+    tags: ['Context Platform', 'BI by AI', 'Repeatable Intelligence'],
+    hero: '/images/context-platform-hero.svg',
+    heroAspectRatio: '2 / 1',
+    heroAlt: 'Data, personal, and process context converge into an inspectable answer.',
+    body: [
+      {
+        heading: 'BI by AI, with repeatable intelligence',
+        paragraphs: [
+          'Context Platform is my approach to business intelligence powered by AI, built around repeatable intelligence. The product goal is to let someone start with a business question, use AI to investigate governed data, and turn a useful analysis into a method that can be applied across people and reporting cycles.',
+          'Ask an AI assistant, “How is my region performing?” and the difficult part starts before any SQL runs. What does performance mean? Which region belongs to this person? Which dates matter? Is the question about booked sales, recognized revenue, or margin? A query can execute perfectly and still answer a different question from the one the business intended.',
+          'The context layers make that BI experience possible. They capture what the business means, what applies to the person asking, and how an analysis should be carried out. An answer should carry the definitions and assumptions that produced it, so someone else can inspect, challenge, and build on the work.'
+        ],
+        callout: 'Project snapshot: September 19, 2026. This article draws on the Context Platform codebase and build plans. Core analytics and personal context are implemented; process authoring and composition are local development increments. The complete process lifecycle remains planned.'
+      },
+      {
+        heading: 'What repeatable intelligence means',
+        paragraphs: [
+          'Repeatable intelligence means preserving the useful structure of an analysis: the business definitions, the applicable scope, the required inputs, and the steps that make the result meaningful. Once a team agrees on a sales review, the product direction is to make that method reusable for the next month or another manager’s territory, with each run showing the choices and evidence behind it.',
+          'The AI helps people ask questions, explore results, perform calculations, and explain findings. The governed definitions and process contracts preserve the method. Human review establishes which meanings and methods deserve to be reused. This is how an individual investigation can become a shared BI capability.',
+          'Repeatability lives in those definitions, inputs, and methods. Results can change as source data, reporting periods, or responsibilities change, and AI explanations can vary. The system should make those differences explainable. The current product supplies the semantic and personal foundations; the complete reusable process experience is the next milestone.'
+        ]
+      },
+      {
+        heading: 'The strategy: make intelligence reusable through context',
+        paragraphs: [
+          'Data context defines the shared meaning of a metric: its calculation, supported dimensions, relationships, policies, and released version. Personal context captures the person’s accepted responsibilities, preferences, and reporting scope, including when those facts apply. Process context describes a reusable method: the steps, required inputs, fixed choices, and personal bindings needed to carry out a particular analysis.',
+          'Together, they create a useful separation of responsibilities. The business owns what “sales revenue” means. A person owns their accepted profile. A process author defines how a sales review should work. The platform resolves those inputs into a constrained query and records where each choice came from.',
+          'The commercial hypothesis is to start with recurring BI reviews in one well-defined business domain. A data or analytics leader sponsors the pilot; a domain expert curates definitions; analysts and managers use the results. The entry point is a business question and a useful review. The initial value should be faster analysis, fewer repeated explanations, and less time rebuilding the same investigation. Expansion into other domains should follow evidence that this first workflow is useful.'
+        ],
+        diagram: 'context-platform-layers'
+      },
+      {
+        heading: 'What the working product already does',
+        paragraphs: [
+          'The foundation is a governed path from definition to answer. Neo4j stores semantic definitions and their relationships; PostgreSQL remains the source of business data. The application combines a React and TypeScript interface with a Python API. AdventureWorks provides the bundled demonstration, while configuration and scoped memberships support additional PostgreSQL workspaces.'
+        ],
+        bullets: [
+          { label: 'Versioned business definitions', text: 'Authors create drafts and inspect semantic changes. Independent reviewers approve specific revisions; publishers create immutable releases, promote them through channels, and roll back channel pointers. Release checks validate semantic contracts and live bindings.' },
+          { label: 'Constrained query execution', text: 'The assistant selects structured metrics, dimensions, filters, and periods. A deterministic compiler produces parameterized SQL from reviewed definitions and approved sources. The query interface rejects arbitrary client SQL, and the source connection executes read-only queries.' },
+          { label: 'Analysis with evidence', text: 'Chat can query repeatedly, analyze selected result snapshots with hosted Python, and produce charts and CSVs. Answers expose query evidence, calculations, and release provenance. Recorded token usage and estimated costs help explain the work behind an answer.' },
+          { label: 'Context people can inspect', text: 'Search, term resolution, Query Studio, and an interactive relationship graph help users explore released definitions. Ambiguous terms and incompatible metric/dimension combinations can become explicit errors or clarification requests.' },
+          { label: 'Shared behavior across interfaces', text: 'The web experience, HTTP API, Python and TypeScript clients, and MCP tools use the same governed services. A tool integration does not get a separate path around the validator.' }
+        ]
+      },
+      {
+        heading: 'Personal context: useful defaults with a history',
+        paragraphs: [
+          'My Context adds owned profiles for responsibilities, project membership, metric preferences, grouping, filters, reporting periods, and answer style. A user can enter statements directly or review interview suggestions before saving them. The current implementation does not silently turn conversations into long-term memories.',
+          'Time matters here. “I manage Canada” can be true for one period and false for another. The platform distinguishes when a statement applies from when the system learned it, preserves corrections, and records the personal assumptions used in a query. Conflicting defaults require clarification, and explicit query choices can override applicable defaults.',
+          'These profiles describe analytical scope; they do not grant database access. Membership and source permissions remain separate controls. A saved region preference is useful context, but it is not row-level security.',
+          'Forgetting is also an explicit operation. The implemented cleanup invalidates affected plans and removes derived context, answers, and artifacts within the application’s defined boundary. It does not erase previously downloaded files, backups, provider records, or separately retained original user messages.'
+        ]
+      },
+      {
+        heading: 'Process context: the next step toward repeatable intelligence',
+        paragraphs: [
+          'The next layer makes a familiar request reusable: “Review sales revenue by channel for the territory the person manages.” The shared process should store the requirement for an accepted territory filter. The actual value—Canada, for example—belongs to the person’s private run. Copying an author’s personal territory into every future user’s workflow would be a subtle but serious mistake.',
+          'Local development now includes typed query/end-step contracts, candidate discovery from released definitions, manual process authoring, server validation, and draft downloads. An internal composer can freeze the process inputs, semantic definitions, source descriptors, and personal evidence, then produce deterministic query plans with provenance. Sales and support fixtures exercise this path.',
+          'That is an implementation foundation. Browser drafts are not yet a durable process registry. Process persistence, independent publication, owned runs, and the full execution lifecycle remain pending. Optional AI assistance for mapping an author’s description to approved fields is also planned; it would propose choices for review while the compiler remains responsible for executable plans.'
+        ],
+        callout: 'The three-context design is the product direction. A completed, published, end-to-end process experience is not yet a shipped capability.'
+      },
+      {
+        heading: 'A concrete example: the monthly sales review',
+        paragraphs: [
+          'Consider a manager reviewing Canada’s sales by channel for a specified month. In the sample domain, sales revenue is the order subtotal, excluding tax and freight. That definition is booked sales; it should not be presented as accounting-recognized revenue or profit.',
+          'The current query and personal-context path can combine that released definition with an accepted Canada filter and an explicit reporting period. The answer can show which definition and personal assumptions were used. The proposed process layer would package those choices into a reusable review, require missing inputs, and keep each participant’s scope separate.',
+          'This illustrates the kind of repeatability I want: a shared definition and method, with a visible reason for differences between people’s results. Pinning definitions alone does not freeze the underlying database. Reproducing an old number still requires the original result snapshot or an appropriate historical data source.'
+        ]
+      },
+      {
+        heading: 'Where it sits in the market',
+        paragraphs: [
+          'I place Context Platform in AI-powered BI, with repeatable intelligence as its product focus. The comparison is therefore about both the immediate analysis experience and how well a useful method can carry into the next review. Governed semantics, conversational analytics, and reusable context already exist in substantial products. The table summarizes current vendor documentation; the fit and tradeoff judgments are my assessment, not a benchmark or a claim of feature superiority.'
+        ],
+        table: {
+          caption: 'Market comparison · vendor sources checked September 19, 2026',
+          columns: ['Platform', 'What it offers', 'How I would weigh it'],
+          rows: [
+            [
+              { text: 'Snowflake Cortex Agents', href: 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents' },
+              'Managed agents combining structured queries through Cortex Analyst semantic views, unstructured retrieval through Cortex Search, and tools such as Python execution.',
+              'A natural starting point for teams already governed in Snowflake. Its managed execution is a substantial advantage. Context Platform must earn a place through its specific context workflows; it cannot claim unique ownership of governed analysis.'
+            ],
+            [
+              { text: 'Databricks Genie', href: 'https://docs.databricks.com/aws/en/genie' },
+              'Natural-language data exploration, dashboards, and apps on a Unity Catalog foundation. Genie Agents let teams configure trusted data, metrics, and business rules.',
+              'A strong fit to evaluate when the organization already works in Databricks. Context Platform offers a smaller, independently operated application, with far less ecosystem breadth and no demonstrated enterprise-scale advantage.'
+            ],
+            [
+              { text: 'Cube', href: 'https://docs.cube.dev/docs/introduction' },
+              'An analytics platform built on an open-source semantic layer, with shared metrics, joins, access rules, caching, Analytics Chat, APIs, and MCP access.',
+              'A close comparison for governed metrics and embedded analytics. Context Platform’s intended emphasis is on temporal personal evidence and reusable process bindings. That distinction needs user validation; a semantic layer and MCP endpoint alone are insufficient differentiation.'
+            ],
+            [
+              { text: 'Atlan Context Engineering Studio', href: 'https://atlan.com/context-engineering-studio/' },
+              'Atlan presents a workflow for assembling business context, evaluating it, deploying it to agents, and observing its use across a wider data estate.',
+              'The closest strategic overlap in treating context as a product. Evaluate it when broad context integration is the main need. Context Platform currently focuses on a bounded structured-query experience; external catalog synchronization is explicitly excluded from its scope.'
+            ],
+            [
+              { text: 'Context Platform', href: 'https://context.bharadwajramachandran.com' },
+              'BI by AI, with repeatable intelligence as the goal: governed PostgreSQL analysis, semantic and personal context, and a process layer in development.',
+              'A candidate for a focused pilot around recurring business reviews and reusable analytical methods. It still needs a finished process lifecycle, broader adapters, and operational evidence before making an enterprise platform claim.'
+            ]
+          ]
+        },
+        callout: 'Existing platform investment matters. A team with mature semantics and governance in one of these systems should first test whether its existing platform solves the workflow. Context Platform needs to demonstrate enough additional value to justify another system.'
+      },
+      {
+        heading: 'The advantages I am building toward',
+        paragraphs: [
+          'The strongest advantages come from connecting context to execution and making the connection inspectable. They are design strengths with working foundations, not measured claims about customer outcomes.'
+        ],
+        bullets: [
+          { label: 'Explainable differences', text: 'Two people can receive different results while sharing a metric definition. Recorded personal filters, time cutoffs, and explicit choices help explain why, instead of leaving the difference buried in a prompt.' },
+          { label: 'Controlled change', text: 'Reviews, immutable releases, regression checks, and rollback provide a concrete way to evolve business definitions. Pinning the semantic release makes a changed interpretation easier to diagnose.' },
+          { label: 'Predictable execution boundaries', text: 'Structured intent and reviewed bindings keep executable queries within supported operations. The model helps interpret the request; application code validates and compiles the query.' },
+          { label: 'Intelligence that can be reused', text: 'The process direction would let a team carry an accepted analytical method into future reviews, with new periods and each person’s scope supplied explicitly. APIs and MCP allow the governed services to be used beyond the web interface.' }
+        ]
+      },
+      {
+        heading: 'The costs and limitations are real',
+        paragraphs: [
+          'The biggest risk is creating another place where people must maintain business knowledge. Definitions need owners, reviews take time, and profiles become stale. The product succeeds only if that effort is lower than the repeated clarification and reconciliation it removes.'
+        ],
+        bullets: [
+          { label: 'Breadth is deliberately limited', text: 'The current source adapter supports PostgreSQL and bounded aggregate expressions on one target per query. Arbitrary joins, other database engines, and fiscal calendars require more work. Document ingestion, OCR, vector retrieval, and hybrid document/data workflows remain later phases.' },
+          { label: 'The process experience is incomplete', text: 'Local authoring and composition do not establish production-ready process publication or execution. Those milestones still carry implementation and rollout risk.' },
+          { label: 'Governance cannot repair bad meaning', text: 'An approved but incorrect metric remains incorrect. Source quality, domain review, ambiguity handling, and comparison against known answers remain essential. Plausible prose is not proof of a correct interpretation.' },
+          { label: 'There is an operating burden', text: 'The application, graph registry, source databases, identities, migrations, backups, and model usage all need care. Recorded AI costs are estimates, not a full operating-cost ledger. No enterprise SLO or throughput benchmark has been established.' },
+          { label: 'The competitive gap can narrow', text: 'Larger platforms already offer substantial semantic, agent, and context capabilities. The product must show that its particular combination of personal history and repeatable methods is useful enough to adopt and maintain.' }
+        ]
+      },
+      {
+        heading: 'What I would prove next',
+        paragraphs: [
+          'First, finish the process lifecycle: durable drafts, independent review, immutable publication, owned runs, and live access and erasure checks across those records. Then test a complete recurring review with real domain experts before expanding the connector list.',
+          'The pilot should measure agreement with analyst-approved reference answers, time from question to an accepted result, how often scope needs correction, and how often a published process is reused. It should also track the effort to maintain definitions and profiles, failed or unsupported requests, and total operating cost. These are proposed evaluation criteria; the project has not demonstrated these outcomes yet.',
+          'The product I am building is BI by AI, with repeatable intelligence. Its value should grow as teams preserve useful definitions, accepted scope, and reviewed methods—and apply them to the next business question. Context Platform brings those pieces together so people can spend more time understanding what changed and deciding what to do next.'
+        ]
+      }
+    ],
+    sources: [
+      { label: 'Context Platform — project site', url: 'https://context.bharadwajramachandran.com' },
+      { label: 'Snowflake — Cortex Agents documentation', url: 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents' },
+      { label: 'Databricks — Genie documentation', url: 'https://docs.databricks.com/aws/en/genie' },
+      { label: 'Cube — platform and semantic layer documentation', url: 'https://docs.cube.dev/docs/introduction' },
+      { label: 'Atlan — Context Engineering Studio product overview', url: 'https://atlan.com/context-engineering-studio/' }
+    ]
+  },
   {
     slug: 'data-agent-feedback-openai-feature',
     title: 'When feedback becomes part of the product story',

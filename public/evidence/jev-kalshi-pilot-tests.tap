@@ -1,0 +1,145 @@
+TAP version 13
+# Subtest: 200% profit means triple initial cash; marks never trigger the target
+ok 1 - 200% profit means triple initial cash; marks never trigger the target
+  ---
+  duration_ms: 1.282625
+  ...
+# Subtest: all bankrolls require valid finite configuration
+ok 2 - all bankrolls require valid finite configuration
+  ---
+  duration_ms: 0.222083
+  ...
+# Subtest: order book derives asks from opposing bids and sorts unsorted levels
+ok 3 - order book derives asks from opposing bids and sorts unsorted levels
+  ---
+  duration_ms: 0.093917
+  ...
+# Subtest: malformed and empty order books cannot produce orders
+ok 4 - malformed and empty order books cannot produce orders
+  ---
+  duration_ms: 0.777792
+  ...
+# Subtest: fees, cash, depth, per-trade and total exposure bound quantity
+ok 5 - fees, cash, depth, per-trade and total exposure bound quantity
+  ---
+  duration_ms: 0.140208
+  ...
+# Subtest: reject insufficient edge, unsourced analysis, correlated events and repeat trades
+ok 6 - reject insufficient edge, unsourced analysis, correlated events and repeat trades
+  ---
+  duration_ms: 0.061042
+  ...
+# Subtest: closing and crossed markets are rejected
+ok 7 - closing and crossed markets are rejected
+  ---
+  duration_ms: 0.105666
+  ...
+# Subtest: NO orders use ask in the single YES book at complementary price
+ok 8 - NO orders use ask in the single YES book at complementary price
+  ---
+  duration_ms: 0.05525
+  ...
+# Subtest: fill and settlement cash is conserved and settlement is idempotent
+ok 9 - fill and settlement cash is conserved and settlement is idempotent
+  ---
+  duration_ms: 0.166084
+  ...
+# Subtest: a bankroll fully invested is waiting for settlement, not exhausted
+ok 10 - a bankroll fully invested is waiting for settlement, not exhausted
+  ---
+  duration_ms: 0.050166
+  ...
+# Subtest: unfunded or oversized fills cannot silently corrupt cash
+ok 11 - unfunded or oversized fills cannot silently corrupt cash
+  ---
+  duration_ms: 0.065375
+  ...
+# Subtest: Kalshi signing uses RSA-PSS SHA256 and excludes query parameters
+ok 12 - Kalshi signing uses RSA-PSS SHA256 and excludes query parameters
+  ---
+  duration_ms: 97.140792
+  ...
+# Subtest: paper broker never permits authenticated exchange writes
+ok 13 - paper broker never permits authenticated exchange writes
+  ---
+  duration_ms: 0.1715
+  ...
+# Subtest: store has exclusive lock, durable roundtrip and does not reset corrupt state
+ok 14 - store has exclusive lock, durable roundtrip and does not reset corrupt state
+  ---
+  duration_ms: 18.838834
+  ...
+# Subtest: paper cycle uses live-shaped data, simulates a fill, never calls broker buy
+ok 15 - paper cycle uses live-shaped data, simulates a fill, never calls broker buy
+  ---
+  duration_ms: 1.314583
+  ...
+# Subtest: pause during model request prevents an order when the model returns
+ok 16 - pause during model request prevents an order when the model returns
+  ---
+  duration_ms: 0.136625
+  ...
+# Subtest: target stops orders even when eligible opportunities exist
+ok 17 - target stops orders even when eligible opportunities exist
+  ---
+  duration_ms: 0.069583
+  ...
+# Subtest: uncertain broker response persists intent and blocks automatic retry
+ok 18 - uncertain broker response persists intent and blocks automatic retry
+  ---
+  duration_ms: 0.783334
+  ...
+# Subtest: unexpected account positions, balance and orders block execution
+ok 19 - unexpected account positions, balance and orders block execution
+  ---
+  duration_ms: 0.163083
+  ...
+# Subtest: restart requires resume and pending intent cannot disappear
+ok 20 - restart requires resume and pending intent cannot disappear
+  ---
+  duration_ms: 0.050375
+  ...
+# Subtest: Jev filtering and cache avoid expensive OpenAI requests
+ok 21 - Jev filtering and cache avoid expensive OpenAI requests
+  ---
+  duration_ms: 0.282792
+  ...
+# Subtest: OpenAI source URLs must be present in actual search metadata
+ok 22 - OpenAI source URLs must be present in actual search metadata
+  ---
+  duration_ms: 0.264375
+  ...
+# Subtest: provider limits reserve failed calls and survive config edits
+ok 23 - provider limits reserve failed calls and survive config edits
+  ---
+  duration_ms: 0.136708
+  ...
+# Subtest: daily model budget pauses research without stopping settlement monitoring
+ok 24 - daily model budget pauses research without stopping settlement monitoring
+  ---
+  duration_ms: 0.092667
+  ...
+# Subtest: exact fill ledger handles fractional matches and actual fees without averages
+ok 25 - exact fill ledger handles fractional matches and actual fees without averages
+  ---
+  duration_ms: 0.244417
+  ...
+# Subtest: demo adapter submits once then reads actual fills
+ok 26 - demo adapter submits once then reads actual fills
+  ---
+  duration_ms: 0.086084
+  ...
+# Subtest: successive cycles rotate research instead of starving the rest of the watchlist
+ok 27 - successive cycles rotate research instead of starving the rest of the watchlist
+  ---
+  duration_ms: 0.384584
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 166.096167

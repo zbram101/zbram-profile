@@ -1,0 +1,15 @@
+{
+  "captured_at_utc": "2026-09-23T07:10:13.619149+00:00",
+  "source_project": "Kalshi Pilot",
+  "command": "node --test tests/core.test.mjs tests/config.test.mjs",
+  "scope": "Isolated copy of the seven listed source and test files; provider and exchange transports mocked; no credentials, account ledger, or market positions copied; no live provider or exchange calls.",
+  "sha256": {
+    "config.mjs": "17d57a83617e995a6269f666984c15a15d1d74d6aa784899da0e759e80635aea",
+    "core.mjs": "51e9149151894e235fc34addca9fe8b29dce3b32039eabcc394ab2c85d8909ce",
+    "engine.mjs": "3243990eb39794c4976fff5e40099916341ae656af2c38f9ae3b60a28f97eadf",
+    "providers.mjs": "eb681dba33f193160d562a9c2a3ce0e3a89aeb7c41e308c4643603d3fe00268f",
+    "store.mjs": "a5ba8a89987e09d02e11245df1f792964857d88faa5ae1768cb6ccbd2ae9bbdd",
+    "tests/core.test.mjs": "7e9465d2faf50a0efea776ce60c816a57ad60e0318ac11c8455255441dc28c05",
+    "tests/config.test.mjs": "821f97f8cc028bbc14d3eb486864a3b1e571a1e58a3865e0cfa8062df7f537e6"
+  }
+}

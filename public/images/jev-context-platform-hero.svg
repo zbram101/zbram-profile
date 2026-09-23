@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" fill="none">
+  <rect width="1600" height="800" fill="#141914"/>
+  <g font-family="Arial,sans-serif">
+    <text x="80" y="88" fill="#aeb9a8" font-size="18" letter-spacing="3">RESEARCH NOTES / SEPTEMBER 2026</text>
+    <text x="76" y="188" fill="#edf2e6" font-size="62" letter-spacing="-1">Jev: fit, limits, alternatives</text>
+    <g stroke="#47513f" fill="#1a2117">
+      <rect x="80" y="255" width="696" height="407" rx="12"/>
+      <rect x="824" y="255" width="696" height="407" rx="12"/>
+    </g>
+    <text x="112" y="307" fill="#c2f36b" font-size="16" letter-spacing="2">BOUNDED DECISIONS</text>
+    <text x="856" y="307" fill="#c2f36b" font-size="16" letter-spacing="2">KNOWN FAILURE MODES</text>
+    <text x="112" y="363" fill="#edf2e6" font-size="34">Routing and classification</text>
+    <text x="856" y="363" fill="#edf2e6" font-size="34">Precision and reasoning</text>
+    <path d="M112 392h632M856 392h632" stroke="#47513f"/>
+    <g fill="#b9c2b1" font-size="24">
+      <text x="112" y="440">Relevant context + explicit options</text>
+      <text x="112" y="490">A decision for application code</text>
+      <text x="856" y="440">Counting, arithmetic, date comparisons</text>
+      <text x="856" y="490">Multiple reasoning steps, distractors</text>
+    </g>
+    <g fill="#edf2e6" font-size="25">
+      <text x="112" y="580">Open alternatives</text>
+      <text x="856" y="580">Evidence varies by task</text>
+    </g>
+    <g fill="#94a08c" font-size="20">
+      <text x="112" y="620">SemIf (Qwen) · djev (DiffusionGemma)</text>
+      <text x="856" y="620">Vendor notes · community benchmarks</text>
+    </g>
+    <path d="M80 717h1440" stroke="#47513f"/>
+    <text x="80" y="759" fill="#aeb9a8" font-size="18">Read accuracy, calibration, latency, and cost separately.</text>
+  </g>
+</svg>
