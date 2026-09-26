@@ -5,7 +5,7 @@ export const posts = [
   {
     slug: 'context-platform-strategy-features-and-tradeoffs',
     title: 'Context Platform: BI by AI, with repeatable intelligence',
-    excerpt: 'Business intelligence powered by AI, built around reusable analytical methods. How Context Platform connects data, personal, and process context—and where its features, strategy, and tradeoffs fit in the market.',
+    excerpt: 'Business intelligence powered by AI, grounded in business definitions, personal responsibilities, and how work gets done. How Context Platform connects these contexts, with its features, market comparisons, and tradeoffs.',
     date: 'September 19, 2026',
     readTime: '10 min read',
     tags: ['Context Platform', 'BI by AI', 'Repeatable Intelligence'],
@@ -18,23 +18,23 @@ export const posts = [
         paragraphs: [
           'Context Platform is my approach to business intelligence powered by AI, built around repeatable intelligence. The product goal is to let someone start with a business question, use AI to investigate governed data, and turn a useful analysis into a method that can be applied across people and reporting cycles.',
           'Ask an AI assistant, “How is my region performing?” and the difficult part starts before any SQL runs. What does performance mean? Which region belongs to this person? Which dates matter? Is the question about booked sales, recognized revenue, or margin? A query can execute perfectly and still answer a different question from the one the business intended.',
-          'The context layers make that BI experience possible. They capture what the business means, what applies to the person asking, and how an analysis should be carried out. An answer should carry the definitions and assumptions that produced it, so someone else can inspect, challenge, and build on the work.'
+          'The context layers capture what the business means, what applies to the person asking, and how business work gets done. Analysis can support that work by explaining a situation or informing a decision. An answer should carry the definitions, assumptions, and applicable process rules behind it, so someone else can inspect and challenge the result.'
         ],
-        callout: 'Project snapshot: September 19, 2026. This article draws on the Context Platform codebase and build plans. Core analytics and personal context are implemented; process authoring and composition are local development increments. The complete process lifecycle remains planned.'
+        callout: 'Implementation snapshot: September 19, 2026, based on the Context Platform codebase and build plans. Process-context scope clarified September 25: the broader business process model described here is a design direction. The existing query/end model represents analytical workflows.'
       },
       {
         heading: 'What repeatable intelligence means',
         paragraphs: [
-          'Repeatable intelligence means preserving the useful structure of an analysis: the business definitions, the applicable scope, the required inputs, and the steps that make the result meaningful. Once a team agrees on a sales review, the product direction is to make that method reusable for the next month or another manager’s territory, with each run showing the choices and evidence behind it.',
-          'The AI helps people ask questions, explore results, perform calculations, and explain findings. The governed definitions and process contracts preserve the method. Human review establishes which meanings and methods deserve to be reused. This is how an individual investigation can become a shared BI capability.',
-          'Repeatability lives in those definitions, inputs, and methods. Results can change as source data, reporting periods, or responsibilities change, and AI explanations can vary. The system should make those differences explainable. The current product supplies the semantic and personal foundations; the complete reusable process experience is the next milestone.'
+          'Repeatable intelligence means preserving the business definitions, applicable scope, evidence, and process rules behind an analysis or decision. A recurring sales review is one use. Understanding why an order is waiting for approval is another: the answer depends on the order, the credit policy, and who owns the next action.',
+          'The AI helps people ask questions, explore results, perform calculations, and explain findings. Reviewed definitions and process descriptions give that work a shared basis. People remain responsible for agreeing on meanings, responsibilities, and decision rules.',
+          'Results can change as source data, reporting periods, process state, or responsibilities change, and AI explanations can vary. The system should make those differences explainable. Reusing context does not mean every business task must be automated.'
         ]
       },
       {
         heading: 'The strategy: make intelligence reusable through context',
         paragraphs: [
-          'Data context defines the shared meaning of a metric: its calculation, supported dimensions, relationships, policies, and released version. Personal context captures the person’s accepted responsibilities, preferences, and reporting scope, including when those facts apply. Process context describes a reusable method: the steps, required inputs, fixed choices, and personal bindings needed to carry out a particular analysis.',
-          'Together, they create a useful separation of responsibilities. The business owns what “sales revenue” means. A person owns their accepted profile. A process author defines how a sales review should work. The platform resolves those inputs into a constrained query and records where each choice came from.',
+          'Data context describes business entities, definitions, relationships, and records; the current implementation centers on governed metrics and dimensions. Personal context captures someone’s accepted responsibilities, preferences, and scope, including when those facts apply. Process context describes how business work gets done: its steps, responsibilities, decisions, and rules.',
+          'Each layer answers a different question. Data explains what an order and a credit limit mean. Personal context identifies the account manager’s responsibility. Process context explains when finance must approve an order before fulfillment. A query can provide evidence for that decision; the business process defines what should happen next.',
           'The commercial hypothesis is to start with recurring BI reviews in one well-defined business domain. A data or analytics leader sponsors the pilot; a domain expert curates definitions; analysts and managers use the results. The entry point is a business question and a useful review. The initial value should be faster analysis, fewer repeated explanations, and less time rebuilding the same investigation. Expansion into other domains should follow evidence that this first workflow is useful.'
         ],
         diagram: 'context-platform-layers'
@@ -62,20 +62,42 @@ export const posts = [
         ]
       },
       {
-        heading: 'Process context: the next step toward repeatable intelligence',
+        heading: 'Process context: how business work gets done',
         paragraphs: [
-          'The next layer makes a familiar request reusable: “Review sales revenue by channel for the territory the person manages.” The shared process should store the requirement for an accepted territory filter. The actual value—Canada, for example—belongs to the person’s private run. Copying an author’s personal territory into every future user’s workflow would be a subtle but serious mistake.',
-          'Local development now includes typed query/end-step contracts, candidate discovery from released definitions, manual process authoring, server validation, and draft downloads. An internal composer can freeze the process inputs, semantic definitions, source descriptors, and personal evidence, then produce deterministic query plans with provenance. Sales and support fixtures exercise this path.',
-          'That is an implementation foundation. Browser drafts are not yet a durable process registry. Process persistence, independent publication, owned runs, and the full execution lifecycle remain pending. Optional AI assistance for mapping an author’s description to approved fields is also planned; it would propose choices for review while the compiler remains responsible for executable plans.'
+          'Process context describes how a business reaches an outcome: which tasks people perform, what decisions they make, and which rules and dependencies govern the work. Consider a simplified order-to-cash process:',
+          'Receive order → Validate order → Approve credit → Fulfill order → Invoice → Collect payment'
         ],
-        callout: 'The three-context design is the product direction. A completed, published, end-to-end process experience is not yet a shipped capability.'
+        bullets: [
+          { label: 'Purpose', text: 'The outcome the process delivers: in this example, fulfill a valid customer order and collect the payment owed.' },
+          { label: 'Roles', text: 'Who performs each task and who approves decisions: sales receives the order, finance handles credit approval, and fulfillment owns delivery.' },
+          { label: 'Steps and dependencies', text: 'What happens next and what must happen first. An order requiring credit approval cannot proceed to fulfillment until that approval is recorded.' },
+          { label: 'Business rules', text: 'Approval thresholds, prerequisites, deadlines, and exception paths, such as what happens when credit is denied, information is missing, or payment is overdue.' },
+          { label: 'Inputs and outputs', text: 'The documents, records, and evidence each step consumes or produces: an order, credit information, an approval record, delivery evidence, an invoice, and payment confirmation.' },
+          { label: 'Instance state', text: 'Where a particular order stands, what is pending, and who owns the next action. The shared process defines the rule; this order’s state might be “awaiting finance approval.”' }
+        ],
+        callout: 'Represent and explain the business process first. People can still perform its tasks and approvals in existing systems. Execution capabilities can be added where appropriate; defining process context does not require automating every step.'
       },
       {
-        heading: 'A concrete example: the monthly sales review',
+        heading: 'Order-to-cash: the three contexts together',
         paragraphs: [
-          'Consider a manager reviewing Canada’s sales by channel for a specified month. In the sample domain, sales revenue is the order subtotal, excluding tax and freight. That definition is booked sales; it should not be presented as accounting-recognized revenue or profit.',
-          'The current query and personal-context path can combine that released definition with an accepted Canada filter and an explicit reporting period. The answer can show which definition and personal assumptions were used. The proposed process layer would package those choices into a reusable review, require missing inputs, and keep each participant’s scope separate.',
-          'This illustrates the kind of repeatability I want: a shared definition and method, with a visible reason for differences between people’s results. Pinning definitions alone does not freeze the underlying database. Reproducing an old number still requires the original result snapshot or an appropriate historical data source.'
+          'An account manager asking “Why hasn’t this order shipped?” needs more than a sales total. The intended model would connect the order’s records and current state to the applicable rule and the person responsible for the next action. These are illustrative business facts, not a claim that this workflow is implemented.'
+        ],
+        table: {
+          caption: 'Three contexts applied to an order-to-cash example',
+          columns: ['Context', 'Example'],
+          rows: [
+            ['Personal', 'I am an account manager responsible for Canada.'],
+            ['Data', 'Definitions and records for customers, orders, credit limits, and invoices.'],
+            ['Process', 'An order exceeding the customer’s credit limit requires finance approval before fulfillment.']
+          ]
+        }
+      },
+      {
+        heading: 'Where the current query/end model stops',
+        paragraphs: [
+          'The repo’s query/end model is too narrow for this business process scope. Its typed steps, field bindings, validation, and deterministic query composition represent analytical workflows. They provide a foundation for repeatable analysis, but do not describe the tasks, decisions, approvals, handoffs, exception paths, and instance state of an order-to-cash process.',
+          'A credit-exposure query could support an approval decision. The process would still need to identify the approver, record whether approval is pending, granted, or denied, and explain the resulting next step. Running the query does not make that decision or authorize fulfillment.',
+          'The next modeling step is to represent those business responsibilities and transitions explicitly. Process definitions and evidence about each instance should be inspectable even when people carry out the work manually. Query execution can remain one capability within that broader model.'
         ]
       },
       {
@@ -100,7 +122,7 @@ export const posts = [
             [
               { text: 'Cube', href: 'https://docs.cube.dev/docs/introduction' },
               'An analytics platform built on an open-source semantic layer, with shared metrics, joins, access rules, caching, Analytics Chat, APIs, and MCP access.',
-              'A close comparison for governed metrics and embedded analytics. Context Platform’s intended emphasis is on temporal personal evidence and reusable process bindings. That distinction needs user validation; a semantic layer and MCP endpoint alone are insufficient differentiation.'
+              'A close comparison for governed metrics and embedded analytics. Context Platform’s intended emphasis is on temporal personal evidence and business process context. That direction needs implementation and user validation; a semantic layer and MCP endpoint alone are insufficient differentiation.'
             ],
             [
               { text: 'Atlan Context Engineering Studio', href: 'https://atlan.com/context-engineering-studio/' },
@@ -109,8 +131,8 @@ export const posts = [
             ],
             [
               { text: 'Context Platform', href: 'https://context.bharadwajramachandran.com' },
-              'BI by AI, with repeatable intelligence as the goal: governed PostgreSQL analysis, semantic and personal context, and a process layer in development.',
-              'A candidate for a focused pilot around recurring business reviews and reusable analytical methods. It still needs a finished process lifecycle, broader adapters, and operational evidence before making an enterprise platform claim.'
+              'BI by AI, with repeatable intelligence as the goal: governed PostgreSQL analysis, semantic and personal context, and an analytical workflow foundation. Broader business process context is a design direction.',
+              'A candidate for a focused pilot around recurring business reviews. Representing business tasks, decisions, and instance state requires a broader process model. Wider adapters and operational evidence are also needed before making an enterprise platform claim.'
             ]
           ]
         },
@@ -125,7 +147,7 @@ export const posts = [
           { label: 'Explainable differences', text: 'Two people can receive different results while sharing a metric definition. Recorded personal filters, time cutoffs, and explicit choices help explain why, instead of leaving the difference buried in a prompt.' },
           { label: 'Controlled change', text: 'Reviews, immutable releases, regression checks, and rollback provide a concrete way to evolve business definitions. Pinning the semantic release makes a changed interpretation easier to diagnose.' },
           { label: 'Predictable execution boundaries', text: 'Structured intent and reviewed bindings keep executable queries within supported operations. The model helps interpret the request; application code validates and compiles the query.' },
-          { label: 'Intelligence that can be reused', text: 'The process direction would let a team carry an accepted analytical method into future reviews, with new periods and each person’s scope supplied explicitly. APIs and MCP allow the governed services to be used beyond the web interface.' }
+          { label: 'Intelligence that can be reused', text: 'Shared definitions, personal responsibilities, and process rules could inform the next review, order, or exception without rebuilding that context each time. APIs and MCP already allow the governed analytical services to be used beyond the web interface.' }
         ]
       },
       {
@@ -135,7 +157,7 @@ export const posts = [
         ],
         bullets: [
           { label: 'Breadth is deliberately limited', text: 'The current source adapter supports PostgreSQL and bounded aggregate expressions on one target per query. Arbitrary joins, other database engines, and fiscal calendars require more work. Document ingestion, OCR, vector retrieval, and hybrid document/data workflows remain later phases.' },
-          { label: 'The process experience is incomplete', text: 'Local authoring and composition do not establish production-ready process publication or execution. Those milestones still carry implementation and rollout risk.' },
+          { label: 'The process model is too narrow', text: 'Query/end workflows cannot express the full business process described here. Tasks, decisions, approvals, handoffs, exceptions, and reliable instance state require additional modeling and validation. Analytical evals do not establish that these capabilities work.' },
           { label: 'Governance cannot repair bad meaning', text: 'An approved but incorrect metric remains incorrect. Source quality, domain review, ambiguity handling, and comparison against known answers remain essential. Plausible prose is not proof of a correct interpretation.' },
           { label: 'There is an operating burden', text: 'The application, graph registry, source databases, identities, migrations, backups, and model usage all need care. Recorded AI costs are estimates, not a full operating-cost ledger. No enterprise SLO or throughput benchmark has been established.' },
           { label: 'The competitive gap can narrow', text: 'Larger platforms already offer substantial semantic, agent, and context capabilities. The product must show that its particular combination of personal history and repeatable methods is useful enough to adopt and maintain.' }
@@ -144,9 +166,9 @@ export const posts = [
       {
         heading: 'What I would prove next',
         paragraphs: [
-          'First, finish the process lifecycle: durable drafts, independent review, immutable publication, owned runs, and live access and erasure checks across those records. Then test a complete recurring review with real domain experts before expanding the connector list.',
-          'The pilot should measure agreement with analyst-approved reference answers, time from question to an accepted result, how often scope needs correction, and how often a published process is reused. It should also track the effort to maintain definitions and profiles, failed or unsupported requests, and total operating cost. These are proposed evaluation criteria; the project has not demonstrated these outcomes yet.',
-          'The product I am building is BI by AI, with repeatable intelligence. Its value should grow as teams preserve useful definitions, accepted scope, and reviewed methods—and apply them to the next business question. Context Platform brings those pieces together so people can spend more time understanding what changed and deciding what to do next.'
+          'First, describe one real business process with domain experts, including its purpose, roles, decision rules, dependencies, exceptions, and instance states. Extend the model beyond query/end and test whether the platform can explain where a case stands, why it is waiting, and who should act next. Add execution only where it is useful and authorized.',
+          'Evaluation should check those explanations against known cases, including denied approvals, missing evidence, and overdue handoffs. Analytical checks should still compare results with analyst-approved answers and track scope corrections. Both need measures of maintenance effort and operating cost. These are proposed criteria; existing analytical evals do not demonstrate business process coverage.',
+          'The product direction remains BI by AI, with repeatable intelligence: preserve the definitions, responsibilities, and process rules that make business questions meaningful, then use that context to explain the situation and support the next decision.'
         ]
       }
     ],

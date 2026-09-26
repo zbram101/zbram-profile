@@ -45,6 +45,9 @@
 .article-references a:hover{color:var(--lime)}
 .article-table-metrics tbody th{width:40%}
 .article-table-metrics td{width:20%;font-variant-numeric:tabular-nums;white-space:nowrap}
+.article-table-two-column{min-width:0}
+.article-table-two-column tbody th{width:25%}
+.article-table-two-column td{width:75%}
 .jev-binding-diagram code{display:block;color:var(--lime);font-size:11px;margin-top:10px;overflow-wrap:anywhere}
 
 /* Compact article index. Keep the reading pages on their existing layout. */

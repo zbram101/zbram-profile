@@ -90,15 +90,15 @@ function ContextPlatformDiagram() {
   const layers = [
     ['01', 'Data context', 'What does it mean?', 'Released metrics, dimensions, and policies', 'Working foundation'],
     ['02', 'Personal context', 'What applies to me?', 'Accepted scope, preferences, and effective dates', 'Implemented pilot'],
-    ['03', 'Process context', 'How should this run?', 'Reusable steps, inputs, and personal bindings', 'In development']
+    ['03', 'Process context', 'How does work get done?', 'Tasks, roles, decisions, rules, and handoffs', 'Broader scope planned']
   ];
   return <figure className="diagram context-platform-diagram">
     <figcaption>The context behind repeatable intelligence</figcaption>
     <div className="context-layers">{layers.map(([number, title, question, description, status]) => <div className="context-layer" key={number}>
       <small>{number} / {status}</small><strong>{title}</strong><em>{question}</em><span>{description}</span>
     </div>)}</div>
-    <div className="context-compose"><span aria-hidden="true">↓</span><strong>Resolve context → validate → compile</strong><span>Query evidence · definition versions · accepted assumptions</span></div>
-    <p>Conceptual product direction. Full process publication and owned runs remain planned.</p>
+    <div className="context-compose"><span aria-hidden="true">↓</span><strong>Understand the situation → explain the next action</strong><span>Business definitions · responsibilities · process state</span></div>
+    <p>Business process context is a design direction. The current query/end model covers analytical workflows.</p>
   </figure>;
 }
 
@@ -120,7 +120,7 @@ function JevBindingFlow() {
 
 function ArticleTable({ table }) {
   return <div className="article-table-scroll" role="region" aria-label={table.caption} tabIndex={0}>
-    <table className={`article-table${table.variant === 'metrics' ? ' article-table-metrics' : ''}`}>
+    <table className={`article-table${table.variant === 'metrics' ? ' article-table-metrics' : ''}${table.columns.length === 2 ? ' article-table-two-column' : ''}`}>
       <caption>{table.caption}</caption>
       <thead><tr>{table.columns.map(column => <th scope="col" key={column}>{column}</th>)}</tr></thead>
       <tbody>{table.rows.map((row, rowIndex) => <tr key={rowIndex}>{row.map((cell, columnIndex) => {
