@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ArrowLeft, ArrowUpRight, Clock3 } from 'lucide-react';
 import { posts } from './blog';
+import { startPageAnalytics } from './analytics';
 import './blog.css';
 
 function App() {
+  useEffect(() => startPageAnalytics(), []);
   return <main className="blog-shell blog-index">
     <header className="blog-header"><a href="/" className="blog-home"><ArrowLeft size={17}/> Portfolio home</a><a href="#top" className="blog-wordmark">br<span>.</span><small>FIELD NOTES</small></a></header>
     <section className="blog-hero" id="top"><p>FIELD NOTES / 2026</p><h1>Thoughts & <em>experience.</em></h1><span>What I’m building, what I’m testing, and what I’m learning along the way.</span></section>
@@ -23,7 +25,7 @@ function App() {
         </a>
       </article>)}</div>
     </section>
-    <footer className="blog-footer"><a href="/">← Back to portfolio</a><a href="#top">Back to top ↑</a></footer>
+    <footer className="blog-footer"><a href="/">← Back to portfolio</a><small>Anonymous view and link-click analytics help improve this blog.</small><a href="#top">Back to top ↑</a></footer>
   </main>;
 }
 

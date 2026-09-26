@@ -1,6 +1,7 @@
 import nodeCrypto from 'node:crypto';
 import { DynamoDBClient, PutItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { handleChat } from './chat.js';
+import { parseAnalyticsEvent } from './analytics.js';
 const crypto = nodeCrypto;
 const dynamo = new DynamoDBClient({ maxAttempts: 2 });
 const allowedOrigins = new Set([
@@ -10,15 +11,18 @@ const allowedOrigins = new Set([
 ]);
 const response = (status, body, origin) => ({ statusCode: status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...(origin ? { 'access-control-allow-origin': origin, vary: 'Origin' } : {}) }, body: JSON.stringify(body) });
 const keyFrom = value => { const raw = (value || '').trim(); if (!raw || !raw.startsWith('{')) return raw; try { const object = JSON.parse(raw); return object.OPENAI_API_KEY || object.openai_api_key || object.apiKey || object.key || Object.values(object).find(value => typeof value === 'string' && value.startsWith('sk-')) || ''; } catch { return ''; } };
-const emitMetrics = (metrics, page) => console.log(JSON.stringify({ _aws: { Timestamp: Date.now(), CloudWatchMetrics: [{ Namespace: 'PortfolioAnalytics', Dimensions: [['Site']], Metrics: Object.keys(metrics).map(Name => ({ Name, Unit: 'Count' })) }, ...(page ? [{ Namespace: 'PortfolioAnalytics', Dimensions: [['Site', 'Page']], Metrics: [{ Name: 'PageViews', Unit: 'Count' }] }] : [])] }, Site: 'bharadwajramachandran.com', ...(page ? { Page: page } : {}), ...metrics }));
+const emitMetrics = (metrics, details = {}, pageMetrics = []) => console.log(JSON.stringify({ _aws: { Timestamp: Date.now(), CloudWatchMetrics: [{ Namespace: 'PortfolioAnalytics', Dimensions: [['Site']], Metrics: Object.keys(metrics).map(Name => ({ Name, Unit: 'Count' })) }, ...(pageMetrics.length ? [{ Namespace: 'PortfolioAnalytics', Dimensions: [['Site', 'Page']], Metrics: pageMetrics.map(Name => ({ Name, Unit: 'Count' })) }] : [])] }, Site: 'bharadwajramachandran.com', ...details, ...metrics }));
 const readBody = event => { try { return JSON.parse(event.body || '{}'); } catch { return null; } };
 const recordVisit = async (event, origin) => {
-  const body = readBody(event);
-  const visitorId = body?.visitorId;
-  const page = body?.path;
-  if (typeof visitorId !== 'string' || !/^[a-f0-9-]{16,64}$/i.test(visitorId) || typeof page !== 'string' || !/^\/[a-z0-9/_-]*$/i.test(page) || page.length > 80) return response(400, { error: 'Invalid analytics event.' }, origin);
+  const parsed = parseAnalyticsEvent(readBody(event));
+  if (!parsed) return response(400, { error: 'Invalid analytics event.' }, origin);
+  const { visitorId, type, isBlog, isArticle, details } = parsed;
   const day = new Date().toISOString().slice(0, 10);
   const visitorHash = crypto.createHash('sha256').update(visitorId).digest('hex');
+  if (type === 'link_click') {
+    emitMetrics({ LinkClicks: 1, ...(isBlog ? { BlogLinkClicks: 1 } : {}) }, { ...details, VisitorHash: visitorHash }, ['LinkClicks']);
+    return response(202, { recorded: true }, origin);
+  }
   let uniqueVisitors = 0;
   try {
     await dynamo.send(new PutItemCommand({ TableName: process.env.VISITOR_TABLE, Item: { day: { S: day }, visitorHash: { S: visitorHash }, expiresAt: { N: String(Math.floor(Date.now() / 1000) + 34560000) } }, ConditionExpression: 'attribute_not_exists(visitorHash)' }));
@@ -26,7 +30,7 @@ const recordVisit = async (event, origin) => {
   } catch (error) {
     if (error.name !== 'ConditionalCheckFailedException') { console.error('analytics_write_failed'); return response(503, { error: 'Analytics is temporarily unavailable.' }, origin); }
   }
-  emitMetrics({ PageViews: 1, UniqueVisitors: uniqueVisitors }, page);
+  emitMetrics({ PageViews: 1, UniqueVisitors: uniqueVisitors, ...(isBlog ? { BlogViews: 1 } : {}), ...(isArticle ? { ArticleViews: 1 } : {}) }, { ...details, VisitorHash: visitorHash }, ['PageViews']);
   return response(202, { recorded: true }, origin);
 };
 

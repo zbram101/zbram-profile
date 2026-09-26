@@ -7,11 +7,24 @@ import nodeCrypto from 'node:crypto';
 const template = await readFile(new URL('../infrastructure/portfolio-chat.yml', import.meta.url), 'utf8');
 const inlineCode = template.match(/        ZipFile: \|\n([\s\S]*?)(?=\n  ChatApi:)/)[1].split('\n').map(line => line.slice(10)).join('\n');
 const origin = 'https://bharadwajramachandran.com';
-function runtime({ limited = false } = {}) {
+function runtime({ limited = false, analyticsError = false } = {}) {
   const calls = [];
   const logs = [];
+  const visitors = new Set();
   class Command { constructor(input) { this.input = input; } }
-  class DynamoDBClient { async send(command) { calls.push(command.input); if (limited) throw Object.assign(new Error(), { name: 'ConditionalCheckFailedException' }); return {}; } }
+  class DynamoDBClient {
+    async send(command) {
+      calls.push(command.input);
+      if (limited) throw Object.assign(new Error(), { name: 'ConditionalCheckFailedException' });
+      if (command.input.TableName === 'test-visitors') {
+        if (analyticsError) throw new Error('write unavailable');
+        const key = `${command.input.Item.day.S}:${command.input.Item.visitorHash.S}`;
+        if (visitors.has(key)) throw Object.assign(new Error(), { name: 'ConditionalCheckFailedException' });
+        visitors.add(key);
+      }
+      return {};
+    }
+  }
   const module = { exports: {} };
   const context = createContext({
     module, exports: module.exports,
@@ -55,4 +68,65 @@ test('AWS preserves analytics and handles API Gateway base64 JSON', async () => 
   assert.match(logs[0], /PageViews/);
   const raw = JSON.stringify({ action: 'draft', details: { topic: 'Hello' } });
   assert.equal((await handler(event(null, { body: Buffer.from(raw).toString('base64'), isBase64Encoded: true }))).statusCode, 200);
+});
+
+const visitorId = '12345678-1234-1234-1234-123456789abc';
+const article = '/blog/context-platform-strategy-features-and-tradeoffs/';
+const analyticsEvent = body => event({ visitorId, ...body }, { rawPath: '/event' });
+
+test('blog views identify articles and preserve daily unique counting across pages', async () => {
+  const { handler, logs, calls } = runtime();
+  for (const path of ['/', '/blog/', article, article]) {
+    assert.equal((await handler(analyticsEvent({ path, type: 'page_view' }))).statusCode, 202);
+  }
+  const records = logs.map(JSON.parse);
+  assert.deepEqual(records.map(record => record.UniqueVisitors), [1, 0, 0, 0]);
+  assert.deepEqual(records.map(record => record.PageViews), [1, 1, 1, 1]);
+  assert.equal(records[1].BlogViews, 1);
+  assert.equal(records[1].ArticleViews, undefined);
+  assert.equal(records[2].ArticleViews, 1);
+  assert.equal(records[2].Page, article);
+  assert.equal(records[2].ArticleTitle, 'Context Platform: BI by AI, with repeatable intelligence');
+  assert.equal(records[2].VisitorHash, nodeCrypto.createHash('sha256').update(visitorId).digest('hex'));
+  assert.doesNotMatch(JSON.stringify({ logs, calls }), /12345678-1234|192\.0\.2\.1/);
+  for (const record of records) {
+    assert.deepEqual(record._aws.CloudWatchMetrics.map(metric => metric.Dimensions), [[['Site']], [['Site', 'Page']]]);
+  }
+});
+
+test('click events retain known destinations and labels without inflating views or storing URL queries', async () => {
+  const { handler, logs, calls } = runtime();
+  assert.equal((await handler(analyticsEvent({ type: 'link_click', path: '/blog/', target: article, label: 'untrusted private text' }))).statusCode, 202);
+  assert.equal((await handler(analyticsEvent({ type: 'link_click', path: article, target: 'https://docs.cube.dev/docs/introduction?token=private#secret' }))).statusCode, 202);
+  const [indexClick, sourceClick] = logs.map(JSON.parse);
+  assert.equal(indexClick.LinkTarget, article);
+  assert.equal(indexClick.LinkLabel, 'Context Platform: BI by AI, with repeatable intelligence');
+  assert.equal(sourceClick.LinkTarget, 'https://docs.cube.dev/docs/introduction');
+  assert.equal(sourceClick.LinkLabel, 'Cube');
+  assert.equal(sourceClick.LinkType, 'external');
+  assert.equal(sourceClick.BlogLinkClicks, 1);
+  assert.equal(sourceClick.PageViews, undefined);
+  assert.equal(calls.length, 0);
+  assert.doesNotMatch(JSON.stringify(logs), /private|secret|untrusted/);
+});
+
+test('analytics rejects invented pages, destinations, and event types before logging', async () => {
+  const { handler, logs, calls } = runtime();
+  const invalid = [
+    { path: '/blog/not-published/' },
+    { path: `${article}?email=private` },
+    { path: article, type: 'purchase' },
+    { path: article, visitorId: 'not-a-browser-id' },
+    { path: article, type: 'link_click', target: 'https://unknown.test/private' },
+    { path: article, type: 'link_click', target: 'javascript:alert(1)' },
+  ];
+  for (const body of invalid) assert.equal((await handler(analyticsEvent(body))).statusCode, 400);
+  assert.equal(logs.length, 0);
+  assert.equal(calls.length, 0);
+});
+
+test('analytics storage failure does not emit a successful view or unique metric', async () => {
+  const { handler, logs } = runtime({ analyticsError: true });
+  assert.equal((await handler(analyticsEvent({ path: article }))).statusCode, 503);
+  assert.deepEqual(logs, ['analytics_write_failed']);
 });

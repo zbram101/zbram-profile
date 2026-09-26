@@ -53,6 +53,16 @@ Unlike the earlier `store:false` Responses implementation, hosted agent sessions
 
 `server/lambda.js` is the AWS adapter. It preserves the previous visitor analytics and delegates chat to the same handler used in development and the Cloudflare build. `npm run sync:profile` now bundles the complete shared handler, including profile/blog facts, into the CloudFormation `ZipFile` block. Edit source modules rather than the generated block. `npm test` verifies that the generated code matches the source and executes the exact AWS bundle with mocked AWS services.
 
+### Blog analytics
+
+The blog index and article pages send `page_view` and `link_click` events to the existing `POST /event` endpoint. The client reuses the profile's anonymous browser ID, sends one view per document load (including React effect replays), and uses keepalive requests for links followed to another page. Primary, keyboard, and middle-button link activation are covered. Local development and browsers requesting Do Not Track do not send events. If browser storage is unavailable, an in-memory ID keeps the page working, but returning-visitor estimates become less accurate.
+
+The Lambda accepts only published page paths and links found in the article content. It derives article titles and link labels on the server and removes query strings and fragments from destination URLs, except the known `#top` navigation action. Logs contain `EventType`, `Page`, `PageTitle`, optional `ArticleSlug`/`ArticleTitle`, `VisitorHash`, and (for clicks) `LinkLabel`, `LinkTarget`, and `LinkType`. No raw browser ID, IP address, chat text, or arbitrary clicked text is included. Anonymous IDs are hashed, not a claim of identifying individual people.
+
+The existing `bharadwaj-portfolio-chat-analytics` CloudWatch dashboard includes estimated blog visitors, views/readers by article, click destinations by originating page, daily blog trends, and recent activity. Logs Insights calculates distinct hashed browser IDs over the selected range within the existing 14-day log retention; distinct counts can be approximate at high cardinality. The existing `UniqueVisitors` metric remains a daily, site-wide count—summing days is not a distinct audience count for the whole period. Reloads count as views, repeat clicks count as clicks, and bots or blocked analytics affect totals. New blog data starts with this deployment; earlier traffic cannot be reconstructed.
+
+`PortfolioAnalytics` retains the site-wide `PageViews`, `UniqueVisitors`, and `ChatMessages` metrics and adds `BlogViews`, `ArticleViews`, `LinkClicks`, and `BlogLinkClicks`. `PageViews` and `LinkClicks` also have bounded `Site`/`Page` dimensions. Visitor hashes and clicked URLs are log fields only, never metric dimensions. The implementation follows the [CloudWatch embedded metric format](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Embedded_Metric_Format_Specification.html).
+
 Run:
 
 ```sh

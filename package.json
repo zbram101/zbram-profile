@@ -8,7 +8,7 @@
     "build": "vite build && node scripts/build-server.mjs",
     "build:static": "node scripts/clean-build.mjs && vite build",
     "preview": "vite preview",
-    "test": "node scripts/sync-chat-profile.mjs --check && node --test server/chat.test.js server/agent.test.js server/github.test.js server/google-calendar.test.js server/lambda.test.js src/components/characterAnimations.test.js",
+    "test": "node scripts/sync-chat-profile.mjs --check && node --test server/chat.test.js server/agent.test.js server/github.test.js server/google-calendar.test.js server/lambda.test.js src/analytics-client.test.js src/components/characterAnimations.test.js",
     "prebuild": "node scripts/clean-build.mjs",
     "sync:profile": "node scripts/sync-chat-profile.mjs",
     "calendar:connect": "node scripts/connect-google-calendar.mjs",

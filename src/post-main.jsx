@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ArrowLeft, ArrowUp, CalendarDays, Clock3 } from 'lucide-react';
 import { posts } from './blog';
+import { startPageAnalytics } from './analytics';
 import './blog.css';
 
 const benchmarks = [
@@ -143,6 +144,7 @@ function Diagram({ type }) {
 }
 
 function App() {
+  useEffect(() => startPageAnalytics(), []);
   const slug = document.body.dataset.post;
   const post = posts.find(item => item.slug === slug);
 
@@ -168,7 +170,7 @@ function App() {
       </section>)}</div>
       <section className="article-sources"><p>SOURCES & FURTHER READING</p><ol>{post.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.label}</a></li>)}</ol></section>
     </article>
-    <footer className="blog-footer"><a href="/blog/">← All articles</a><a href="#top">Back to top <ArrowUp size={15}/></a></footer>
+    <footer className="blog-footer"><a href="/blog/">← All articles</a><small>Anonymous view and link-click analytics help improve this blog.</small><a href="#top">Back to top <ArrowUp size={15}/></a></footer>
   </main>;
 }
 

@@ -48,6 +48,8 @@
 .article-table-two-column{min-width:0}
 .article-table-two-column tbody th{width:25%}
 .article-table-two-column td{width:75%}
+.blog-footer{flex-wrap:wrap;gap:20px}
+.blog-footer small{max-width:300px;color:var(--muted);font-size:11px;line-height:1.6}
 .jev-binding-diagram code{display:block;color:var(--lime);font-size:11px;margin-top:10px;overflow-wrap:anywhere}
 
 /* Compact article index. Keep the reading pages on their existing layout. */
