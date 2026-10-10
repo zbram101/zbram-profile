@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import {  useAtom } from "jotai";
 import { currentExpAtom, workExp } from "./WorkExp";
 import { Chat } from "./Chat";
+import { profile } from "../profile";
 
 import { currentSkillAtom, skills } from "./Skills";
 
@@ -71,9 +72,7 @@ const AboutSection = (props) => {
         delay: 1.5,
       }}
     >
-      I'm a pragmatic individual with an innate ability for leadership and growth. 
-      <br />
-      I enjoy building software solutions to real world problems.
+      {profile.summary}
     </motion.p>
     <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
       <motion.button

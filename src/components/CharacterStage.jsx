@@ -236,9 +236,9 @@ export default function CharacterStage({ section = 'about', busy = false }) {
     <div id="studio-drag-hint" className="studio-hint">{portraitMode ? <ImageIcon size={13} /> : <MoveHorizontal size={13} />}<span>{portraitMode ? 'Portrait mode' : unavailable ? 'Portrait preview' : 'Drag to rotate'}{!portraitMode && <span className="studio-keyboard-hint"> · ← → keys</span>}</span><span className="studio-motion-state">{portraitMode ? 'Illustrated portrait' : paused ? (reducedMotion ? 'Reduced motion' : 'Motion paused') : 'Interactive portrait'}</span></div>
     <div className="studio-caption">
       <div className="studio-story">
-        <span className="studio-label">ENGINEER & BUILDER</span>
+        <span className="studio-label">AI & ENGINEERING LEADER</span>
         <h3>Bharadwaj Ramachandran</h3>
-        <p>Engineering leadership. Thoughtful AI. Real impact.</p>
+        <p>Senior Manager, AI Solutions · Thermo Fisher Scientific</p>
       </div>
       <div className="studio-actions" role="group" aria-label="Portrait gestures">
         {portraitGestures.map(id => <button key={id} aria-pressed={id === 'portrait' ? portraitMode : id === 'build' ? !portraitMode && selected === id : undefined} disabled={id !== 'portrait' && (busy || unavailable || !ready)} onClick={() => chooseAction(id)}>{actions[id].button}</button>)}

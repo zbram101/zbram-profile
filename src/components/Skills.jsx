@@ -6,83 +6,8 @@ import { motion } from "framer-motion-3d";
 import { atom, useAtom } from "jotai";
 import { useEffect, useState, useRef } from "react";
 
-export const skills = [
-    {
-      title: "Languages",
-      skills: [
-        { name: "Javascript", level: 80 },
-        { name: "Typescript", level: 70 },
-        { name: "Python", level: 60 },
-        { name: "SQL", level: 80 },
-        { name: "TSQL", level: 80 }
-      ]
-    },
-    {
-      title: "Database",
-      skills: [
-        { name: "Microsoft Sql Server", level: 80 },
-        { name: "Oracle 9g", level: 60 },
-        { name: "MySql", level: 90 },
-        { name: "Redis (NO-SQL)", level: 50 },
-        { name: "Postgres", level: 80 },
-        { name: "Snowflake", level: 50 }
-      ]
-    },
-    {
-      title: "Frontend",
-      skills: [
-        { name: "Angular", level: 60 },
-        { name: "React", level: 80 },
-        { name: "RxJS", level: 80 },
-        { name: "AEM", level: 40 }
-      ]
-    },
-    {
-      title: "Backend",
-      skills: [
-        { name: "Flask", level: 60 },
-        { name: "ExpressJS", level: 60 },
-        { name: "SqlAlchemy", level: 50 },
-        { name: "Kafka", level: 40 }
-      ]
-    },
-    {
-      title: "Infrastructure",
-      skills: [
-        { name: "AWS", level: 50 },
-        { name: "EC2", level: 60 },
-        { name: "RDS", level: 70 },
-        { name: "Elastic Beanstalk", level: 60 },
-        { name: "S3", level: 90 },
-        { name: "SES", level: 80 },
-        { name: "Route 53", level: 80 },
-        { name: "SQS", level: 50 },
-      ]
-    },
-    {
-      title: "SASS/ERP/Tools",
-      skills: [
-        { name: "Salesforce (SFDC)", level: 50 },
-        { name: "SSIS", level: 80 },
-        { name: "Walkme", level: 90 },
-        { name: "Zapier", level: 90 },
-        { name: "JIRA", level: 80 },
-        { name: "Confluence", level: 70 },
-        { name: "Tableau", level: 60 },
-        { name: "Mulesoft", level: 50 },
-        { name: "Active Directory (AD)", level: 50 },
-        { name: "OKTA", level: 50 }
-      ]
-    },
-    {
-      title: "Testing",
-      skills: [
-        { name: "Selenium", level: 60 },
-        { name: "Perfecto", level: 60 },
-        { name: "JAWS (ADA testing)", level: 50 }
-      ]
-    }
-  ];
+import { skills } from '../profile';
+export { skills } from '../profile';
 
 export const currentSkillAtom = atom(0);
 
@@ -116,14 +41,14 @@ const EachSkill = (props) => {
           <Text position={[0, 0.06, 0]} fontSize={0.12}>
             {skill.name}
           </Text>
-          <mesh position={[0, -0.1, -.1]}>
+          {typeof skill.level === 'number' && <><mesh position={[0, -0.1, -.1]}>
             <boxGeometry args={[2, 0.07, 0.07]} />
             <meshBasicMaterial color="gray" />
           </mesh>
           <mesh position={[-1 + skill.level / 100, -0.1, -.1]}>
             <boxGeometry args={[2 * (skill.level / 100), 0.08, 0.08]} />
             <meshBasicMaterial color="indigo" />
-          </mesh>
+          </mesh></>}
         </motion.group>
       ))}
     </motion.group>

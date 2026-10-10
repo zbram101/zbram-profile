@@ -6,10 +6,14 @@
 .job-description { color: #c5cbbb; font-size: 14px; line-height: 1.8; margin: 0 0 20px; }
 .experience-highlights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin: 0 0 26px; padding: 20px 0; border-block: 1px solid var(--border); }
 .experience-highlights > div { min-width: 0; }
-.experience-highlights dt { color: var(--lime); font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px, 3vw, 34px); line-height: 1.15; letter-spacing: -1px; }
+.experience-highlights dt { color: var(--lime); font-family: 'Space Grotesk', sans-serif; font-size: clamp(22px, 2.1vw, 29px); line-height: 1.15; letter-spacing: -1px; overflow-wrap: anywhere; }
 .experience-highlights dd { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 8px 0 0; }
 @media (max-width: 480px) {
   .experience-highlights { gap: 12px; }
   .experience-highlights dd { font-size: 11px; }
   .additional-role { font-size: 13px; }
 }
+.previous-role { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--border); }
+.previous-role h4 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 500; margin: 0; }
+.previous-role .job-date { margin: 8px 0 16px; }
+.job-review-note { color: #c6cebf; font-size: 12px; line-height: 1.7; padding: 12px 15px; border-left: 2px solid #65774d; background: var(--panel); margin-top: 18px; }

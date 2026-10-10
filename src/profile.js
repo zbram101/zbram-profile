@@ -1,43 +1,54 @@
 export const workExp = [
   {
     "company": "Thermo Fisher Scientific",
-    "role": "Senior AI Solutions Manager",
-    "additionalRole": "Staff AI Software Engineer",
+    "role": "Senior Manager, AI Solutions",
+    "additionalRole": "Previously Staff Software Engineer · Nov 2023 – Dec 2025",
     "aliases": [
       "thermo",
       "thermo fisher"
     ],
-    "period": "Nov 2023 – Present",
+    "period": "Dec 2025 – Present",
     "current": true,
-    "description": "Leading teams that turn enterprise AI into measurable operational impact, from multi-agent automation and RAG to MCP platforms and AI adoption.",
+    "description": "Leads eight engineers delivering enterprise AI across business groups. Promoted on December 7, 2025, after serving as Staff Software Engineer from November 2023 to December 2025.",
     "highlights": [
       {
-        "value": "30%",
-        "label": "less excess & obsolete inventory"
+        "value": "2 → 8",
+        "label": "team growth within one year"
       },
       {
-        "value": "60%",
-        "label": "fewer unnecessary onsite visits"
+        "value": "10,000",
+        "label": "MCP users"
       },
       {
-        "value": "30+",
-        "label": "MCP servers in the pipeline"
+        "value": "200,000+",
+        "label": "MCP tool calls in 2026 to date"
       }
     ],
     "responsibilities": [
-      "Led a team of 8 engineers building multi-agent systems, Model Context Protocol (MCP) integrations, and retrieval-augmented generation (RAG) solutions for intelligent automation.",
-      "Designed and deployed a multi-agent framework using Microsoft AutoGen that reduced excess and obsolete manufacturing inventory by 30%.",
-      "Architected and led development of a RAG-powered decision-support tool combining instrument manuals with historical service data. It reduced unnecessary onsite visits by 60% and saved over $1M annually in field service costs.",
-      "Created a reusable MCP archetype and framework that enabled engineering teams across business units to build integrations, establishing a pipeline of 30+ MCP servers.",
-      "Built and maintained an internal GenAI playground to compare models and agents across quality, latency, and cost, accelerating experimentation.",
-      "Managed 3 direct reports and 4 dotted-line contributors, and delivered MCP integrations and multi-agent systems for senior leadership and CLT.",
-      "Supported the rollout of ChatGPT Enterprise for IT teams and established engineering guidelines and best practices for AI tools."
+      "Lead technical delivery across business groups for projects taken on within one quarter, with combined expected annual revenue of $10–15M.",
+      "Scaled the engineering team from two to eight within one year to deliver enterprise AI solutions.",
+      "Set technical direction for the team’s work on model routing, reusable agent architectures, and an AI gateway.",
+      "Led rollout of a reusable Model Context Protocol (MCP) architecture and standards for development, deployment, and integration with internal and external clients; services supported 10,000 users and recorded 200,000+ tool calls in 2026 to date.",
+      "Directed development of a custom context layer that achieved 90%+ accuracy in applying context to SQL query generation for data retrieval; broader rollout planned."
+    ],
+    "previousRoles": [
+      {
+        "role": "Staff Software Engineer",
+        "period": "Nov 2023 – Dec 2025",
+        "responsibilities": [
+          "Led development of a field-service application combining instrument manuals and service history to recommend next actions, saving more than $1M annually in service visits.",
+          "Built a multi-agent system to guide manufacturing decisions, supporting a 43% reduction in excess and obsolete (E&O) levels.",
+          "Replaced Power BI reporting with multi-agent querying and analysis, reducing costs by 30% through lower Power BI licensing spend.",
+          "Built a GenAI playground to compare model quality, execution time, and cost; developed stateful assistant orchestration using Jupyter notebooks.",
+          "Worked closely with OpenAI teams on platform integration into Thermo Fisher workflows; presented AI solutions to the CFO, CTO, CIO, and other executives."
+        ]
+      }
     ]
   },
   {
     "company": "Globality",
     "role": "Senior Software Engineer",
-    "period": "May 2021 – Jun 2023",
+    "period": "May 2021 – May 2023",
     "description": "Led engineering delivery, technical design standards, and the team roadmap for enterprise applications.",
     "image": "images/Glo.jpeg",
     "responsibilities": [
@@ -46,7 +57,7 @@ export const workExp = [
       "Standardized feature releases with technical design, build design, test design, and supporting operational documentation.",
       "Added automated checks for code quality, test coverage, and package imports across projects.",
       "Created a support and intake process, and built administrative tools to help frontline teams investigate root causes and resolve client issues.",
-      "Partnered with engineering stakeholders to evaluate problems and shape technical solutions."
+      "Evaluated build-versus-buy options against cost, scalability, and business needs; implemented enterprise integrations and Active Directory-based onboarding."
     ]
   },
   {
@@ -61,7 +72,7 @@ export const workExp = [
       "Reviewed code, identified functional gaps, and resolved issues across the software development lifecycle.",
       "Designed service architectures with the team lead and translated designs into working code.",
       "Collaborated with product managers, UI/UX designers, technical specialists, and business stakeholders.",
-      "Trained team members to troubleshoot and modify SSIS packages, and championed broader use of automated testing."
+      "Mentored developers and trained teams to maintain SSIS integrations; created a departmental training and internal certification program."
     ]
   },
   {
@@ -81,8 +92,9 @@ export const workExp = [
   },
   {
     "company": "UST Global",
-    "role": "Data Engineer",
-    "period": "Jul 2013 – Sep 2015",
+    "role": "Senior Systems Analyst (full time)",
+    "period": "Oct 2014 – Sep 2015",
+    "additionalRole": "Data Engineer (contract) · Jul 2013 – Oct 2014",
     "description": "Built data tools, integrations, and automation to reduce operational effort.",
     "image": "images/Anthem.jpeg",
     "responsibilities": [
@@ -97,105 +109,66 @@ export const workExp = [
 ];
 
 export const skills = [
-    {
-      title: "Languages",
-      skills: [
-        { name: "Javascript", level: 80 },
-        { name: "Typescript", level: 70 },
-        { name: "Python", level: 60 },
-        { name: "Go" },
-        { name: "PL/SQL" },
-        { name: "SQL", level: 80 },
-        { name: "TSQL", level: 80 }
-      ]
-    },
-    {
-      title: "AI & GenAI",
-      skills: [
-        { name: "Multi-agent systems" },
-        { name: "Model Context Protocol (MCP)" },
-        { name: "RAG" },
-        { name: "LLM orchestration" },
-        { name: "LLM evaluation" },
-        { name: "OpenAI APIs & Agents" },
-        { name: "Azure OpenAI" },
-        { name: "Microsoft AutoGen" },
-        { name: "Azure AI Search" },
-        { name: "Flowise" },
-        { name: "VannaAI" }
-      ]
-    },
-    {
-      title: "Database",
-      skills: [
-        { name: "Microsoft Sql Server", level: 80 },
-        { name: "Oracle 9g", level: 60 },
-        { name: "MySql", level: 90 },
-        { name: "Redis (NO-SQL)", level: 50 },
-        { name: "Postgres", level: 80 },
-        { name: "Snowflake", level: 50 }
-      ]
-    },
-    {
-      title: "Frontend",
-      skills: [
-        { name: "Angular", level: 60 },
-        { name: "React", level: 80 },
-        { name: "RxJS", level: 80 },
-        { name: "AEM", level: 40 }
-      ]
-    },
-    {
-      title: "Backend",
-      skills: [
-        { name: "Flask", level: 60 },
-        { name: "ExpressJS", level: 60 },
-        { name: "SqlAlchemy", level: 50 },
-        { name: "Kafka", level: 40 }
-      ]
-    },
-    {
-      title: "Infrastructure",
-      skills: [
-        { name: "AWS", level: 50 },
-        { name: "EC2", level: 60 },
-        { name: "RDS", level: 70 },
-        { name: "Elastic Beanstalk", level: 60 },
-        { name: "S3", level: 90 },
-        { name: "SES", level: 80 },
-        { name: "Route 53", level: 80 },
-        { name: "SQS", level: 50 },
-        { name: "Docker" },
-        { name: "Kubernetes" },
-        { name: "Jenkins" },
-        { name: "CircleCI" },
-        { name: "Harness" },
-      ]
-    },
-    {
-      title: "SASS/ERP/Tools",
-      skills: [
-        { name: "Salesforce (SFDC)", level: 50 },
-        { name: "SSIS", level: 80 },
-        { name: "Walkme", level: 90 },
-        { name: "Zapier", level: 90 },
-        { name: "JIRA", level: 80 },
-        { name: "Confluence", level: 70 },
-        { name: "Tableau", level: 60 },
-        { name: "Mulesoft", level: 50 },
-        { name: "Active Directory (AD)", level: 50 },
-        { name: "OKTA", level: 50 }
-      ]
-    },
-    {
-      title: "Testing",
-      skills: [
-        { name: "Selenium", level: 60 },
-        { name: "Perfecto", level: 60 },
-        { name: "JAWS (ADA testing)", level: 50 }
-      ]
-    }
-  ];
+  {
+    title: "Engineering leadership",
+    skills: [
+      { name: "Team growth & development", description: "Team scaling, mentoring, and technical training" },
+      { name: "Cross-functional delivery", description: "AI initiatives across business groups and enterprise integrations" },
+      { name: "Technical direction & design reviews", description: "Architecture decisions, engineering standards, and release quality" },
+      { name: "Roadmap & delivery management", description: "Engineering priorities, delivery commitments, and build-versus-buy decisions" },
+      { name: "Stakeholder & executive communication", description: "Business alignment and presentations to senior executives" },
+      { name: "Support intake & operational processes", description: "Frontline support workflows and root-cause investigation" }
+    ]
+  },
+  {
+    title: "Applied AI",
+    skills: [
+      { name: "Agent architecture & orchestration", description: "Multi-agent systems, reusable agent architectures, Microsoft AutoGen, Jupyter notebooks" },
+      { name: "MCP architecture & integration standards", description: "Model Context Protocol development, deployment, and client integration" },
+      { name: "Model evaluation & routing", description: "Model comparison across quality, execution time, and cost; model routing" },
+      { name: "Retrieval & context engineering", description: "RAG, Azure AI Search, and context for SQL query generation" },
+      { name: "AI gateway architecture", description: "Technical direction for the team’s AI gateway" },
+      { name: "AI platform integration", description: "OpenAI APIs and agents" }
+    ]
+  },
+  {
+    title: "Software engineering",
+    skills: [
+      { name: "API & service architecture", description: "REST APIs and microservices" },
+      { name: "Web application development", description: "React, Angular, Adobe Experience Manager" },
+      { name: "Programming languages", description: "Python, JavaScript, TypeScript, Go" },
+      { name: "Engineering quality & automation", description: "Code reviews, automated quality checks, and test automation" }
+    ]
+  },
+  {
+    title: "Data & integration",
+    skills: [
+      { name: "Relational data systems", description: "PostgreSQL, Microsoft SQL Server, MySQL" },
+      { name: "Data access & querying", description: "SQL, PL/SQL, Redis" },
+      { name: "Data engineering & integration", description: "SQL Server Integration Services (SSIS), MuleSoft" }
+    ]
+  },
+  {
+    title: "Platforms & delivery",
+    skills: [
+      { name: "Container orchestration", description: "Kubernetes" },
+      { name: "Continuous delivery", description: "Jenkins, CircleCI, Harness, Drone" },
+      { name: "Version control & code review", description: "Git" }
+    ]
+  },
+  {
+    title: "Identity & access",
+    skills: [
+      { name: "Identity & access integration", description: "Microsoft Entra ID (formerly Azure AD)" }
+    ]
+  },
+  {
+    title: "Observability",
+    skills: [
+      { name: "Monitoring & visualization", description: "Grafana" }
+    ]
+  }
+];
 
 export const projects = [
     {
@@ -284,12 +257,49 @@ export function projectAnswer(question) {
     + (project.accomplishments.length ? '\n\n' + project.accomplishments.map(item => `- ${item}`).join('\n') : '');
 }
 
+export const achievements = [
+  { value: '2 → 8', title: 'An engineering team built to deliver', description: 'Grew the team from two to eight engineers within one year, delivering enterprise AI across business groups.' },
+  { value: '200,000+', title: 'MCP tool calls in 2026 to date', description: 'Reusable MCP architecture and integration standards supported 10,000 users. Services recorded 200,000+ tool calls in 2026 to date.' },
+  { value: '$10–15M', title: 'Combined expected annual revenue', description: 'Projects taken on within one quarter across business groups have combined expected annual revenue of $10–15M.' },
+  { value: '90%+', title: 'Context applied to SQL query generation', description: 'A custom context layer achieved 90%+ accuracy in applying context to SQL query generation for data retrieval. Broader rollout is planned.' },
+  { value: '43%', title: 'Reduction in excess & obsolete levels', description: 'A multi-agent system guided manufacturing decisions, supporting a 43% reduction in excess and obsolete (E&O) levels.' },
+  { value: '>$1M', title: 'Annual field-service savings', description: 'An application combined instrument manuals and service history to recommend next actions, saving more than $1M annually in service visits.' },
+  { value: '30%', title: 'Lower Power BI licensing spend', description: 'Replaced Power BI reporting with multi-agent querying and analysis, reducing costs by 30% through lower Power BI licensing spend.' }
+];
+
+export const contributions = [
+  {
+    title: 'Microsoft AutoGen', kind: 'Open-source contribution', status: 'Merged PR #2594',
+    description: 'Contributed an assistant-agent example connecting function calling to Azure AI Search for RAG, with Azure Identity-based index-access checks.',
+    link: 'https://github.com/microsoft/autogen/pull/2594'
+  },
+  {
+    title: 'Model Hardware Standard (MHS)', kind: 'Technical project', status: 'Example implementation',
+    description: 'Developed an example implementation using Model Hardware Standard (MHS).',
+    link: null
+  }
+];
+
+export const education = [
+  {
+    title: 'Professional Certificate in Machine Learning and Artificial Intelligence',
+    institution: 'UC Berkeley Executive Education', period: 'Completed March 2026',
+    credential: 'https://certificates.emeritus.org/43c23859-2970-4b28-8a66-d9f1887dc831'
+  },
+  { title: 'Bachelor’s degree in Computer Science', institution: 'Manav Bharti University', period: '2008–2012', credential: null }
+];
+
 export const profile = {
   name: 'Bharadwaj Ramachandran',
-  summary: 'Engineering leader with 12+ years of experience across enterprise AI, software engineering, automation, and data. Leading AI solutions at Thermo Fisher Scientific.',
+  summary: 'Senior Manager, AI Solutions at Thermo Fisher Scientific, with 12+ years across software engineering, enterprise automation, and data engineering. Leads eight engineers delivering AI across business groups, combining team development, technical direction, and executive communication.',
+  biography: 'I build teams and reusable AI capabilities that connect engineering work to business priorities. My team leads model routing, agent architectures, an AI gateway, and MCP development, deployment, and integration standards for internal and external clients. My background spans enterprise applications, test automation, and data engineering.',
   workExp,
   projects,
   skills,
+  achievements,
+  contributions,
+  education,
+  resume: '/resume/Bharadwaj_Ramachandran_Portfolio_Resume.pdf',
   linkedin: 'https://linkedin.com/in/bharadwaj-ramachandran-51bb32a3',
   github: 'https://github.com/zbram101',
 };
