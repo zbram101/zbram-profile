@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ArrowLeft, ArrowUp, CalendarDays, Clock3 } from 'lucide-react';
 import { posts } from './blog';
 import { startPageAnalytics } from './analytics';
+import { PhysicsExperiment, SanskritEvidence, SanskritReconstruction } from './components/ResearchDiagrams';
 import './blog.css';
 
 const benchmarks = [
@@ -133,6 +134,9 @@ function ArticleTable({ table }) {
 }
 
 function Diagram({ type }) {
+  if (type === 'physics-experiment') return <PhysicsExperiment />;
+  if (type === 'sanskrit-evidence') return <SanskritEvidence />;
+  if (type === 'sanskrit-reconstruction') return <SanskritReconstruction />;
   if (type === 'jev-binding-flow') return <JevBindingFlow />;
   if (type === 'context-platform-layers') return <ContextPlatformDiagram />;
   if (type === 'astra-benchmarks') return <BenchmarkChart />;
@@ -158,7 +162,7 @@ function App() {
       <p className="article-excerpt">{post.excerpt}</p>
       <div className="article-meta"><span><CalendarDays size={15}/>{post.date}</span><span><Clock3 size={15}/>{post.readTime}</span></div>
       <div className="article-tags">{post.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
-      <figure className="article-hero" style={post.heroAspectRatio ? { aspectRatio: post.heroAspectRatio } : undefined}><img src={post.hero} alt={post.heroAlt}/></figure>
+      {post.heroDiagram ? <div className="article-hero-diagram"><Diagram type={post.heroDiagram}/></div> : <figure className="article-hero" style={post.heroAspectRatio ? { aspectRatio: post.heroAspectRatio } : undefined}><img src={post.hero} alt={post.heroAlt}/></figure>}
       <div className="article-body">{post.body.map(section => <section key={section.heading}>
         <h2>{section.heading}</h2>
         {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}

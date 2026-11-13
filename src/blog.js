@@ -1,6 +1,10 @@
 import { jevContextPlatformPost } from './posts/jev-context-platform.js';
+import { weightSpacePhysicsPost } from './posts/weight-space-physics.js';
+import { sanskritReconstructionPost } from './posts/sanskrit-reconstruction.js';
 
 export const posts = [
+  weightSpacePhysicsPost,
+  sanskritReconstructionPost,
   jevContextPlatformPost,
   {
     slug: 'context-platform-strategy-features-and-tradeoffs',

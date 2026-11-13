@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" fill="none">
+  <rect width="1200" height="600" fill="#182014"/>
+  <path d="M60 120H1140M60 480H1140" stroke="#34432a"/>
+  <g stroke="#657f4c" stroke-width="2">
+    <path d="M120 230L265 190 410 270M120 230L265 300 410 270M120 230L265 410 410 270M120 320L265 190 410 380M120 320L265 300 410 380M120 320L265 410 410 380M120 410L265 190M120 410L265 300M120 410L265 410"/>
+  </g>
+  <path d="M265 300L410 270" stroke="#c2f36b" stroke-width="8"/>
+  <g fill="#26381c" stroke="#b0d974" stroke-width="3">
+    <circle cx="120" cy="230" r="18"/><circle cx="120" cy="320" r="18"/><circle cx="120" cy="410" r="18"/>
+    <circle cx="265" cy="190" r="18"/><circle cx="265" cy="300" r="18"/><circle cx="265" cy="410" r="18"/>
+    <circle cx="410" cy="270" r="18"/><circle cx="410" cy="380" r="18"/>
+  </g>
+  <path d="M500 310H615M600 295L615 310 600 325" stroke="#c2f36b" stroke-width="3"/>
+  <path d="M695 410H1115M715 410V180" stroke="#526542" stroke-width="2"/>
+  <path d="M715 380C780 380 785 215 850 215S935 385 1000 310 1070 205 1110 195" stroke="#c2f36b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M715 380C780 380 785 240 850 240S935 415 1000 390 1070 350 1110 365" stroke="#859b70" stroke-width="3" stroke-dasharray="9 9"/>
+  <g font-family="Arial,sans-serif">
+    <text x="60" y="81" fill="#a5b796" font-size="22" letter-spacing="4">WEIGHT-SPACE PROGRAMMING</text>
+    <text x="60" y="545" fill="#e0ebd5" font-size="34">Edit the weights. Test the predictions.</text>
+  </g>
+</svg>

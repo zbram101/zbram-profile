@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" fill="none">
+  <rect width="1200" height="600" fill="#172224"/>
+  <path d="M60 120H1140M60 480H1140" stroke="#314a50"/>
+  <g transform="translate(115 180)">
+    <rect x="40" y="-20" width="195" height="235" rx="9" fill="#203236" stroke="#52737b"/>
+    <rect x="20" y="0" width="195" height="235" rx="9" fill="#233a3f" stroke="#6e939c"/>
+    <rect y="20" width="195" height="235" rx="9" fill="#192e33" stroke="#a8cdd6" stroke-width="3"/>
+    <g stroke="#8db4bf" stroke-width="4" stroke-linecap="round"><path d="M27 65H155M27 96H169M27 127H140M27 189H160M27 220H112"/><path d="M27 158H67M114 158H160" stroke-dasharray="5 7"/></g>
+  </g>
+  <g stroke="#7097a1" stroke-width="3">
+    <path d="M440 310L605 203 805 280 1035 190M440 310L625 420 805 280 1045 405M605 203L625 420M625 420L1045 405"/>
+    <path d="M605 203L1045 405" stroke-dasharray="9 10"/>
+  </g>
+  <g fill="#243d43" stroke="#a8cdd6" stroke-width="3">
+    <circle cx="440" cy="310" r="16"/><circle cx="605" cy="203" r="23"/>
+    <circle cx="625" cy="420" r="20"/><circle cx="805" cy="280" r="32"/>
+    <circle cx="1035" cy="190" r="18"/><circle cx="1045" cy="405" r="24"/>
+  </g>
+  <circle cx="805" cy="280" r="10" fill="#b5dae3"/>
+  <g font-family="Arial,sans-serif">
+    <text x="60" y="81" fill="#a7c3c9" font-size="22" letter-spacing="4">SANSKRIT / KNOWLEDGE GRAPHS</text>
+    <text x="60" y="545" fill="#dcebee" font-size="34">Every proposed reading needs evidence.</text>
+  </g>
+</svg>
